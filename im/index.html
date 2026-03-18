@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>专属顾问 - 提额</title>
+  <style>
+    /* ========== Design Tokens ========== */
+    :root {
+      --td-font-family: PingFang SC, Microsoft YaHei, Arial Regular;
+      --td-font-family-medium: PingFang SC, Microsoft YaHei, Arial Medium;
+      --td-font-size-link-small: 12px;
+      --td-font-size-body-small: 12px;
+      --td-font-size-body-medium: 14px;
+      --td-font-size-body-large: 16px;
+      --td-font-size-title-small: 14px;
+      --td-font-size-title-medium: 16px;
+      --td-font-size-title-large: 18px;
+      --td-line-height-body-small: 20px;
+      --td-line-height-body-medium: 22px;
+      --td-line-height-body-large: 24px;
+      --td-line-height-title-medium: 24px;
+
+      --td-brand-color-1: #f2f3ff;
+      --td-brand-color-2: #d9e1ff;
+      --td-brand-color-5: #618dff;
+      --td-brand-color-6: #366ef4;
+      --td-brand-color-7: #0052d9;
+      --td-brand-color-8: #003cab;
+      --td-success-color-5: #2ba471;
+      --td-gray-color-1: #f3f3f3;
+      --td-gray-color-2: #eee;
+      --td-gray-color-3: #e8e8e8;
+      --td-gray-color-4: #ddd;
+      --td-warning-color-4: #fa9550;
+      --td-error-color-6: #d54941;
+      --td-font-gray-1: rgba(0, 0, 0, 90%);
+      --td-font-gray-2: rgba(0, 0, 0, 60%);
+      --td-font-gray-3: rgba(0, 0, 0, 40%);
+      --td-text-color-primary: var(--td-font-gray-1);
+      --td-text-color-secondary: var(--td-font-gray-2);
+      --td-text-color-placeholder: var(--td-font-gray-3);
+      --td-text-color-link: var(--td-brand-color-8);
+      --td-bg-color-container: #fff;
+      --td-bg-color-secondarycontainer: var(--td-gray-color-1);
+
+      --td-size-1: 2px;
+      --td-size-2: 4px;
+      --td-size-3: 6px;
+      --td-size-4: 8px;
+      --td-size-5: 12px;
+      --td-size-6: 16px;
+      --td-size-7: 20px;
+      --td-size-8: 24px;
+      --td-size-10: 32px;
+      --td-comp-paddingLR-l: var(--td-size-6);
+
+      --td-radius-small: 2px;
+      --td-radius-default: 3px;
+      --td-radius-medium: 6px;
+      --td-radius-large: 9px;
+      --td-radius-extraLarge: 12px;
+      --td-radius-round: 999px;
+      --td-radius-circle: 50%;
+    }
+
+    /* ========== Reset & Base ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: var(--td-font-family);
+      color: var(--td-text-color-primary);
+      background: #f5f6fa;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .im-page {
+      max-width: 420px;
+      margin: 0 auto;
+      height: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #eef2fb 0%, #f5f6fa 30%);
+      overflow: hidden;
+    }
+
+    /* ========== Top Bar ========== */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--td-size-5) var(--td-size-6);
+      background: var(--td-bg-color-container);
+      border-bottom: 1px solid var(--td-gray-color-3);
+      height: 52px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .top-bar__back,
+    .top-bar__close {
+      width: var(--td-size-8);
+      height: var(--td-size-8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--td-text-color-primary);
+      flex-shrink: 0;
+    }
+
+    .top-bar__center {
+      display: flex;
+      align-items: center;
+      gap: var(--td-size-4);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .top-bar__title {
+      font-size: var(--td-font-size-title-medium);
+      font-weight: 600;
+      line-height: var(--td-line-height-title-medium);
+      font-family: var(--td-font-family-medium);
+    }
+
+    .top-bar__status {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px var(--td-size-3);
+      background: #e6f7ef;
+      color: var(--td-success-color-5);
+      font-size: var(--td-font-size-link-small);
+      line-height: var(--td-line-height-body-small);
+      border-radius: var(--td-radius-default);
+      font-weight: 500;
+    }
+
+    /* ========== Chat Area ========== */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--td-size-6);
+      padding-bottom: var(--td-size-8);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .chat-area::-webkit-scrollbar { width: 0; }
+
+    /* ========== Message Row ========== */
+    .msg-row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: var(--td-size-6);
+      gap: var(--td-size-4);
+    }
+
+    .msg-row--advisor { flex-direction: row; }
+    .msg-row--user    { flex-direction: row-reverse; }
+
+    /* Shared content column — right edge aligned for both sides */
+    .msg-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+    }
+
+    .msg-row--advisor .msg-content { justify-content: flex-start; }
+    .msg-row--user    .msg-content { justify-content: flex-end; }
+
+    /* ========== Avatar ========== */
+    .msg-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--td-radius-circle);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .msg-avatar--advisor {
+      background: var(--td-gray-color-2);
+    }
+
+    .msg-avatar--user {
+      background: var(--td-gray-color-2);
+    }
+
+    .msg-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ========== Bubble ========== */
+    /* 单行自适应宽度，多行上限 272px */
+    .msg-bubble {
+      width: fit-content;
+      max-width: 272px;
+      padding: var(--td-size-5) var(--td-size-6);
+      font-size: var(--td-font-size-body-medium);
+      line-height: var(--td-line-height-body-medium);
+      word-break: break-word;
+    }
+
+    .msg-bubble--advisor {
+      background: var(--td-bg-color-container);
+      border-radius: var(--td-radius-default) var(--td-radius-extraLarge) var(--td-radius-extraLarge) var(--td-radius-extraLarge);
+      color: var(--td-text-color-primary);
+    }
+
+    .msg-bubble--user {
+      background: var(--td-brand-color-7);
+      border-radius: var(--td-radius-extraLarge) var(--td-radius-default) var(--td-radius-extraLarge) var(--td-radius-extraLarge);
+      color: #fff;
+    }
+
+    /* ========== Card Bubble ========== */
+    .msg-bubble--card {
+      width: 272px;
+      padding: 0;
+      overflow: hidden;
+      background: var(--td-bg-color-container);
+      border-radius: var(--td-radius-default) var(--td-radius-extraLarge) var(--td-radius-extraLarge) var(--td-radius-extraLarge);
+    }
+
+    /* Pre-card context text */
+    .card-context {
+      padding: var(--td-size-5) var(--td-size-6) var(--td-size-3);
+      font-size: var(--td-font-size-body-medium);
+      line-height: 22px;
+      color: var(--td-text-color-primary);
+    }
+
+    .card-context .highlight {
+      color: var(--td-brand-color-7);
+      font-weight: 500;
+    }
+
+    /* Card container */
+    .loan-card {
+      margin: var(--td-size-3) var(--td-size-5) var(--td-size-5);
+      background: #F9F9F9;
+      border-radius: var(--td-radius-large);
+      overflow: hidden;
+    }
+
+    .loan-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--td-size-3);
+      padding: var(--td-size-5) var(--td-size-5) var(--td-size-4);
+    }
+
+    .loan-card__header-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .loan-card__header-icon img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .loan-card__header-title {
+      font-size: var(--td-font-size-title-small);
+      font-weight: 600;
+      font-family: var(--td-font-family-medium);
+      color: var(--td-text-color-primary);
+    }
+
+    /* Blue amount panel */
+    .loan-card__panel {
+      margin: 0 var(--td-size-4) 0;
+      border-radius: var(--td-radius-medium);
+      background: linear-gradient(135deg, #dce8ff 0%, #eaf0ff 60%, #f0f5ff 100%);
+      padding: var(--td-size-4) var(--td-size-5) var(--td-size-4);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .loan-card__panel-row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .loan-card__panel-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .loan-card__panel-label {
+      font-size: var(--td-font-size-body-small);
+      color: var(--td-text-color-secondary);
+      line-height: var(--td-line-height-body-small);
+    }
+
+    .loan-card__panel-amount {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--td-brand-color-7);
+      font-family: var(--td-font-family-medium);
+      line-height: 30px;
+    }
+
+    .loan-card__panel-period {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--td-brand-color-7);
+      font-family: var(--td-font-family-medium);
+      line-height: 30px;
+      text-align: right;
+    }
+
+    .loan-card__panel-period span {
+      font-size: var(--td-font-size-body-medium);
+      font-weight: 500;
+    }
+
+    .loan-card__panel-rate {
+      font-size: var(--td-font-size-body-small);
+      color: var(--td-text-color-secondary);
+      line-height: var(--td-line-height-body-small);
+      margin-top: 2px;
+    }
+
+    /* Detail rows */
+    .loan-card__rows {
+      padding: 0 var(--td-size-5);
+    }
+
+    .loan-card__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--td-size-4) 0;
+    }
+
+    .loan-card__row-label {
+      font-size: var(--td-font-size-body-medium);
+      color: var(--td-text-color-secondary);
+      flex-shrink: 0;
+    }
+
+    .loan-card__row-val {
+      display: flex;
+      align-items: center;
+      gap: var(--td-size-2);
+      font-size: var(--td-font-size-body-medium);
+      color: var(--td-text-color-primary);
+      font-weight: 600;
+      font-family: var(--td-font-family-medium);
+      text-align: right;
+    }
+
+    .loan-card__row-chevron {
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .loan-card__row-chevron img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .loan-card__row-block {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .loan-card__row-sub {
+      font-size: var(--td-font-size-link-small);
+      color: var(--td-text-color-secondary);
+      font-weight: 400;
+      font-family: var(--td-font-family);
+      line-height: var(--td-line-height-body-small);
+      text-align: right;
+    }
+
+    .tag--orange {
+      display: inline-flex;
+      align-items: center;
+      height: 18px;
+      padding: 0 var(--td-size-3);
+      background: #fff3e8;
+      color: var(--td-warning-color-4);
+      font-size: 11px;
+      line-height: 18px;
+      border-radius: var(--td-radius-default);
+      font-weight: 500;
+      border: 1px solid #ffd5b0;
+      white-space: nowrap;
+    }
+
+    /* Card footer */
+    .loan-card__footer {
+      padding: var(--td-size-5) var(--td-size-5) var(--td-size-5);
+    }
+
+    .loan-card__btn {
+      display: block;
+      width: 100%;
+      padding: 13px 0;
+      border: none;
+      border-radius: var(--td-radius-large);
+      background: var(--td-brand-color-7);
+      color: #fff;
+      font-size: var(--td-font-size-body-large);
+      font-weight: 600;
+      font-family: var(--td-font-family-medium);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .loan-card__btn:active { opacity: 0.85; }
+
+    .loan-card__disclaimer {
+      display: block;
+      text-align: center;
+      margin-top: var(--td-size-4);
+      font-size: var(--td-font-size-link-small);
+      color: var(--td-text-color-secondary);
+      line-height: var(--td-line-height-body-small);
+    }
+
+    .loan-card__disclaimer a {
+      color: var(--td-brand-color-7);
+      text-decoration: none;
+    }
+
+    /* ========== Bottom Input Bar ========== */
+    .bottom-bar {
+      flex-shrink: 0;
+      background: var(--td-bg-color-container);
+      border-top: 1px solid var(--td-gray-color-3);
+      padding: var(--td-size-4) var(--td-size-6);
+      display: flex;
+      align-items: center;
+      gap: var(--td-size-4);
+      position: relative;
+      z-index: 10;
+      padding-bottom: calc(var(--td-size-4) + env(safe-area-inset-bottom, 0px));
+    }
+
+    .bottom-bar__input {
+      flex: 1;
+      height: 40px;
+      padding: 0 var(--td-size-6);
+      border: 1px solid var(--td-gray-color-3);
+      border-radius: var(--td-radius-round);
+      font-size: 16px; /* ≥16px prevents iOS auto-zoom */
+      color: var(--td-text-color-primary);
+      background: var(--td-bg-color-secondarycontainer);
+      outline: none;
+      font-family: var(--td-font-family);
+      transition: border-color 0.2s;
+    }
+
+    .bottom-bar__input::placeholder {
+      color: var(--td-text-color-placeholder);
+      font-size: var(--td-font-size-body-medium);
+    }
+
+    .bottom-bar__input:focus {
+      border-color: var(--td-brand-color-7);
+      background: #fff;
+    }
+
+    .bottom-bar__btn {
+      width: var(--td-size-10);
+      height: var(--td-size-10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--td-text-color-secondary);
+      flex-shrink: 0;
+      border-radius: var(--td-radius-circle);
+      transition: background 0.15s;
+    }
+
+    .bottom-bar__btn:active { background: var(--td-gray-color-1); }
+    .bottom-bar__btn svg { width: 24px; height: 24px; }
+
+    .bottom-bar__send {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: var(--td-radius-round);
+      background: var(--td-brand-color-7);
+      color: #fff;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: opacity 0.2s;
+    }
+
+    .bottom-bar__send:active { opacity: 0.8; }
+    .bottom-bar__send svg { width: 20px; height: 20px; }
+
+    /* ========== Countdown / Review Status ========== */
+    .review-status {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--td-size-3);
+      margin-top: var(--td-size-3);
+      padding: var(--td-size-3) var(--td-size-5);
+      background: var(--td-bg-color-container);
+      border-radius: var(--td-radius-extraLarge);
+    }
+
+    .review-status__dots {
+      display: flex;
+      align-items: center;
+      gap: var(--td-size-2);
+    }
+
+    .review-status__dot {
+      width: var(--td-size-3);
+      height: var(--td-size-3);
+      border-radius: var(--td-radius-circle);
+      background: var(--td-brand-color-7);
+      animation: dot-bounce 1.4s ease-in-out infinite both;
+    }
+
+    .review-status__dot:nth-child(1) { animation-delay: 0s; }
+    .review-status__dot:nth-child(2) { animation-delay: 0.2s; }
+    .review-status__dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dot-bounce {
+      0%, 80%, 100% { opacity: 0.25; transform: scale(0.75); }
+      40%            { opacity: 1;    transform: scale(1); }
+    }
+
+    .review-status__text {
+      font-size: var(--td-font-size-body-small);
+      color: var(--td-text-color-secondary);
+      line-height: var(--td-line-height-body-small);
+    }
+
+    .review-status__countdown {
+      font-size: var(--td-font-size-body-small);
+      color: var(--td-brand-color-7);
+      font-weight: 600;
+      font-family: var(--td-font-family-medium);
+      min-width: 28px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<div class="im-page" id="imPage">
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <button class="top-bar__back" aria-label="返回">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15.5 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="top-bar__center">
+      <span class="top-bar__title">专属顾问</span>
+      <span class="top-bar__status">在线</span>
+    </div>
+    <button class="top-bar__close" aria-label="关闭">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </header>
+
+  <!-- Chat Area -->
+  <div class="chat-area" id="chatArea">
+
+    <!-- 1. 顾问欢迎语 -->
+    <div class="msg-row msg-row--advisor">
+      <div class="msg-avatar msg-avatar--advisor">
+        <img src="avatar-advisor.png" alt="顾问">
+      </div>
+      <div class="msg-content">
+        <div class="msg-bubble msg-bubble--advisor">
+          hi，我是您的专属顾问，可以为你提供提额和解决方案，欢迎提问和咨询！
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 用户消息 -->
+    <div class="msg-row msg-row--user">
+      <div class="msg-avatar msg-avatar--user">
+        <img src="avatar-user.png" alt="用户">
+      </div>
+      <div class="msg-content">
+        <div class="msg-bubble msg-bubble--user">
+          我想提额
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 顾问回复（借款信息卡片） -->
+    <div class="msg-row msg-row--advisor">
+      <div class="msg-avatar msg-avatar--advisor">
+        <img src="avatar-advisor.png" alt="顾问">
+      </div>
+      <div class="msg-content">
+        <div class="msg-bubble msg-bubble--card">
+          <!-- 上方说明文字 -->
+          <div class="card-context">
+            你好，如果您借款<span class="highlight">10000元</span>，选择<span class="highlight">6个月</span>的期数，那么在1个月以后也就是<span class="highlight">4月14日</span>一次性提前还清，预计实付总利息为<span class="highlight">165.00元</span>
+          </div>
+
+          <!-- 借款信息卡片 -->
+          <div class="loan-card">
+            <!-- 卡片标题 -->
+            <div class="loan-card__header">
+              <span class="loan-card__header-icon"><img src="icon-card.png" alt=""></span>
+              <span class="loan-card__header-title">借款信息确认</span>
+            </div>
+
+            <!-- 金额面板 -->
+            <div class="loan-card__panel">
+              <div class="loan-card__panel-row1">
+                <div class="loan-card__panel-col">
+                  <span class="loan-card__panel-label">借款金额</span>
+                  <span class="loan-card__panel-amount">¥1000.00</span>
+                </div>
+                <div class="loan-card__panel-col" style="align-items:flex-end;">
+                  <span class="loan-card__panel-label">分期期数</span>
+                  <span class="loan-card__panel-period">6<span>期</span></span>
+                </div>
+              </div>
+              <div class="loan-card__panel-rate">年利率(单利) &nbsp;24%</div>
+            </div>
+
+            <!-- 详情行 -->
+            <div class="loan-card__rows">
+              <!-- 还款方式 -->
+              <div class="loan-card__row">
+                <span class="loan-card__row-label">还款方式</span>
+                <div class="loan-card__row-block">
+                  <div class="loan-card__row-val">
+                    <span class="tag--orange">还款压力小</span>
+                    <strong>每月等额</strong>
+                    <span class="loan-card__row-chevron"><img src="icon-chevron.png" alt=""></span>
+                  </div>
+                  <span class="loan-card__row-sub">首月11月1日，应还3453.86元</span>
+                </div>
+              </div>
+              <!-- 收款账户 -->
+              <div class="loan-card__row">
+                <span class="loan-card__row-label">收款账户</span>
+                <div class="loan-card__row-val">
+                  <strong>招商银行 (2646)</strong>
+                  <span class="loan-card__row-chevron"><img src="icon-chevron.png" alt=""></span>
+                </div>
+              </div>
+              <!-- 借款用途 -->
+              <div class="loan-card__row">
+                <span class="loan-card__row-label">借款用途</span>
+                <div class="loan-card__row-val">
+                  <strong>日常消费</strong>
+                  <span class="loan-card__row-chevron"><img src="icon-chevron.png" alt=""></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 操作区 -->
+            <div class="loan-card__footer">
+              <button class="loan-card__btn">确认借款</button>
+              <span class="loan-card__disclaimer">点击借款即表示您同意 <a href="javascript:void(0)">《借款协议》</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 顾问审核提示 + 倒计时 -->
+    <div class="msg-row msg-row--advisor">
+      <div class="msg-avatar msg-avatar--advisor">
+        <img src="avatar-advisor.png" alt="顾问">
+      </div>
+      <div class="msg-content" style="flex-direction:column; align-items:flex-start; gap:0;">
+        <div class="msg-bubble msg-bubble--advisor">
+          正在为您审核当前借款需求，请不要走开
+        </div>
+        <!-- 倒计时审核动画 -->
+        <div class="review-status">
+          <div class="review-status__dots">
+            <span class="review-status__dot"></span>
+            <span class="review-status__dot"></span>
+            <span class="review-status__dot"></span>
+          </div>
+          <span class="review-status__text">审核中，倒计时</span>
+          <span class="review-status__countdown" id="countdownVal">10s</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Input Bar -->
+  <div class="bottom-bar" id="bottomBar">
+    <input
+      class="bottom-bar__input"
+      id="msgInput"
+      type="text"
+      placeholder="请输入您想咨询的问题..."
+      autocomplete="off"
+      enterkeyhint="send"
+    >
+    <button class="bottom-bar__btn" id="emojiBtn" aria-label="表情">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+    </button>
+    <button class="bottom-bar__send" id="sendBtn" aria-label="发送">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22 11 13 2 9l20-7z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const chatArea   = document.getElementById('chatArea');
+  const msgInput   = document.getElementById('msgInput');
+  const sendBtn    = document.getElementById('sendBtn');
+  const imPage     = document.getElementById('imPage');
+  const countdownEl = document.getElementById('countdownVal');
+
+  /* ---- Scroll helper ---- */
+  function scrollToBottom() {
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+
+  /* ---- Countdown (10 → 0, then loops) ---- */
+  let countdownSec = 10;
+  setInterval(function () {
+    if (countdownSec <= 0) countdownSec = 10;
+    countdownSec--;
+    countdownEl.textContent = countdownSec + 's';
+  }, 1000);
+
+  /* ---- Message helpers ---- */
+  function advisorAvatar() {
+    return `<img src="avatar-advisor.png" alt="顾问">`;
+  }
+  function userAvatar() {
+    return `<img src="avatar-user.png" alt="用户">`;
+  }
+
+  function appendMessage(text, isUser) {
+    const row = document.createElement('div');
+    row.className = 'msg-row ' + (isUser ? 'msg-row--user' : 'msg-row--advisor');
+
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'msg-avatar ' + (isUser ? 'msg-avatar--user' : 'msg-avatar--advisor');
+    avatarDiv.innerHTML = isUser ? userAvatar() : advisorAvatar();
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'msg-content';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble ' + (isUser ? 'msg-bubble--user' : 'msg-bubble--advisor');
+    bubble.textContent = text;
+
+    contentDiv.appendChild(bubble);
+    row.appendChild(avatarDiv);
+    row.appendChild(contentDiv);
+    chatArea.appendChild(row);
+    scrollToBottom();
+  }
+
+  /* ---- Send ---- */
+  function sendMessage() {
+    const text = msgInput.value.trim();
+    if (!text) return;
+    appendMessage(text, true);
+    msgInput.value = '';
+    msgInput.focus();
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+
+  msgInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  /* ---- Virtual keyboard: resize page to viewport height ---- */
+  function applyViewport() {
+    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    imPage.style.height = h + 'px';
+    scrollToBottom();
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', applyViewport);
+    window.visualViewport.addEventListener('scroll', applyViewport);
+  }
+
+  /* Focus input: give browser a moment then re-measure */
+  msgInput.addEventListener('focus', function () {
+    setTimeout(applyViewport, 300);
+  });
+  msgInput.addEventListener('blur', function () {
+    setTimeout(applyViewport, 300);
+  });
+
+  scrollToBottom();
+</script>
+</body>
+</html>
