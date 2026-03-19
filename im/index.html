@@ -2,77 +2,180 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>专属顾问 - 提额</title>
   <style>
-    /* ========== Design Tokens ========== */
+    /* ========== vars.css Tokens ========== */
     :root {
-      --td-font-family: PingFang SC, Microsoft YaHei, Arial Regular;
-      --td-font-family-medium: PingFang SC, Microsoft YaHei, Arial Medium;
-      --td-font-size-link-small: 12px;
-      --td-font-size-body-small: 12px;
-      --td-font-size-body-medium: 14px;
-      --td-font-size-body-large: 16px;
-      --td-font-size-title-small: 14px;
-      --td-font-size-title-medium: 16px;
-      --td-font-size-title-large: 18px;
-      --td-line-height-body-small: 20px;
-      --td-line-height-body-medium: 22px;
-      --td-line-height-body-large: 24px;
-      --td-line-height-title-medium: 24px;
+      /* Radius */
+      --radius-xlarge: 12px;
+      --radius-large: 8px;
+      --radius-default: 4px;
+      --radius-small: 2px;
 
-      --td-brand-color-1: #f2f3ff;
-      --td-brand-color-2: #d9e1ff;
-      --td-brand-color-5: #618dff;
-      --td-brand-color-6: #366ef4;
-      --td-brand-color-7: #0052d9;
-      --td-brand-color-8: #003cab;
-      --td-success-color-5: #2ba471;
-      --td-gray-color-1: #f3f3f3;
-      --td-gray-color-2: #eee;
-      --td-gray-color-3: #e8e8e8;
-      --td-gray-color-4: #ddd;
-      --td-warning-color-4: #fa9550;
-      --td-error-color-6: #d54941;
-      --td-font-gray-1: rgba(0, 0, 0, 90%);
-      --td-font-gray-2: rgba(0, 0, 0, 60%);
-      --td-font-gray-3: rgba(0, 0, 0, 40%);
-      --td-text-color-primary: var(--td-font-gray-1);
-      --td-text-color-secondary: var(--td-font-gray-2);
-      --td-text-color-placeholder: var(--td-font-gray-3);
-      --td-text-color-link: var(--td-brand-color-8);
-      --td-bg-color-container: #fff;
-      --td-bg-color-secondarycontainer: var(--td-gray-color-1);
+      /* Typography */
+      --typography-head-18-head-font-family: PingFangSc-Medium, sans-serif;
+      --typography-head-18-head-font-size: 18px;
+      --typography-head-18-head-line-height: 20px;
+      --typography-head-18-head-font-weight: 500;
+      --typography-head-16-sub-font-family: PingFangSc-Medium, sans-serif;
+      --typography-head-16-sub-font-size: 16px;
+      --typography-head-16-sub-line-height: 18px;
+      --typography-head-16-sub-font-weight: 500;
+      --typography-body-10-min-font-family: PingFangSc-Regular, sans-serif;
+      --typography-body-10-min-font-size: 10px;
+      --typography-body-10-min-line-height: 11px;
+      --typography-body-10-min-font-weight: 400;
+      --typography-body-10-strong-font-family: PingFangSc-Medium, sans-serif;
+      --typography-body-10-strong-font-size: 10px;
+      --typography-body-10-strong-line-height: 11px;
+      --typography-body-10-strong-font-weight: 500;
+      --typography-body-12-base-font-family: PingFangSc-Regular, sans-serif;
+      --typography-body-12-base-font-size: 12px;
+      --typography-body-12-base-line-height: 14px;
+      --typography-body-12-base-font-weight: 400;
+      --typography-body-12-strong-font-family: PingFangSc-Medium, sans-serif;
+      --typography-body-12-strong-font-size: 12px;
+      --typography-body-12-strong-line-height: 14px;
+      --typography-body-12-strong-font-weight: 500;
+      --typography-body-14-further-font-family: PingFangSc-Regular, sans-serif;
+      --typography-body-14-further-font-size: 14px;
+      --typography-body-14-further-line-height: 16px;
+      --typography-body-14-further-font-weight: 400;
+      --typography-body-16-increase-font-family: PingFangSc-Regular, sans-serif;
+      --typography-body-16-increase-font-size: 16px;
+      --typography-body-16-increase-line-height: 18px;
+      --typography-body-16-increase-font-weight: 400;
+      --typography-link-12-base-font-size: 12px;
+      --typography-link-14-further-font-size: 14px;
+      --typography-link-16-increase-font-size: 16px;
+      --typography-display-number-22-normal-font-family: Roboto-Medium, sans-serif;
+      --typography-display-number-22-normal-font-size: 22px;
+      --typography-display-number-22-normal-line-height: 24px;
+      --typography-display-number-22-normal-font-weight: 500;
 
-      --td-size-1: 2px;
-      --td-size-2: 4px;
-      --td-size-3: 6px;
-      --td-size-4: 8px;
-      --td-size-5: 12px;
-      --td-size-6: 16px;
-      --td-size-7: 20px;
-      --td-size-8: 24px;
-      --td-size-10: 32px;
-      --td-comp-paddingLR-l: var(--td-size-6);
+      /* Reference Colors */
+      --ref-brand-blue1: #f2f6ff;
+      --ref-brand-blue2: #e5edff;
+      --ref-brand-blue3: #ccdbff;
+      --ref-brand-blue4: #b2caff;
+      --ref-brand-blue7: #6694ff;
+      --ref-brand-blue8-base: #4d83ff;
+      --ref-brand-blue9: #3371ff;
+      --ref-functional-red8-base: #e53948;
+      --ref-functional-orange8-base: #ff9d33;
+      --ref-functional-orange1: #ffecd9;
+      --ref-functional-orange1-a70: #fff1e3;
+      --ref-functional-green8-base: #26bf71;
+      --ref-functional-green1: #cef2e0;
+      --ref-neutral-gray1: #050c1c;
+      --ref-neutral-gray2: #1e2533;
+      --ref-neutral-gray3: #81858d;
+      --ref-neutral-gray4: #9c9ea4;
+      --ref-neutral-gray5: #b4b6bc;
+      --ref-neutral-gray6: #f3f4f5;
+      --ref-neutral-gray2-a60: #787c85;
+      --ref-neutral-gray2-a40: #a4a8ac;
+      --ref-neutral-gray2-a20: #d2d3d6;
+      --ref-neutral-white1: #ffffff;
+      --ref-neutral-white2: rgba(255,255,255,0.8);
+      --ref-neutral-white3: rgba(255,255,255,0.6);
+      --ref-neutral-white4: rgba(255,255,255,0.4);
 
-      --td-radius-small: 2px;
-      --td-radius-default: 3px;
-      --td-radius-medium: 6px;
-      --td-radius-large: 9px;
-      --td-radius-extraLarge: 12px;
-      --td-radius-round: 999px;
-      --td-radius-circle: 50%;
+      /* System Colors */
+      --sys-primary-default: var(--ref-brand-blue8-base);
+      --sys-primary-active:  var(--ref-brand-blue9);
+      --sys-success-default: var(--ref-functional-green8-base);
+      --sys-caution-default: var(--ref-functional-orange8-base);
+      --sys-error-default:   var(--ref-functional-red8-base);
+      --sys-text-black-h1:   var(--ref-neutral-gray2);
+      --sys-text-black-h2:   var(--ref-neutral-gray2-a60);
+      --sys-text-black-h3:   var(--ref-neutral-gray2-a40);
+      --sys-text-black-h4:   var(--ref-neutral-gray2-a20);
+      --sys-white:           var(--ref-neutral-white1);
+      --sys-page-background-fill: #f5f7fa;
+      --sys-wire-divider-dark: #ededee;
     }
 
-    /* ========== Reset & Base ========== */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ========== 兼容映射：--td-* → vars.css tokens ========== */
+    :root {
+      /* 字体 */
+      --td-font-family:        var(--typography-body-14-further-font-family);
+      --td-font-family-medium: var(--typography-head-16-sub-font-family);
+
+      /* 字号 */
+      --td-font-size-link-small:   var(--typography-link-12-base-font-size);
+      --td-font-size-body-small:   var(--typography-body-12-base-font-size);
+      --td-font-size-body-medium:  var(--typography-body-14-further-font-size);
+      --td-font-size-body-large:   var(--typography-body-16-increase-font-size);
+      --td-font-size-title-small:  var(--typography-body-14-further-font-size);
+      --td-font-size-title-medium: var(--typography-head-16-sub-font-size);
+      --td-font-size-title-large:  var(--typography-head-18-head-font-size);
+
+      /* 行高（新 token 体系行高较紧凑，保留合理值） */
+      --td-line-height-body-small:   20px;
+      --td-line-height-body-medium:  22px;
+      --td-line-height-body-large:   24px;
+      --td-line-height-title-medium: 24px;
+
+      /* 品牌色 → 新 token */
+      --td-brand-color-1: var(--ref-brand-blue1);
+      --td-brand-color-2: var(--ref-brand-blue2);
+      --td-brand-color-5: var(--ref-brand-blue7);
+      --td-brand-color-6: var(--ref-brand-blue8-base);
+      --td-brand-color-7: var(--sys-primary-default);
+      --td-brand-color-8: var(--sys-primary-active);
+
+      /* 功能色 */
+      --td-success-color-5: var(--sys-success-default);
+      --td-warning-color-4: var(--sys-caution-default);
+      --td-error-color-6:   var(--sys-error-default);
+
+      /* 灰色 */
+      --td-gray-color-1: var(--ref-neutral-gray6);
+      --td-gray-color-2: #eeeeee;
+      --td-gray-color-3: #e8e8e8;
+      --td-gray-color-4: var(--ref-neutral-gray2-a20);
+
+      /* 文字色 */
+      --td-font-gray-1: var(--sys-text-black-h1);
+      --td-font-gray-2: var(--sys-text-black-h2);
+      --td-font-gray-3: var(--sys-text-black-h3);
+      --td-text-color-primary:     var(--td-font-gray-1);
+      --td-text-color-secondary:   var(--td-font-gray-2);
+      --td-text-color-placeholder: var(--td-font-gray-3);
+      --td-text-color-link:        var(--td-brand-color-8);
+
+      /* 背景色 */
+      --td-bg-color-container:          var(--sys-white);
+      --td-bg-color-secondarycontainer: var(--ref-neutral-gray6);
+
+      /* 间距（无直接 token，保留原值） */
+      --td-size-1: 2px;  --td-size-2: 4px;   --td-size-3: 6px;
+      --td-size-4: 8px;  --td-size-5: 12px;  --td-size-6: 16px;
+      --td-size-7: 20px; --td-size-8: 24px;  --td-size-10: 32px;
+      --td-comp-paddingLR-l: var(--td-size-6);
+
+      /* 圆角 → 新 token */
+      --td-radius-small:      var(--radius-small);
+      --td-radius-default:    var(--radius-default);
+      --td-radius-medium:     var(--radius-default);
+      --td-radius-large:      var(--radius-large);
+      --td-radius-extraLarge: var(--radius-xlarge);
+      --td-radius-round:      999px;
+      --td-radius-circle:     50%;
+    }
+
+    /* ========== Reset ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     html, body {
       height: 100%;
       font-family: var(--td-font-family);
       color: var(--td-text-color-primary);
-      background: #f5f6fa;
+      background: #EEEFF2;
       -webkit-font-smoothing: antialiased;
+      overflow: hidden;
     }
 
     .im-page {
@@ -82,62 +185,55 @@
       height: 100dvh;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(180deg, #eef2fb 0%, #f5f6fa 30%);
+      background: #EEEFF2;
       overflow: hidden;
+      position: relative;
     }
 
-    /* ========== Top Bar ========== */
+    /* ========== Top Bar (no background — image instead) ========== */
     .top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--td-size-5) var(--td-size-6);
-      background: var(--td-bg-color-container);
-      border-bottom: 1px solid var(--td-gray-color-3);
-      height: 52px;
+      padding: 12px 16px;
+      height: 56px;
       flex-shrink: 0;
       position: relative;
       z-index: 10;
+      /* Background image, no solid color */
+      background: url('bg-nav.png') center bottom / cover no-repeat;
     }
 
     .top-bar__back,
     .top-bar__close {
-      width: var(--td-size-8);
-      height: var(--td-size-8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-      background: none;
-      color: var(--td-text-color-primary);
-      flex-shrink: 0;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none; background: none;
+      color: rgba(0,0,0,0.75); flex-shrink: 0;
+      border-radius: 50%;
+      transition: background 0.15s;
     }
+    .top-bar__back:active,
+    .top-bar__close:active { background: rgba(0,0,0,0.06); }
 
     .top-bar__center {
-      display: flex;
-      align-items: center;
-      gap: var(--td-size-4);
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      display: flex; align-items: center; gap: 6px;
+      position: absolute; left: 50%; transform: translateX(-50%);
     }
 
     .top-bar__title {
-      font-size: var(--td-font-size-title-medium);
-      font-weight: 600;
+      font-size: 17px; font-weight: 600;
       line-height: var(--td-line-height-title-medium);
       font-family: var(--td-font-family-medium);
+      color: rgba(0,0,0,0.85);
     }
 
     .top-bar__status {
-      display: inline-flex;
-      align-items: center;
-      padding: 1px var(--td-size-3);
-      background: #e6f7ef;
+      display: inline-flex; align-items: center;
+      padding: 1px 6px;
+      background: rgba(43,164,113,0.15);
       color: var(--td-success-color-5);
-      font-size: var(--td-font-size-link-small);
-      line-height: var(--td-line-height-body-small);
+      font-size: 12px; line-height: 20px;
       border-radius: var(--td-radius-default);
       font-weight: 500;
     }
@@ -146,456 +242,403 @@
     .chat-area {
       flex: 1;
       overflow-y: auto;
-      padding: var(--td-size-6);
-      padding-bottom: var(--td-size-8);
+      padding: 12px 16px 12px;
       -webkit-overflow-scrolling: touch;
+      transition: padding-bottom 0.25s;
     }
-
     .chat-area::-webkit-scrollbar { width: 0; }
 
     /* ========== Message Row ========== */
     .msg-row {
       display: flex;
       align-items: flex-start;
-      margin-bottom: var(--td-size-6);
-      gap: var(--td-size-4);
+      margin-bottom: 16px;
+      gap: 8px;
     }
-
     .msg-row--advisor { flex-direction: row; }
     .msg-row--user    { flex-direction: row-reverse; }
 
-    /* Shared content column — right edge aligned for both sides */
     .msg-content {
-      flex: 1;
-      min-width: 0;
+      flex: 1; min-width: 0;
       display: flex;
     }
-
     .msg-row--advisor .msg-content { justify-content: flex-start; }
     .msg-row--user    .msg-content { justify-content: flex-end; }
 
     /* ========== Avatar ========== */
     .msg-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--td-radius-circle);
-      flex-shrink: 0;
-      overflow: hidden;
+      width: 36px; height: 36px;
+      border-radius: 50%; flex-shrink: 0; overflow: hidden;
+      background: #dce8ff;
     }
+    .msg-avatar--user { background: #cce0ff; }
+    .msg-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .msg-avatar--advisor {
-      background: var(--td-gray-color-2);
-    }
-
-    .msg-avatar--user {
-      background: var(--td-gray-color-2);
-    }
-
-    .msg-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ========== Bubble ========== */
-    /* 单行自适应宽度，多行上限 272px */
+    /* ========== Bubble (单行自适应，超272px换行) ========== */
     .msg-bubble {
+      /* 单行：宽度随内容收缩；超 272px：自动换行 */
+      display: inline-block;
       width: fit-content;
       max-width: 272px;
-      padding: var(--td-size-5) var(--td-size-6);
+      padding: 10px 14px;
       font-size: var(--td-font-size-body-medium);
       line-height: var(--td-line-height-body-medium);
+      /* 正常空白折叠 + 允许在单词边界换行 */
+      white-space: normal;
       word-break: break-word;
+      overflow-wrap: break-word;
     }
-
     .msg-bubble--advisor {
       background: var(--td-bg-color-container);
-      border-radius: var(--td-radius-default) var(--td-radius-extraLarge) var(--td-radius-extraLarge) var(--td-radius-extraLarge);
+      border-radius: 8px;
       color: var(--td-text-color-primary);
     }
-
     .msg-bubble--user {
       background: var(--td-brand-color-7);
-      border-radius: var(--td-radius-extraLarge) var(--td-radius-default) var(--td-radius-extraLarge) var(--td-radius-extraLarge);
+      border-radius: 8px;
       color: #fff;
     }
 
     /* ========== Card Bubble ========== */
     .msg-bubble--card {
-      width: 272px;
-      padding: 0;
-      overflow: hidden;
+      width: 272px; padding: 0; overflow: hidden;
       background: var(--td-bg-color-container);
-      border-radius: var(--td-radius-default) var(--td-radius-extraLarge) var(--td-radius-extraLarge) var(--td-radius-extraLarge);
+      border-radius: 0 8px 8px 8px;
     }
-
-    /* Pre-card context text */
     .card-context {
-      padding: var(--td-size-5) var(--td-size-6) var(--td-size-3);
+      padding: 12px 14px 6px;
       font-size: var(--td-font-size-body-medium);
       line-height: 22px;
       color: var(--td-text-color-primary);
     }
+    .card-context .highlight { color: var(--td-brand-color-7); font-weight: 500; }
 
-    .card-context .highlight {
-      color: var(--td-brand-color-7);
-      font-weight: 500;
-    }
-
-    /* Card container */
     .loan-card {
-      margin: var(--td-size-3) var(--td-size-5) var(--td-size-5);
-      background: #F9F9F9;
+      margin: 6px 12px 12px;
+      background: #f9f9f9;
       border-radius: var(--td-radius-large);
       overflow: hidden;
     }
-
     .loan-card__header {
-      display: flex;
-      align-items: center;
-      gap: var(--td-size-3);
-      padding: var(--td-size-5) var(--td-size-5) var(--td-size-4);
+      display: flex; align-items: center; gap: 6px;
+      padding: 12px 12px 8px;
     }
+    .loan-card__header-icon { width: 18px; height: 18px; display: flex; align-items: center; }
+    .loan-card__header-icon img { width: 18px; height: 18px; object-fit: contain; display: block; }
+    .loan-card__header-title { font-size: 14px; font-weight: 600; }
 
-    .loan-card__header-icon {
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .loan-card__header-icon img {
-      width: 18px;
-      height: 18px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .loan-card__header-title {
-      font-size: var(--td-font-size-title-small);
-      font-weight: 600;
-      font-family: var(--td-font-family-medium);
-      color: var(--td-text-color-primary);
-    }
-
-    /* Blue amount panel */
     .loan-card__panel {
-      margin: 0 var(--td-size-4) 0;
+      margin: 0 8px;
       border-radius: var(--td-radius-medium);
-      background: linear-gradient(135deg, #dce8ff 0%, #eaf0ff 60%, #f0f5ff 100%);
-      padding: var(--td-size-4) var(--td-size-5) var(--td-size-4);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+      background: linear-gradient(135deg,#dce8ff 0%,#eaf0ff 60%,#f0f5ff 100%);
+      padding: 8px 12px;
     }
+    .loan-card__panel-row1 { display: flex; justify-content: space-between; align-items: flex-start; }
+    .loan-card__panel-col { display: flex; flex-direction: column; }
+    .loan-card__panel-label { font-size: 12px; color: var(--td-text-color-secondary); line-height: 20px; }
+    .loan-card__panel-amount { font-size: 22px; font-weight: 600; color: var(--td-brand-color-7); line-height: 30px; }
+    .loan-card__panel-period { font-size: 22px; font-weight: 600; color: var(--td-brand-color-7); line-height: 30px; text-align: right; }
+    .loan-card__panel-period span { font-size: 14px; font-weight: 500; }
+    .loan-card__panel-rate { font-size: 12px; color: var(--td-text-color-secondary); margin-top: 2px; }
 
-    .loan-card__panel-row1 {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .loan-card__panel-col {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .loan-card__panel-label {
-      font-size: var(--td-font-size-body-small);
-      color: var(--td-text-color-secondary);
-      line-height: var(--td-line-height-body-small);
-    }
-
-    .loan-card__panel-amount {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--td-brand-color-7);
-      font-family: var(--td-font-family-medium);
-      line-height: 30px;
-    }
-
-    .loan-card__panel-period {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--td-brand-color-7);
-      font-family: var(--td-font-family-medium);
-      line-height: 30px;
-      text-align: right;
-    }
-
-    .loan-card__panel-period span {
-      font-size: var(--td-font-size-body-medium);
-      font-weight: 500;
-    }
-
-    .loan-card__panel-rate {
-      font-size: var(--td-font-size-body-small);
-      color: var(--td-text-color-secondary);
-      line-height: var(--td-line-height-body-small);
-      margin-top: 2px;
-    }
-
-    /* Detail rows */
-    .loan-card__rows {
-      padding: 0 var(--td-size-5);
-    }
-
+    .loan-card__rows { padding: 0 12px; }
     .loan-card__row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--td-size-4) 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-top: 1px solid #f0f0f0;
     }
-
-    .loan-card__row-label {
-      font-size: var(--td-font-size-body-medium);
-      color: var(--td-text-color-secondary);
-      flex-shrink: 0;
-    }
-
+    .loan-card__row:first-child { border-top: none; }
+    .loan-card__row-label { font-size: 14px; color: #000000; flex-shrink: 0; }
     .loan-card__row-val {
-      display: flex;
-      align-items: center;
-      gap: var(--td-size-2);
-      font-size: var(--td-font-size-body-medium);
-      color: var(--td-text-color-primary);
-      font-weight: 600;
-      font-family: var(--td-font-family-medium);
+      display: flex; align-items: center; justify-content: flex-end; gap: 4px;
+      font-size: 14px; color: var(--td-text-color-primary); font-weight: 600;
       text-align: right;
     }
-
+    .loan-card__row-block { flex: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+    .loan-card__row-sub { font-size: 10px; color: var(--td-text-color-secondary); text-align: right; width: 100%; }
+    /* 三角图标作为行直接子元素时垂直居中 */
     .loan-card__row-chevron {
-      width: 16px;
-      height: 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; align-self: center;
     }
-
-    .loan-card__row-chevron img {
-      width: 16px;
-      height: 16px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .loan-card__row-block {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 2px;
-    }
-
-    .loan-card__row-sub {
-      font-size: var(--td-font-size-link-small);
-      color: var(--td-text-color-secondary);
-      font-weight: 400;
-      font-family: var(--td-font-family);
-      line-height: var(--td-line-height-body-small);
-      text-align: right;
-    }
+    .loan-card__row-chevron img { width: 16px; height: 16px; object-fit: contain; }
 
     .tag--orange {
-      display: inline-flex;
-      align-items: center;
-      height: 18px;
-      padding: 0 var(--td-size-3);
-      background: #fff3e8;
-      color: var(--td-warning-color-4);
-      font-size: 11px;
-      line-height: 18px;
-      border-radius: var(--td-radius-default);
-      font-weight: 500;
-      border: 1px solid #ffd5b0;
-      white-space: nowrap;
+      display: inline-flex; align-items: center;
+      height: 18px; padding: 0 6px;
+      background: #fff3e8; color: #fa9550;
+      font-size: 11px; border-radius: 3px; font-weight: 500;
+      border: 1px solid #ffd5b0; white-space: nowrap;
     }
 
-    /* Card footer */
-    .loan-card__footer {
-      padding: var(--td-size-5) var(--td-size-5) var(--td-size-5);
-    }
-
+    .loan-card__footer { padding: 12px; }
     .loan-card__btn {
-      display: block;
-      width: 100%;
-      padding: 13px 0;
-      border: none;
-      border-radius: var(--td-radius-large);
-      background: var(--td-brand-color-7);
-      color: #fff;
-      font-size: var(--td-font-size-body-large);
-      font-weight: 600;
-      font-family: var(--td-font-family-medium);
-      cursor: pointer;
-      text-align: center;
+      display: block; width: 100%; padding: 12px 0; border: none;
+      border-radius: var(--td-radius-large); background: var(--td-brand-color-7);
+      color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; text-align: center;
     }
-
     .loan-card__btn:active { opacity: 0.85; }
-
     .loan-card__disclaimer {
-      display: block;
-      text-align: center;
-      margin-top: var(--td-size-4);
-      font-size: var(--td-font-size-link-small);
-      color: var(--td-text-color-secondary);
-      line-height: var(--td-line-height-body-small);
+      display: block; text-align: center; margin-top: 8px;
+      font-size: 12px; color: var(--td-text-color-secondary);
+    }
+    .loan-card__disclaimer a { color: var(--td-brand-color-7); text-decoration: none; }
+
+    /* ========== System message (centered) ========== */
+    .msg-row--system {
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .msg-system {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.75);
+      border-radius: 20px;
+      font-size: 12px; color: var(--td-text-color-secondary);
     }
 
-    .loan-card__disclaimer a {
-      color: var(--td-brand-color-7);
-      text-decoration: none;
+    /* ========== Countdown dots ========== */
+    .review-dots { display: flex; align-items: center; gap: 3px; }
+    .review-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--td-brand-color-7);
+      animation: dotBounce 1.4s ease-in-out infinite both;
     }
+    .review-dot:nth-child(1) { animation-delay: 0s; }
+    .review-dot:nth-child(2) { animation-delay: 0.2s; }
+    .review-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes dotBounce {
+      0%,80%,100% { opacity: 0.25; transform: scale(0.75); }
+      40%          { opacity: 1;    transform: scale(1); }
+    }
+    .review-countdown { color: var(--td-brand-color-7); font-weight: 700; min-width: 24px; }
 
-    /* ========== Bottom Input Bar ========== */
+    /* ========== Typing indicator ========== */
+    .typing-bubble {
+      background: var(--td-bg-color-container);
+      border-radius: 3px 12px 12px 12px;
+      padding: 10px 16px;
+      display: flex; gap: 4px; align-items: center;
+    }
+    .typing-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #b0b8c1;
+      animation: dotBounce 1.2s ease-in-out infinite both;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    /* ========== Bottom Bar ========== */
     .bottom-bar {
       flex-shrink: 0;
       background: var(--td-bg-color-container);
       border-top: 1px solid var(--td-gray-color-3);
-      padding: var(--td-size-4) var(--td-size-6);
+      padding: 8px 12px;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
       display: flex;
       align-items: center;
-      gap: var(--td-size-4);
+      gap: 6px;
       position: relative;
-      z-index: 10;
-      padding-bottom: calc(var(--td-size-4) + env(safe-area-inset-bottom, 0px));
+      z-index: 20;
     }
 
-    .bottom-bar__input {
-      flex: 1;
-      height: 40px;
-      padding: 0 var(--td-size-6);
+    /* Fake input display */
+    .bottom-bar__fake-input {
+      flex: 1; height: 40px;
+      padding: 0 14px;
       border: 1px solid var(--td-gray-color-3);
-      border-radius: var(--td-radius-round);
-      font-size: 16px; /* ≥16px prevents iOS auto-zoom */
+      border-radius: 4px;
+      font-size: 15px;
       color: var(--td-text-color-primary);
       background: var(--td-bg-color-secondarycontainer);
-      outline: none;
-      font-family: var(--td-font-family);
+      display: flex; align-items: center;
+      cursor: text;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
       transition: border-color 0.2s;
     }
-
-    .bottom-bar__input::placeholder {
-      color: var(--td-text-color-placeholder);
-      font-size: var(--td-font-size-body-medium);
-    }
-
-    .bottom-bar__input:focus {
+    .bottom-bar__fake-input.focused {
       border-color: var(--td-brand-color-7);
       background: #fff;
     }
+    .bottom-bar__fake-input .fi-text {
+      flex: 1; overflow: hidden; white-space: nowrap;
+      font-family: var(--td-font-family);
+    }
+    .bottom-bar__fake-input .fi-placeholder { color: var(--td-text-color-placeholder); font-size: 14px; }
+    .bottom-bar__fake-input .fi-cursor {
+      display: none; width: 1.5px; height: 18px;
+      background: var(--td-brand-color-7);
+      animation: blink 1s step-end infinite;
+      flex-shrink: 0; margin-left: 1px;
+    }
+    .bottom-bar__fake-input.focused .fi-cursor { display: block; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     .bottom-bar__btn {
-      width: var(--td-size-10);
-      height: var(--td-size-10);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-      background: none;
-      color: var(--td-text-color-secondary);
-      flex-shrink: 0;
-      border-radius: var(--td-radius-circle);
-      transition: background 0.15s;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none; background: none;
+      color: var(--td-text-color-secondary); flex-shrink: 0;
+      border-radius: 50%; transition: background 0.15s;
     }
-
     .bottom-bar__btn:active { background: var(--td-gray-color-1); }
     .bottom-bar__btn svg { width: 24px; height: 24px; }
 
     .bottom-bar__send {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: var(--td-radius-round);
-      background: var(--td-brand-color-7);
-      color: #fff;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: opacity 0.2s;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; border-radius: 50%;
+      background: var(--td-brand-color-7); color: #fff;
+      cursor: pointer; flex-shrink: 0; transition: opacity 0.2s;
     }
-
     .bottom-bar__send:active { opacity: 0.8; }
     .bottom-bar__send svg { width: 20px; height: 20px; }
 
-    /* ========== Countdown / Review Status ========== */
-    .review-status {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--td-size-3);
-      margin-top: var(--td-size-3);
-      padding: var(--td-size-3) var(--td-size-5);
-      background: var(--td-bg-color-container);
-      border-radius: var(--td-radius-extraLarge);
+    /* ========== Emoji Panel ========== */
+    .emoji-panel {
+      flex-shrink: 0;
+      background: #f7f8fa;
+      border-top: 1px solid var(--td-gray-color-3);
+      padding: 12px 10px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      display: none;
+      z-index: 19;
     }
+    .emoji-panel.open { display: block; }
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 4px;
+    }
+    .emoji-item {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      cursor: pointer; border-radius: 8px;
+      border: none; background: none;
+      transition: background 0.1s;
+    }
+    .emoji-item:active { background: rgba(0,0,0,0.08); }
+    .emoji-delete {
+      display: flex; align-items: center; justify-content: center;
+      aspect-ratio: 1; cursor: pointer;
+      border: none; background: none; border-radius: 8px;
+      color: #666; font-size: 18px;
+    }
+    .emoji-delete:active { background: rgba(0,0,0,0.08); }
 
-    .review-status__dots {
+    /* ========== Custom 24-key Keyboard ========== */
+    .custom-keyboard {
+      flex-shrink: 0;
+      background: #d1d5db;
+      border-top: 1px solid #b0b8c1;
+      padding: 8px 4px;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+      display: none;
+      z-index: 19;
+      user-select: none;
+    }
+    .custom-keyboard.open { display: block; }
+
+    .kb-row {
       display: flex;
-      align-items: center;
-      gap: var(--td-size-2);
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 5px;
     }
+    .kb-row:last-child { margin-bottom: 0; }
 
-    .review-status__dot {
-      width: var(--td-size-3);
-      height: var(--td-size-3);
-      border-radius: var(--td-radius-circle);
+    .kb-key {
+      height: 42px;
+      min-width: 30px;
+      flex: 1;
+      max-width: 36px;
+      border: none;
+      border-radius: 5px;
+      background: #fff;
+      color: #1a1a1a;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: var(--td-font-family);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: none;
+      transition: background 0.08s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .kb-key:active { background: #acb4be; }
+
+    .kb-key--func {
+      background: #adb5bd;
+      color: #1a1a1a;
+      font-size: 14px;
+      max-width: 46px;
+    }
+    .kb-key--func:active { background: #8d9199; }
+
+    .kb-key--space {
+      flex: 3; max-width: none;
+      font-size: 15px;
+      color: #444;
+    }
+    .kb-key--send {
+      flex: 1.5; max-width: none;
       background: var(--td-brand-color-7);
-      animation: dot-bounce 1.4s ease-in-out infinite both;
+      color: #fff; font-size: 14px; font-weight: 600;
+      max-width: 60px;
     }
-
-    .review-status__dot:nth-child(1) { animation-delay: 0s; }
-    .review-status__dot:nth-child(2) { animation-delay: 0.2s; }
-    .review-status__dot:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes dot-bounce {
-      0%, 80%, 100% { opacity: 0.25; transform: scale(0.75); }
-      40%            { opacity: 1;    transform: scale(1); }
+    .kb-key--send:active { background: #003cab; }
+    .kb-key--num {
+      background: #adb5bd; font-size: 13px; max-width: 40px;
     }
+    .kb-key--num:active { background: #8d9199; }
 
-    .review-status__text {
-      font-size: var(--td-font-size-body-small);
-      color: var(--td-text-color-secondary);
-      line-height: var(--td-line-height-body-small);
+    /* 图片消息气泡 */
+    .msg-bubble--image {
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+      border-radius: 0 8px 8px 8px;
+      max-width: 200px;
+      width: fit-content;
     }
-
-    .review-status__countdown {
-      font-size: var(--td-font-size-body-small);
-      color: var(--td-brand-color-7);
-      font-weight: 600;
-      font-family: var(--td-font-family-medium);
-      min-width: 28px;
-      text-align: left;
+    .msg-bubble--image img {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      border-radius: inherit;
+      object-fit: cover;
     }
   </style>
 </head>
 <body>
 
 <div class="im-page" id="imPage">
-  <!-- Top Bar -->
+
+  <!-- ① Top Bar: background image, no solid color -->
   <header class="top-bar">
-    <button class="top-bar__back" aria-label="返回">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15.5 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <button class="top-bar__back" onclick="history.back()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M15.5 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
     <div class="top-bar__center">
       <span class="top-bar__title">专属顾问</span>
       <span class="top-bar__status">在线</span>
     </div>
-    <button class="top-bar__close" aria-label="关闭">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <button class="top-bar__close" onclick="">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
   </header>
 
   <!-- Chat Area -->
   <div class="chat-area" id="chatArea">
 
-    <!-- 1. 顾问欢迎语 -->
+    <!-- 顾问欢迎语 -->
     <div class="msg-row msg-row--advisor">
       <div class="msg-avatar msg-avatar--advisor">
         <img src="avatar-advisor.png" alt="顾问">
@@ -607,86 +650,83 @@
       </div>
     </div>
 
-    <!-- 2. 用户消息 -->
+    <!-- 用户消息 -->
     <div class="msg-row msg-row--user">
       <div class="msg-avatar msg-avatar--user">
         <img src="avatar-user.png" alt="用户">
       </div>
       <div class="msg-content">
-        <div class="msg-bubble msg-bubble--user">
-          我想提额
-        </div>
+        <div class="msg-bubble msg-bubble--user">我想提额</div>
       </div>
     </div>
 
-    <!-- 3. 顾问回复（借款信息卡片） -->
+    <!-- 顾问回复：借款信息卡片 -->
     <div class="msg-row msg-row--advisor">
       <div class="msg-avatar msg-avatar--advisor">
         <img src="avatar-advisor.png" alt="顾问">
       </div>
       <div class="msg-content">
         <div class="msg-bubble msg-bubble--card">
-          <!-- 上方说明文字 -->
           <div class="card-context">
             你好，如果您借款<span class="highlight">10000元</span>，选择<span class="highlight">6个月</span>的期数，那么在1个月以后也就是<span class="highlight">4月14日</span>一次性提前还清，预计实付总利息为<span class="highlight">165.00元</span>
           </div>
-
-          <!-- 借款信息卡片 -->
           <div class="loan-card">
-            <!-- 卡片标题 -->
             <div class="loan-card__header">
-              <span class="loan-card__header-icon"><img src="icon-card.png" alt=""></span>
+              <span class="loan-card__header-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <rect width="18" height="18" rx="4" fill="#e8f0ff"/>
+                  <rect x="3" y="5" width="12" height="8" rx="2" stroke="#0052d9" stroke-width="1.2"/>
+                  <path d="M3 8h12" stroke="#0052d9" stroke-width="1.2"/>
+                </svg>
+              </span>
               <span class="loan-card__header-title">借款信息确认</span>
             </div>
-
-            <!-- 金额面板 -->
             <div class="loan-card__panel">
               <div class="loan-card__panel-row1">
                 <div class="loan-card__panel-col">
                   <span class="loan-card__panel-label">借款金额</span>
                   <span class="loan-card__panel-amount">¥1000.00</span>
                 </div>
-                <div class="loan-card__panel-col" style="align-items:flex-end;">
+                <div class="loan-card__panel-col" style="align-items:flex-end">
                   <span class="loan-card__panel-label">分期期数</span>
                   <span class="loan-card__panel-period">6<span>期</span></span>
                 </div>
               </div>
               <div class="loan-card__panel-rate">年利率(单利) &nbsp;24%</div>
             </div>
-
-            <!-- 详情行 -->
             <div class="loan-card__rows">
-              <!-- 还款方式 -->
               <div class="loan-card__row">
                 <span class="loan-card__row-label">还款方式</span>
                 <div class="loan-card__row-block">
                   <div class="loan-card__row-val">
                     <span class="tag--orange">还款压力小</span>
                     <strong>每月等额</strong>
-                    <span class="loan-card__row-chevron"><img src="icon-chevron.png" alt=""></span>
                   </div>
                   <span class="loan-card__row-sub">首月11月1日，应还3453.86元</span>
                 </div>
+                <span class="loan-card__row-chevron">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
               </div>
-              <!-- 收款账户 -->
               <div class="loan-card__row">
                 <span class="loan-card__row-label">收款账户</span>
                 <div class="loan-card__row-val">
                   <strong>招商银行 (2646)</strong>
-                  <span class="loan-card__row-chevron"><img src="icon-chevron.png" alt=""></span>
+                  <span class="loan-card__row-chevron">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
                 </div>
               </div>
-              <!-- 借款用途 -->
               <div class="loan-card__row">
                 <span class="loan-card__row-label">借款用途</span>
                 <div class="loan-card__row-val">
                   <strong>日常消费</strong>
-                  <span class="loan-card__row-chevron"><img src="icon-chevron.png" alt=""></span>
+                  <span class="loan-card__row-chevron">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
                 </div>
               </div>
             </div>
-
-            <!-- 操作区 -->
             <div class="loan-card__footer">
               <button class="loan-card__btn">确认借款</button>
               <span class="loan-card__disclaimer">点击借款即表示您同意 <a href="javascript:void(0)">《借款协议》</a></span>
@@ -696,138 +736,443 @@
       </div>
     </div>
 
-    <!-- 4. 顾问审核提示 + 倒计时 -->
+    <!-- 顾问：审核提示 -->
     <div class="msg-row msg-row--advisor">
       <div class="msg-avatar msg-avatar--advisor">
         <img src="avatar-advisor.png" alt="顾问">
       </div>
-      <div class="msg-content" style="flex-direction:column; align-items:flex-start; gap:0;">
-        <div class="msg-bubble msg-bubble--advisor">
-          正在为您审核当前借款需求，请不要走开
-        </div>
-        <!-- 倒计时审核动画 -->
-        <div class="review-status">
-          <div class="review-status__dots">
-            <span class="review-status__dot"></span>
-            <span class="review-status__dot"></span>
-            <span class="review-status__dot"></span>
-          </div>
-          <span class="review-status__text">审核中，倒计时</span>
-          <span class="review-status__countdown" id="countdownVal">10s</span>
-        </div>
+      <div class="msg-content">
+        <div class="msg-bubble msg-bubble--advisor">正在为您审核当前借款需求，请不要走开</div>
       </div>
     </div>
 
-  </div>
+    <!-- ② 审核中倒计时：居中系统消息 -->
+    <div class="msg-row msg-row--system">
+      <div class="msg-system">
+        <div class="review-dots">
+          <span class="review-dot"></span>
+          <span class="review-dot"></span>
+          <span class="review-dot"></span>
+        </div>
+        <span>审核中，倒计时</span>
+        <span class="review-countdown" id="countdownVal">10s</span>
+      </div>
+    </div>
+
+  </div><!-- /chat-area -->
 
   <!-- Bottom Input Bar -->
   <div class="bottom-bar" id="bottomBar">
-    <input
-      class="bottom-bar__input"
-      id="msgInput"
-      type="text"
-      placeholder="请输入您想咨询的问题..."
-      autocomplete="off"
-      enterkeyhint="send"
-    >
+    <!-- ⑤ Fake input (triggers custom keyboard) -->
+    <div class="bottom-bar__fake-input" id="fakeInput" tabindex="0">
+      <span class="fi-text" id="fiText">
+        <span class="fi-placeholder" id="fiPlaceholder">请输入您想咨询的问题...</span>
+      </span>
+      <span class="fi-cursor"></span>
+    </div>
+
+    <!-- ④ Emoji toggle：使用上传图标 -->
     <button class="bottom-bar__btn" id="emojiBtn" aria-label="表情">
-      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+      <img src="icon-emoji.png" width="28" height="28" style="display:block;object-fit:contain;" alt="表情">
     </button>
-    <button class="bottom-bar__send" id="sendBtn" aria-label="发送">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22 11 13 2 9l20-7z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+    <!-- 发送图片按钮：使用上传图标，触发隐藏 file input -->
+    <button class="bottom-bar__btn" id="imgPickerBtn" aria-label="发送图片">
+      <img src="icon-add.png" width="28" height="28" style="display:block;object-fit:contain;" alt="图片">
     </button>
+    <input type="file" id="imgFileInput" accept="image/*" style="display:none;">
   </div>
-</div>
+
+  <!-- ④ Emoji Panel -->
+  <div class="emoji-panel" id="emojiPanel">
+    <div class="emoji-grid" id="emojiGrid"></div>
+  </div>
+
+  <!-- ⑤ Custom 24-key Keyboard -->
+  <div class="custom-keyboard" id="customKeyboard"></div>
+
+</div><!-- /im-page -->
 
 <script>
-  const chatArea   = document.getElementById('chatArea');
-  const msgInput   = document.getElementById('msgInput');
-  const sendBtn    = document.getElementById('sendBtn');
-  const imPage     = document.getElementById('imPage');
-  const countdownEl = document.getElementById('countdownVal');
+/* ============================================================
+   State
+   ============================================================ */
+const chatArea      = document.getElementById('chatArea');
+const fakeInput     = document.getElementById('fakeInput');
+const fiText        = document.getElementById('fiText');
+const fiPlaceholder = document.getElementById('fiPlaceholder');
+const emojiBtn      = document.getElementById('emojiBtn');
+const emojiPanel    = document.getElementById('emojiPanel');
+const customKb      = document.getElementById('customKeyboard');
+const countdownEl   = document.getElementById('countdownVal');
+const imgPickerBtn  = document.getElementById('imgPickerBtn');
+const imgFileInput  = document.getElementById('imgFileInput');
 
-  /* ---- Scroll helper ---- */
-  function scrollToBottom() {
-    chatArea.scrollTop = chatArea.scrollHeight;
+let inputValue  = '';
+let kbShift     = false;
+let kbNumMode   = false;
+let emojiOpen   = false;
+let kbOpen      = false;
+
+/* ============================================================
+   Helpers
+   ============================================================ */
+function scrollToBottom() {
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function updateFakeInput() {
+  if (inputValue === '') {
+    fiText.innerHTML = '<span class="fi-placeholder">请输入您想咨询的问题...</span>';
+  } else {
+    fiText.textContent = inputValue;
   }
+}
 
-  /* ---- Countdown (10 → 0, then loops) ---- */
-  let countdownSec = 10;
-  setInterval(function () {
-    if (countdownSec <= 0) countdownSec = 10;
-    countdownSec--;
-    countdownEl.textContent = countdownSec + 's';
-  }, 1000);
+/* ============================================================
+   ② Countdown (10 → 0, loop)
+   ============================================================ */
+let countdownSec = 10;
+setInterval(() => {
+  if (countdownSec <= 0) countdownSec = 10;
+  countdownSec--;
+  countdownEl.textContent = countdownSec + 's';
+}, 1000);
 
-  /* ---- Message helpers ---- */
-  function advisorAvatar() {
-    return `<img src="avatar-advisor.png" alt="顾问">`;
+/* ============================================================
+   ③ Auto Advisor Reply
+   ============================================================ */
+const advisorSVG = `<img src="avatar-advisor.png" alt="顾问" style="width:100%;height:100%;object-fit:cover;display:block;">`;
+const userSVG    = `<img src="avatar-user.png"    alt="用户"  style="width:100%;height:100%;object-fit:cover;display:block;">`;
+
+const autoReplies = [
+  '好的，我来为您查询相关额度信息，请稍候～',
+  '您的账户当前满足提额条件，可申请最高 ¥50,000 额度。',
+  '提额申请已受理，审核结果将在 1-3 个工作日内通知您。',
+  '请问您还有其他问题需要咨询吗？我很乐意继续为您服务。',
+  '好的，已为您记录本次需求，如需进一步了解，欢迎随时提问！',
+  '根据您的信用记录，建议您选择 12 期分期，还款压力更小哦～',
+  '感谢您的耐心等待，您的申请正在加速处理中，请放心！',
+];
+let replyIndex = 0;
+
+function getAdvisorReply(userText) {
+  if (userText.includes('提额') || userText.includes('额度')) {
+    return '好的，我来为您查询相关额度信息，请稍候～';
   }
-  function userAvatar() {
-    return `<img src="avatar-user.png" alt="用户">`;
+  if (userText.includes('利率') || userText.includes('利息')) {
+    return '您当前产品的年利率为 24%（单利），具体利息以实际借款计算为准。';
   }
-
-  function appendMessage(text, isUser) {
-    const row = document.createElement('div');
-    row.className = 'msg-row ' + (isUser ? 'msg-row--user' : 'msg-row--advisor');
-
-    const avatarDiv = document.createElement('div');
-    avatarDiv.className = 'msg-avatar ' + (isUser ? 'msg-avatar--user' : 'msg-avatar--advisor');
-    avatarDiv.innerHTML = isUser ? userAvatar() : advisorAvatar();
-
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'msg-content';
-
-    const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble ' + (isUser ? 'msg-bubble--user' : 'msg-bubble--advisor');
-    bubble.textContent = text;
-
-    contentDiv.appendChild(bubble);
-    row.appendChild(avatarDiv);
-    row.appendChild(contentDiv);
-    chatArea.appendChild(row);
-    scrollToBottom();
+  if (userText.includes('还款')) {
+    return '支持每月等额还款和提前结清两种方式，提前还清可节省剩余利息。';
   }
-
-  /* ---- Send ---- */
-  function sendMessage() {
-    const text = msgInput.value.trim();
-    if (!text) return;
-    appendMessage(text, true);
-    msgInput.value = '';
-    msgInput.focus();
+  if (userText.includes('审核') || userText.includes('进度')) {
+    return '您的申请正在审核中，预计 24 小时内完成，结果将以短信形式通知您。';
   }
+  const reply = autoReplies[replyIndex % autoReplies.length];
+  replyIndex++;
+  return reply;
+}
 
-  sendBtn.addEventListener('click', sendMessage);
+function appendMessage(text, isUser) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (isUser ? 'msg-row--user' : 'msg-row--advisor');
 
-  msgInput.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar ' + (isUser ? 'msg-avatar--user' : 'msg-avatar--advisor');
+  avatar.innerHTML = isUser ? userSVG : advisorSVG;
 
-  /* ---- Virtual keyboard: resize page to viewport height ---- */
-  function applyViewport() {
-    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    imPage.style.height = h + 'px';
-    scrollToBottom();
-  }
+  const content = document.createElement('div');
+  content.className = 'msg-content';
 
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', applyViewport);
-    window.visualViewport.addEventListener('scroll', applyViewport);
-  }
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble ' + (isUser ? 'msg-bubble--user' : 'msg-bubble--advisor');
+  bubble.textContent = text;
 
-  /* Focus input: give browser a moment then re-measure */
-  msgInput.addEventListener('focus', function () {
-    setTimeout(applyViewport, 300);
-  });
-  msgInput.addEventListener('blur', function () {
-    setTimeout(applyViewport, 300);
-  });
-
+  content.appendChild(bubble);
+  row.appendChild(avatar);
+  row.appendChild(content);
+  chatArea.appendChild(row);
   scrollToBottom();
+  return row;
+}
+
+function showTypingThenReply(userText) {
+  // Show typing indicator
+  const typingRow = document.createElement('div');
+  typingRow.className = 'msg-row msg-row--advisor';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar msg-avatar--advisor';
+  avatar.innerHTML = advisorSVG;
+
+  const content = document.createElement('div');
+  content.className = 'msg-content';
+
+  const typing = document.createElement('div');
+  typing.className = 'typing-bubble';
+  typing.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+
+  content.appendChild(typing);
+  typingRow.appendChild(avatar);
+  typingRow.appendChild(content);
+  chatArea.appendChild(typingRow);
+  scrollToBottom();
+
+  setTimeout(() => {
+    chatArea.removeChild(typingRow);
+    appendMessage(getAdvisorReply(userText), false);
+  }, 1000 + Math.random() * 600);
+}
+
+function sendMessage() {
+  const text = inputValue.trim();
+  if (!text) return;
+  appendMessage(text, true);
+  inputValue = '';
+  updateFakeInput();
+  showTypingThenReply(text);
+}
+
+/* ---- 图片发送 ---- */
+imgPickerBtn.addEventListener('click', () => {
+  closeAll();
+  imgFileInput.click();
+});
+
+imgFileInput.addEventListener('change', () => {
+  const file = imgFileInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    appendImageMessage(e.target.result, true);
+    showTypingThenReply('[图片]');
+  };
+  reader.readAsDataURL(file);
+  imgFileInput.value = '';
+});
+
+function appendImageMessage(src, isUser) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + (isUser ? 'msg-row--user' : 'msg-row--advisor');
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar ' + (isUser ? 'msg-avatar--user' : 'msg-avatar--advisor');
+  avatar.innerHTML = isUser ? userSVG : advisorSVG;
+
+  const content = document.createElement('div');
+  content.className = 'msg-content';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble msg-bubble--image';
+
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = '图片';
+  bubble.appendChild(img);
+  content.appendChild(bubble);
+  row.appendChild(avatar);
+  row.appendChild(content);
+  chatArea.appendChild(row);
+  scrollToBottom();
+}
+
+/* ============================================================
+   Panel state management
+   ============================================================ */
+function closeAll() {
+  emojiOpen = false;
+  kbOpen    = false;
+  emojiPanel.classList.remove('open');
+  customKb.classList.remove('open');
+  fakeInput.classList.remove('focused');
+}
+
+function openKeyboard() {
+  emojiOpen = false;
+  kbOpen    = true;
+  emojiPanel.classList.remove('open');
+  customKb.classList.add('open');
+  fakeInput.classList.add('focused');
+  scrollToBottom();
+}
+
+function openEmoji() {
+  kbOpen    = false;
+  emojiOpen = true;
+  customKb.classList.remove('open');
+  emojiPanel.classList.add('open');
+  fakeInput.classList.remove('focused');
+  scrollToBottom();
+}
+
+/* ============================================================
+   ④ Emoji Panel
+   ============================================================ */
+const EMOJIS = [
+  '😀','😂','🥰','😍','🤩','😎','🥺','😭',
+  '😤','🤔','🙄','😏','😴','🤗','🥳','😇',
+  '👍','👏','🙏','💪','🤝','✌️','👋','❤️',
+  '🔥','⭐','🎉','🎁','💰','💡','📱','🏆',
+  '🐶','🐱','🐼','🌸','🌈','🍎','☕','🚀',
+];
+
+(function buildEmojiGrid() {
+  const grid = document.getElementById('emojiGrid');
+  EMOJIS.forEach(em => {
+    const btn = document.createElement('button');
+    btn.className = 'emoji-item';
+    btn.textContent = em;
+    btn.addEventListener('click', () => {
+      inputValue += em;
+      updateFakeInput();
+    });
+    grid.appendChild(btn);
+  });
+  // Delete button
+  const del = document.createElement('button');
+  del.className = 'emoji-delete';
+  del.innerHTML = '⌫';
+  del.addEventListener('click', () => {
+    // handle emoji (multi-codepoint) deletion
+    inputValue = [...inputValue].slice(0, -1).join('');
+    updateFakeInput();
+  });
+  grid.appendChild(del);
+})();
+
+emojiBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (emojiOpen) {
+    closeAll();
+  } else {
+    openEmoji();
+  }
+});
+
+/* ============================================================
+   ⑤ Custom 24-key Keyboard
+   ============================================================ */
+const KB_LETTERS = [
+  ['q','w','e','r','t','y','u','i','o','p'],
+  ['a','s','d','f','g','h','j','k','l'],
+  ['SHIFT','z','x','c','v','b','n','m','⌫'],
+  ['123','space','发送'],
+];
+const KB_NUMBERS = [
+  ['1','2','3','4','5','6','7','8','9','0'],
+  ['-','/','：','；','（','）','¥','@','"','。'],
+  ['ABC','…','、','？','！','.','，','⌫'],
+  ['#+=','space','发送'],
+];
+
+function buildKeyboard(layout) {
+  customKb.innerHTML = '';
+  layout.forEach((rowKeys, ri) => {
+    const row = document.createElement('div');
+    row.className = 'kb-row';
+
+    rowKeys.forEach(k => {
+      const btn = document.createElement('button');
+      btn.className = 'kb-key';
+
+      if (k === 'SHIFT' || k === 'ABC') {
+        btn.className += ' kb-key--func';
+        btn.innerHTML = k === 'SHIFT'
+          ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 4L3 13h6v7h6v-7h6L12 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>`
+          : 'ABC';
+        btn.addEventListener('click', () => {
+          if (k === 'SHIFT') {
+            kbShift = !kbShift;
+            buildKeyboard(kbNumMode ? KB_NUMBERS : KB_LETTERS);
+          } else {
+            kbNumMode = false;
+            buildKeyboard(KB_LETTERS);
+          }
+        });
+      } else if (k === '⌫') {
+        btn.className += ' kb-key--func';
+        btn.textContent = '⌫';
+        btn.addEventListener('click', () => {
+          inputValue = [...inputValue].slice(0, -1).join('');
+          updateFakeInput();
+        });
+        let deleteTimer;
+        btn.addEventListener('mousedown', () => {
+          deleteTimer = setInterval(() => {
+            inputValue = [...inputValue].slice(0, -1).join('');
+            updateFakeInput();
+          }, 100);
+        });
+        btn.addEventListener('mouseup', () => clearInterval(deleteTimer));
+        btn.addEventListener('mouseleave', () => clearInterval(deleteTimer));
+        btn.addEventListener('touchend', () => clearInterval(deleteTimer));
+      } else if (k === 'space') {
+        btn.className += ' kb-key--space';
+        btn.textContent = '空格';
+        btn.addEventListener('click', () => {
+          inputValue += ' ';
+          updateFakeInput();
+        });
+      } else if (k === '发送') {
+        btn.className += ' kb-key--send';
+        btn.textContent = '发送';
+        btn.addEventListener('click', sendMessage);
+      } else if (k === '123' || k === '#+=') {
+        btn.className += ' kb-key--num';
+        btn.textContent = k;
+        btn.addEventListener('click', () => {
+          kbNumMode = !kbNumMode;
+          buildKeyboard(kbNumMode ? KB_NUMBERS : KB_LETTERS);
+        });
+      } else {
+        // Regular character key
+        const char = (kbShift && !kbNumMode) ? k.toUpperCase() : k;
+        btn.textContent = char;
+        btn.addEventListener('click', () => {
+          const c = (kbShift && !kbNumMode) ? k.toUpperCase() : k;
+          inputValue += c;
+          updateFakeInput();
+          if (kbShift) {
+            kbShift = false;
+            buildKeyboard(KB_LETTERS);
+          }
+        });
+      }
+      row.appendChild(btn);
+    });
+    customKb.appendChild(row);
+  });
+}
+
+buildKeyboard(KB_LETTERS);
+
+/* ============================================================
+   Input focus: open keyboard
+   ============================================================ */
+fakeInput.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (kbOpen) return;
+  openKeyboard();
+});
+
+/* Tap outside: close all panels */
+document.addEventListener('click', (e) => {
+  if (
+    !fakeInput.contains(e.target) &&
+    !customKb.contains(e.target) &&
+    !emojiBtn.contains(e.target) &&
+    !emojiPanel.contains(e.target) &&
+    !imgPickerBtn.contains(e.target)
+  ) {
+    closeAll();
+  }
+});
+
+/* ============================================================
+   Init
+   ============================================================ */
+scrollToBottom();
 </script>
 </body>
 </html>
