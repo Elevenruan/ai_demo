@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>BTC/USDT</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0B0E11;--card:#1E2329;--card-hover:#2B3139;
+  --text:#EAECEF;--text-sec:#848E9C;--text-third:#5E6673;
+  --green:#16c784;--red:#ea3943;--orange:#F7931A;
+  --border:#2B3139;--radius:12px;
+}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;overflow:hidden;touch-action:manipulation}
+::-webkit-scrollbar{display:none}
+
+.app{display:flex;flex-direction:column;height:100%;max-width:430px;margin:0 auto;position:relative;overflow:hidden}
+
+/* Status Bar */
+.status-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 0;height:44px;flex-shrink:0;font-size:12px;font-weight:600;color:var(--text)}
+.status-time{font-size:15px;font-weight:700}
+.status-icons{display:flex;gap:6px;align-items:center;font-size:13px}
+
+/* Nav Bar */
+.nav-bar{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 8px;height:44px;flex-shrink:0}
+.nav-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text);background:none;border:none;cursor:pointer;border-radius:50%}
+.nav-btn:active{background:var(--card)}
+.nav-title{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700}
+.nav-title .btc-icon{width:24px;height:24px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
+
+/* Pull to refresh */
+.pull-indicator{text-align:center;color:var(--text-sec);font-size:12px;padding:12px;transition:opacity .2s;opacity:0;height:0;overflow:hidden}
+.pull-indicator.active{opacity:1;height:auto}
+.pull-indicator i{margin-right:4px;transition:transform .3s}
+.pull-indicator.ready i{transform:rotate(180deg)}
+
+/* Content */
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+
+/* Overview Card */
+.overview{padding:0 16px;margin-bottom:12px}
+.overview-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.price-block .price{font-size:28px;font-weight:700;letter-spacing:-.5px}
+.price-block .price-usd{font-size:12px;color:var(--text-sec);margin-top:2px}
+.price-block .change{display:inline-block;font-size:13px;font-weight:600;padding:2px 8px;border-radius:4px;margin-top:4px}
+.price-block .change.down{color:var(--red);background:rgba(234,57,67,.12)}
+.price-block .change.up{color:var(--green);background:rgba(22,199,132,.12)}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;text-align:right}
+.stat-item .stat-label{font-size:10px;color:var(--text-third);text-transform:uppercase}
+.stat-item .stat-value{font-size:12px;color:var(--text-sec);font-weight:500;margin-top:1px}
+
+/* Section Card */
+.section{background:var(--card);border-radius:var(--radius);margin:0 16px 12px;overflow:hidden}
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0;font-size:15px;font-weight:700}
+
+/* Indicators */
+.indicators-scroll{display:flex;gap:8px;padding:10px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ind-btn{flex-shrink:0;padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-sec);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.ind-btn.active{background:var(--orange);border-color:var(--orange);color:#fff;font-weight:600}
+.ind-btn:active{transform:scale(.95)}
+
+.ind-values{display:flex;gap:12px;padding:0 14px 10px;font-size:11px;flex-wrap:wrap}
+.ind-values span{color:var(--text-sec)}
+.ind-values .v1{color:#f5c842}
+.ind-values .v2{color:#7b61ff}
+.ind-values .v3{color:#00d2d3}
+
+/* Chart */
+.chart-wrap{padding:0 4px;position:relative}
+.chart-wrap canvas{width:100%;height:200px;display:block}
+
+/* Time Periods */
+.periods-bar{position:relative}
+.periods-scroll{display:flex;gap:4px;padding:10px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.period-btn{flex-shrink:0;padding:6px 12px;border-radius:6px;border:none;background:transparent;color:var(--text-sec);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
+.period-btn.active{background:var(--orange);color:#fff;font-weight:600}
+.period-btn:active{transform:scale(.95)}
+.more-dropdown{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px;display:none;flex-wrap:wrap;gap:4px;z-index:20;box-shadow:0 -4px 20px rgba(0,0,0,.4);min-width:220px;justify-content:center}
+.more-dropdown.show{display:flex}
+
+/* Tabs */
+.tabs-bar{display:flex;border-bottom:1px solid var(--border);padding:0 14px}
+.tab-btn{flex:1;padding:12px 0;text-align:center;font-size:13px;font-weight:500;color:var(--text-sec);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);font-weight:700}
+.tab-btn:active{opacity:.7}
+
+/* Order Book */
+.orderbook{padding:10px 14px}
+.ob-header{display:flex;font-size:10px;color:var(--text-third);text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.ob-header span{flex:1}
+.ob-header span:nth-child(2){text-align:right;padding-right:10px}
+.ob-header span:nth-child(3){text-align:left;padding-left:10px}
+.ob-header span:nth-child(4){text-align:right}
+.ob-rows{display:flex;gap:4px;max-height:320px;overflow-y:auto}
+.ob-col{flex:1}
+.ob-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;font-family:'SF Mono',Menlo,monospace;position:relative}
+.ob-row .ob-bar{position:absolute;top:0;bottom:0;opacity:.1;border-radius:2px}
+.ob-col.sell .ob-row .ob-bar{right:0;background:var(--red)}
+.ob-col.buy .ob-row .ob-bar{left:0;background:var(--green)}
+.ob-col.sell .ob-price{color:var(--red)}
+.ob-col.buy .ob-price{color:var(--green)}
+.ob-qty{color:var(--text-third)}
+.ob-col.sell .ob-row{flex-direction:row}
+.ob-col.sell .ob-qty{order:-1}
+.ob-col.buy .ob-row{flex-direction:row}
+.ob-spread{text-align:center;padding:8px 0;font-size:11px;color:var(--text-sec)}
+.ob-spread .spread-price{font-size:16px;font-weight:700;color:var(--text)}
+
+/* Trade History */
+.trade-history{padding:10px 14px;max-height:320px;overflow-y:auto}
+.th-header{display:flex;font-size:10px;color:var(--text-third);text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.th-header span{flex:1}
+.th-header span:last-child{text-align:right}
+.th-row{display:flex;padding:5px 0;font-size:12px;font-family:'SF Mono',Menlo,monospace}
+.th-row span{flex:1}
+.th-row span:last-child{text-align:right;color:var(--text-third)}
+.th-row.buy-trade .th-price{color:var(--green)}
+.th-row.sell-trade .th-price{color:var(--red)}
+
+/* Info */
+.info-panel{padding:14px}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.info-row:last-child{border:none}
+.info-label{color:var(--text-sec)}
+.info-value{color:var(--text);font-weight:500;text-align:right;max-width:60%;word-break:break-all}
+
+/* Bottom Bar */
+.bottom-bar{flex-shrink:0;display:flex;gap:10px;padding:10px 16px;padding-bottom:max(10px,env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--border)}
+.action-btn{flex:1;height:50px;border:none;border-radius:8px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;transition:all .1s;display:flex;align-items:center;justify-content:center;gap:6px}
+.action-btn:active{transform:scale(.97);opacity:.85}
+.btn-buy{background:var(--green)}
+.btn-sell{background:var(--red)}
+
+/* Toast */
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(30,35,41,.95);color:var(--text);padding:12px 24px;border-radius:10px;font-size:14px;opacity:0;transition:all .3s;pointer-events:none;z-index:100;backdrop-filter:blur(8px);border:1px solid var(--border)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Hide tab content */
+.tab-content{display:none}
+.tab-content.active{display:block}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-time" id="statusTime">9:41</span>
+    <span class="status-icons">
+      <i class="fas fa-signal"></i>
+      <i class="fas fa-wifi"></i>
+      <i class="fas fa-battery-full"></i>
+    </span>
+  </div>
+
+  <!-- Nav Bar -->
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="showToast('Back')"><i class="fas fa-chevron-left"></i></button>
+    <div class="nav-title">
+      <div class="btc-icon">₿</div>
+      BTC/USDT
+    </div>
+    <button class="nav-btn" onclick="showToast('More options')"><i class="fas fa-ellipsis-vertical"></i></button>
+  </div>
+
+  <!-- Pull Indicator -->
+  <div class="pull-indicator" id="pullIndicator"><i class="fas fa-arrow-down"></i> Pull to refresh</div>
+
+  <!-- Scrollable Content -->
+  <div class="content" id="contentArea">
+
+    <!-- Overview -->
+    <div class="overview">
+      <div class="overview-top">
+        <div class="price-block">
+          <div class="price" id="mainPrice">70,568.25</div>
+          <div class="price-usd" id="priceUsd">≈ $69,813.17</div>
+          <div class="change down" id="priceChange"><i class="fas fa-caret-down"></i> -0.93%</div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><div class="stat-label">24h High</div><div class="stat-value" id="statHigh">71,400.24</div></div>
+          <div class="stat-item"><div class="stat-label">24h Low</div><div class="stat-value" id="statLow">68,976.27</div></div>
+          <div class="stat-item"><div class="stat-label">24h Vol(BTC)</div><div class="stat-value" id="statVolBtc">19.94</div></div>
+          <div class="stat-item"><div class="stat-label">24h Vol(USDT)</div><div class="stat-value" id="statVolUsdt">1.39774407M</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="section">
+      <div class="section-header">Chart</div>
+
+      <!-- Indicators -->
+      <div class="indicators-scroll" id="indBar">
+        <button class="ind-btn active" data-ind="MA">MA</button>
+        <button class="ind-btn" data-ind="EMA">EMA</button>
+        <button class="ind-btn" data-ind="BOLL">BOLL</button>
+        <button class="ind-btn" data-ind="VOL">VOL</button>
+        <button class="ind-btn" data-ind="MACD">MACD</button>
+        <button class="ind-btn" data-ind="RSI">RSI</button>
+      </div>
+      <div class="ind-values" id="indValues">
+        <span class="v1">MA(7): 70,412.56</span>
+        <span class="v2">MA(25): 69,856.32</span>
+        <span class="v3">MA(99): 68,234.18</span>
+      </div>
+
+      <!-- Canvas Chart -->
+      <div class="chart-wrap">
+        <canvas id="klineCanvas"></canvas>
+      </div>
+
+      <!-- Time Periods -->
+      <div class="periods-bar">
+        <div class="more-dropdown" id="moreDropdown"></div>
+        <div class="periods-scroll" id="periodsBar">
+          <button class="period-btn" data-period="1m">1m</button>
+          <button class="period-btn" data-period="5m">5m</button>
+          <button class="period-btn" data-period="15m">15m</button>
+          <button class="period-btn active" data-period="1H">1H</button>
+          <button class="period-btn" data-period="4H">4H</button>
+          <button class="period-btn" data-period="1D">1D</button>
+          <button class="period-btn" data-period="1W">1W</button>
+          <button class="period-btn" data-period="More" id="moreBtn">More ▼</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Book / Trades / Info -->
+    <div class="section" id="dataSection">
+      <div class="tabs-bar" id="tabsBar">
+        <button class="tab-btn active" data-tab="orderbook">Order Book</button>
+        <button class="tab-btn" data-tab="trades">Trade History</button>
+        <button class="tab-btn" data-tab="info">Info</button>
+      </div>
+
+      <div class="tab-content active" id="tab-orderbook">
+        <div class="orderbook">
+          <div class="ob-header">
+            <span>Qty(BTC)</span><span>Price(USDT)</span>
+            <span>Price(USDT)</span><span>Qty(BTC)</span>
+          </div>
+          <div class="ob-rows" id="obRows"></div>
+          <div class="ob-spread" id="obSpread"></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-trades">
+        <div class="trade-history" id="tradeHistory">
+          <div class="th-header"><span>Price(USDT)</span><span>Qty(BTC)</span><span>Time</span></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-info">
+        <div class="info-panel">
+          <div class="info-row"><span class="info-label">Trading Pair</span><span class="info-value">BTC/USDT</span></div>
+          <div class="info-row"><span class="info-label">Base Asset</span><span class="info-value">Bitcoin (BTC)</span></div>
+          <div class="info-row"><span class="info-label">Quote Asset</span><span class="info-value">Tether (USDT)</span></div>
+          <div class="info-row"><span class="info-label">Min Order</span><span class="info-value">0.00001 BTC</span></div>
+          <div class="info-row"><span class="info-label">Price Precision</span><span class="info-value">0.01 USDT</span></div>
+          <div class="info-row"><span class="info-label">Qty Precision</span><span class="info-value">0.00001 BTC</span></div>
+          <div class="info-row"><span class="info-label">Maker Fee</span><span class="info-value">0.10%</span></div>
+          <div class="info-row"><span class="info-label">Taker Fee</span><span class="info-value">0.10%</span></div>
+          <div class="info-row"><span class="info-label">Listed</span><span class="info-value">2019-11-28</span></div>
+          <div class="info-row"><span class="info-label">Contract Address</span><span class="info-value" style="font-size:11px">0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:16px"></div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="bottom-bar">
+    <button class="action-btn btn-buy" onclick="showToast('Buy feature coming soon')"><i class="fas fa-arrow-trend-up"></i> Buy</button>
+    <button class="action-btn btn-sell" onclick="showToast('Sell feature coming soon')"><i class="fas fa-arrow-trend-down"></i> Sell</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ──
+const state = {
+  basePrice: 70568.25,
+  indicator: 'MA',
+  period: '1H',
+  tab: 'orderbook',
+  klineData: [],
+  moreOpen: false
+};
+
+// ── Helpers ──
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const rand = (a, b) => Math.random() * (b - a) + a;
+const fmt = (n, d=2) => n.toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
+
+function showToast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ── Clock ──
+function updateClock() {
+  const d = new Date();
+  $('#statusTime').textContent = d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// ── Generate K-Line Data ──
+function generateKline(count=80, base=null) {
+  base = base || state.basePrice;
+  const data = [];
+  let price = base - rand(800, 1500);
+  const now = Date.now();
+  const periodMs = {
+    '1m':60000,'3m':180000,'5m':300000,'15m':900000,'30m':1800000,
+    '1H':3600000,'2H':7200000,'4H':14400000,'8H':28800000,
+    '12H':43200000,'1D':86400000,'1W':604800000,'1M':2592000000
+  };
+  const interval = periodMs[state.period] || 3600000;
+  for (let i = 0; i < count; i++) {
+    const open = price + rand(-200, 200);
+    const close = open + rand(-400, 400);
+    const high = Math.max(open, close) + rand(50, 300);
+    const low = Math.min(open, close) - rand(50, 300);
+    const vol = rand(0.5, 5);
+    data.push({ time: now - (count - i) * interval, open, high, low, close, vol });
+    price = close;
+  }
+  const last = data[data.length - 1];
+  last.close = state.basePrice;
+  last.high = Math.max(last.high, state.basePrice);
+  last.low = Math.min(last.low, state.basePrice);
+  return data;
+}
+
+// ── Compute Indicators ──
+function computeMA(data, period) {
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < period - 1) { result.push(null); continue; }
+    let sum = 0;
+    for (let j = i - period + 1; j <= i; j++) sum += data[j].close;
+    result.push(sum / period);
+  }
+  return result;
+}
+
+function computeEMA(data, period) {
+  const result = [];
+  const k = 2 / (period + 1);
+  let ema = data[0].close;
+  for (let i = 0; i < data.length; i++) {
+    ema = data[i].close * k + ema * (1 - k);
+    result.push(i >= period - 1 ? ema : null);
+  }
+  return result;
+}
+
+function computeBOLL(data, period=20) {
+  const mid = computeMA(data, period);
+  const upper = [], lower = [];
+  for (let i = 0; i < data.length; i++) {
+    if (mid[i] === null) { upper.push(null); lower.push(null); continue; }
+    let sqSum = 0;
+    for (let j = i - period + 1; j <= i; j++) sqSum += (data[j].close - mid[i]) ** 2;
+    const std = Math.sqrt(sqSum / period);
+    upper.push(mid[i] + 2 * std);
+    lower.push(mid[i] - 2 * std);
+  }
+  return { mid, upper, lower };
+}
+
+function computeMACD(data) {
+  const ema12 = computeEMA(data, 12);
+  const ema26 = computeEMA(data, 26);
+  const dif = ema12.map((v, i) => (v !== null && ema26[i] !== null) ? v - ema26[i] : null);
+  const signal = [];
+  let s = 0;
+  const k = 2 / 10;
+  for (let i = 0; i < dif.length; i++) {
+    if (dif[i] === null) { signal.push(null); continue; }
+    if (s === 0) s = dif[i];
+    else s = dif[i] * k + s * (1 - k);
+    signal.push(s);
+  }
+  const hist = dif.map((v, i) => (v !== null && signal[i] !== null) ? (v - signal[i]) * 2 : null);
+  return { dif, signal, hist };
+}
+
+function computeRSI(data, period=14) {
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < period) { result.push(null); continue; }
+    let gains = 0, losses = 0;
+    for (let j = i - period + 1; j <= i; j++) {
+      const diff = data[j].close - data[j-1].close;
+      if (diff > 0) gains += diff; else losses -= diff;
+    }
+    const rs = losses === 0 ? 100 : gains / losses;
+    result.push(100 - 100 / (1 + rs));
+  }
+  return result;
+}
+
+// ── Draw Chart ──
+function drawChart() {
+  const canvas = $('#klineCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const W = rect.width;
+  const H = 200;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const data = state.klineData;
+  if (!data.length) return;
+
+  const ind = state.indicator;
+  const isSubChart = (ind === 'VOL' || ind === 'MACD' || ind === 'RSI');
+  const mainH = isSubChart ? H * 0.65 : H;
+  const subH = isSubChart ? H * 0.3 : 0;
+  const subTop = isSubChart ? H * 0.7 : H;
+  const pad = { top: 8, bottom: 4, left: 2, right: 2 };
+
+  const candleW = Math.max(2, (W - pad.left - pad.right) / data.length * 0.7);
+  const gap = (W - pad.left - pad.right) / data.length;
+
+  let minP = Infinity, maxP = -Infinity;
+  data.forEach(d => { if (d.low < minP) minP = d.low; if (d.high > maxP) maxP = d.high; });
+
+  if (ind === 'BOLL') {
+    const boll = computeBOLL(data);
+    boll.upper.forEach(v => { if (v !== null && v > maxP) maxP = v; });
+    boll.lower.forEach(v => { if (v !== null && v < minP) minP = v; });
+  }
+
+  const priceRange = maxP - minP || 1;
+  const yScale = (mainH - pad.top - pad.bottom) / priceRange;
+  const toY = p => pad.top + (maxP - p) * yScale;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(43,49,57,0.5)';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i < 4; i++) {
+    const y = pad.top + (mainH - pad.top - pad.bottom) * i / 3;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    ctx.fillStyle = '#5E6673';
+    ctx.font = '9px sans-serif';
+    ctx.fillText(fmt(maxP - priceRange * i / 3, 0), 4, y - 2);
+  }
+
+  // Candles
+  data.forEach((d, i) => {
+    const x = pad.left + i * gap + gap / 2;
+    const isUp = d.close >= d.open;
+    ctx.strokeStyle = ctx.fillStyle = isUp ? '#16c784' : '#ea3943';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, toY(d.high));
+    ctx.lineTo(x, toY(d.low));
+    ctx.stroke();
+    const top = toY(Math.max(d.open, d.close));
+    const bot = toY(Math.min(d.open, d.close));
+    const h = Math.max(1, bot - top);
+    if (isUp) {
+      ctx.fillRect(x - candleW/2, top, candleW, h);
+    } else {
+      ctx.fillRect(x - candleW/2, top, candleW, h);
+    }
+  });
+
+  // Overlay indicators on main chart
+  function drawLine(values, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    let started = false;
+    values.forEach((v, i) => {
+      if (v === null) return;
+      const x = pad.left + i * gap + gap / 2;
+      const y = toY(v);
+      if (!started) { ctx.moveTo(x, y); started = true; }
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  }
+
+  if (ind === 'MA') {
+    drawLine(computeMA(data, 7), '#f5c842');
+    drawLine(computeMA(data, 25), '#7b61ff');
+    drawLine(computeMA(data, 99), '#00d2d3');
+  } else if (ind === 'EMA') {
+    drawLine(computeEMA(data, 7), '#f5c842');
+    drawLine(computeEMA(data, 25), '#7b61ff');
+    drawLine(computeEMA(data, 99), '#00d2d3');
+  } else if (ind === 'BOLL') {
+    const boll = computeBOLL(data);
+    drawLine(boll.mid, '#f5c842');
+    drawLine(boll.upper, '#7b61ff');
+    drawLine(boll.lower, '#00d2d3');
+  }
+
+  // Sub chart
+  if (ind === 'VOL') {
+    let maxVol = 0;
+    data.forEach(d => { if (d.vol > maxVol) maxVol = d.vol; });
+    ctx.strokeStyle = 'rgba(43,49,57,0.5)';
+    ctx.beginPath(); ctx.moveTo(0, subTop); ctx.lineTo(W, subTop); ctx.stroke();
+    data.forEach((d, i) => {
+      const x = pad.left + i * gap + gap / 2;
+      const h = (d.vol / maxVol) * subH * 0.9;
+      ctx.fillStyle = d.close >= d.open ? 'rgba(22,199,132,0.6)' : 'rgba(234,57,67,0.6)';
+      ctx.fillRect(x - candleW/2, subTop + subH - h, candleW, h);
+    });
+  } else if (ind === 'MACD') {
+    const macd = computeMACD(data);
+    let maxAbs = 0;
+    macd.hist.forEach(v => { if (v !== null && Math.abs(v) > maxAbs) maxAbs = Math.abs(v); });
+    if (maxAbs === 0) maxAbs = 1;
+    const midY = subTop + subH / 2;
+    ctx.strokeStyle = 'rgba(43,49,57,0.5)';
+    ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(W, midY); ctx.stroke();
+    macd.hist.forEach((v, i) => {
+      if (v === null) return;
+      const x = pad.left + i * gap + gap / 2;
+      const h = (v / maxAbs) * subH * 0.4;
+      ctx.fillStyle = v >= 0 ? 'rgba(22,199,132,0.7)' : 'rgba(234,57,67,0.7)';
+      ctx.fillRect(x - candleW/2, midY - (v > 0 ? h : 0), candleW, Math.abs(h));
+    });
+    function drawSubLine(values, color) {
+      ctx.strokeStyle = color; ctx.lineWidth = 1;
+      ctx.beginPath(); let st = false;
+      values.forEach((v, i) => {
+        if (v === null) return;
+        const x = pad.left + i * gap + gap / 2;
+        const y = midY - (v / maxAbs) * subH * 0.4;
+        if (!st) { ctx.moveTo(x, y); st = true; } else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+    drawSubLine(macd.dif, '#f5c842');
+    drawSubLine(macd.signal, '#7b61ff');
+  } else if (ind === 'RSI') {
+    const rsi = computeRSI(data);
+    ctx.strokeStyle = 'rgba(43,49,57,0.5)';
+    [subTop, subTop + subH].forEach(y => { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); });
+    ctx.setLineDash([3, 3]);
+    [30, 70].forEach(lv => {
+      const y = subTop + subH - (lv / 100) * subH;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      ctx.fillStyle = '#5E6673'; ctx.font = '9px sans-serif'; ctx.fillText(lv, 4, y - 2);
+    });
+    ctx.setLineDash([]);
+    ctx.strokeStyle = '#f5c842'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); let st = false;
+    rsi.forEach((v, i) => {
+      if (v === null) return;
+      const x = pad.left + i * gap + gap / 2;
+      const y = subTop + subH - (v / 100) * subH;
+      if (!st) { ctx.moveTo(x, y); st = true; } else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  }
+}
+
+// ── Update Indicator Values ──
+function updateIndValues() {
+  const data = state.klineData;
+  if (!data.length) return;
+  const el = $('#indValues');
+  const ind = state.indicator;
+  const last = data.length - 1;
+
+  if (ind === 'MA') {
+    const m7 = computeMA(data, 7), m25 = computeMA(data, 25), m99 = computeMA(data, 99);
+    el.innerHTML = `<span class="v1">MA(7): ${fmt(m7[last]||0)}</span><span class="v2">MA(25): ${fmt(m25[last]||0)}</span><span class="v3">MA(99): ${fmt(m99[last]||0)}</span>`;
+  } else if (ind === 'EMA') {
+    const e7 = computeEMA(data, 7), e25 = computeEMA(data, 25), e99 = computeEMA(data, 99);
+    el.innerHTML = `<span class="v1">EMA(7): ${fmt(e7[last]||0)}</span><span class="v2">EMA(25): ${fmt(e25[last]||0)}</span><span class="v3">EMA(99): ${fmt(e99[last]||0)}</span>`;
+  } else if (ind === 'BOLL') {
+    const b = computeBOLL(data);
+    el.innerHTML = `<span class="v1">MID: ${fmt(b.mid[last]||0)}</span><span class="v2">UP: ${fmt(b.upper[last]||0)}</span><span class="v3">DN: ${fmt(b.lower[last]||0)}</span>`;
+  } else if (ind === 'VOL') {
+    const vol = data[last].vol;
+    el.innerHTML = `<span class="v1">Vol: ${vol.toFixed(4)} BTC</span><span class="v2">MA(5): ${(data.slice(-5).reduce((s,d)=>s+d.vol,0)/5).toFixed(4)}</span>`;
+  } else if (ind === 'MACD') {
+    const m = computeMACD(data);
+    el.innerHTML = `<span class="v1">DIF: ${fmt(m.dif[last]||0)}</span><span class="v2">DEA: ${fmt(m.signal[last]||0)}</span><span class="v3">MACD: ${fmt(m.hist[last]||0)}</span>`;
+  } else if (ind === 'RSI') {
+    const r = computeRSI(data);
+    el.innerHTML = `<span class="v1">RSI(14): ${(r[last]||0).toFixed(2)}</span><span class="v2">RSI(6): ${(computeRSI(data,6)[last]||0).toFixed(2)}</span>`;
+  }
+}
+
+// ── Order Book ──
+function generateOrderBook() {
+  const base = state.basePrice;
+  const rows = 12;
+  let sellHtml = '', buyHtml = '';
+  const sellData = [], buyData = [];
+
+  for (let i = rows; i >= 1; i--) {
+    const price = base + rand(10, 80) * i;
+    const qty = rand(0.001, 0.5);
+    const pct = rand(15, 95);
+    sellData.push({ price, qty, pct });
+  }
+  for (let i = 1; i <= rows; i++) {
+    const price = base - rand(10, 80) * i;
+    const qty = rand(0.001, 0.5);
+    const pct = rand(15, 95);
+    buyData.push({ price, qty, pct });
+  }
+
+  sellData.forEach(d => {
+    sellHtml += `<div class="ob-row"><span class="ob-qty">${d.qty.toFixed(5)}</span><span class="ob-price">${fmt(d.price, 2)}</span><div class="ob-bar" style="width:${d.pct}%"></div></div>`;
+  });
+  buyData.forEach(d => {
+    buyHtml += `<div class="ob-row"><span class="ob-price">${fmt(d.price, 2)}</span><span class="ob-qty">${d.qty.toFixed(5)}</span><div class="ob-bar" style="width:${d.pct}%"></div></div>`;
+  });
+
+  $('#obRows').innerHTML = `<div class="ob-col sell">${sellHtml}</div><div class="ob-col buy">${buyHtml}</div>`;
+
+  const spreadPrice = base;
+  const spreadPct = ((sellData[sellData.length-1].price - buyData[0].price) / base * 100).toFixed(3);
+  $('#obSpread').innerHTML = `<div class="spread-price">${fmt(spreadPrice)}</div><span>Spread: ${spreadPct}%</span>`;
+}
+
+// ── Trade History ──
+function generateTradeHistory() {
+  const container = $('#tradeHistory');
+  const existing = container.querySelector('.th-header').outerHTML;
+  let html = existing;
+  const base = state.basePrice;
+  const now = Date.now();
+
+  for (let i = 0; i < 30; i++) {
+    const isBuy = Math.random() > 0.5;
+    const price = base + rand(-200, 200);
+    const qty = rand(0.001, 0.8);
+    const time = new Date(now - i * rand(2000, 30000));
+    const ts = time.getHours().toString().padStart(2,'0') + ':' + time.getMinutes().toString().padStart(2,'0') + ':' + time.getSeconds().toString().padStart(2,'0');
+    html += `<div class="th-row ${isBuy?'buy-trade':'sell-trade'}"><span class="th-price">${fmt(price)}</span><span>${qty.toFixed(5)}</span><span>${ts}</span></div>`;
+  }
+  container.innerHTML = html;
+}
+
+// ── Indicators Bar ──
+$('#indBar').addEventListener('click', e => {
+  const btn = e.target.closest('.ind-btn');
+  if (!btn) return;
+  $$('#indBar .ind-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.indicator = btn.dataset.ind;
+  updateIndValues();
+  drawChart();
+});
+
+// ── Periods Bar ──
+const morePeriods = ['3m','30m','2H','8H','12H','1M'];
+morePeriods.forEach(p => {
+  const btn = document.createElement('button');
+  btn.className = 'period-btn';
+  btn.dataset.period = p;
+  btn.textContent = p;
+  btn.addEventListener('click', () => {
+    $$('.period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.period = p;
+    state.klineData = generateKline();
+    drawChart();
+    updateIndValues();
+    $('#moreDropdown').classList.remove('show');
+    state.moreOpen = false;
+    $('#moreBtn').textContent = 'More ▼';
+  });
+  $('#moreDropdown').appendChild(btn);
+});
+
+$('#periodsBar').addEventListener('click', e => {
+  const btn = e.target.closest('.period-btn');
+  if (!btn) return;
+  if (btn.id === 'moreBtn') {
+    state.moreOpen = !state.moreOpen;
+    $('#moreDropdown').classList.toggle('show', state.moreOpen);
+    btn.textContent = state.moreOpen ? 'More ▲' : 'More ▼';
+    return;
+  }
+  $$('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.period = btn.dataset.period;
+  state.klineData = generateKline();
+  drawChart();
+  updateIndValues();
+  if (state.moreOpen) {
+    $('#moreDropdown').classList.remove('show');
+    state.moreOpen = false;
+    $('#moreBtn').textContent = 'More ▼';
+  }
+});
+
+// ── Tabs ──
+$('#tabsBar').addEventListener('click', e => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  $$('#tabsBar .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  $$('.tab-content').forEach(tc => tc.classList.remove('active'));
+  $(`#tab-${btn.dataset.tab}`).classList.add('active');
+  state.tab = btn.dataset.tab;
+});
+
+// ── Pull to Refresh ──
+let pullStartY = 0, pulling = false, pullDist = 0;
+const content = $('#contentArea');
+const pullInd = $('#pullIndicator');
+
+content.addEventListener('touchstart', e => {
+  if (content.scrollTop <= 0) {
+    pullStartY = e.touches[0].clientY;
+    pulling = true;
+    pullDist = 0;
+  }
+}, { passive: true });
+
+content.addEventListener('touchmove', e => {
+  if (!pulling) return;
+  pullDist = e.touches[0].clientY - pullStartY;
+  if (pullDist > 0 && content.scrollTop <= 0) {
+    pullInd.classList.add('active');
+    if (pullDist > 80) pullInd.classList.add('ready');
+    else pullInd.classList.remove('ready');
+  } else {
+    pullInd.classList.remove('active', 'ready');
+  }
+}, { passive: true });
+
+content.addEventListener('touchend', () => {
+  if (pulling && pullDist > 80) {
+    pullInd.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+    setTimeout(() => {
+      refreshData();
+      pullInd.classList.remove('active', 'ready');
+      pullInd.innerHTML = '<i class="fas fa-arrow-down"></i> Pull to refresh';
+      showToast('Data refreshed');
+    }, 800);
+  } else {
+    pullInd.classList.remove('active', 'ready');
+  }
+  pulling = false;
+  pullDist = 0;
+});
+
+function refreshData() {
+  state.basePrice += rand(-500, 500);
+  const change = rand(-3, 3);
+  const isUp = change >= 0;
+
+  $('#mainPrice').textContent = fmt(state.basePrice);
+  $('#priceUsd').textContent = `≈ $${fmt(state.basePrice * 0.989)}`;
+  const changeEl = $('#priceChange');
+  changeEl.className = `change ${isUp ? 'up' : 'down'}`;
+  changeEl.innerHTML = `<i class="fas fa-caret-${isUp?'up':'down'}"></i> ${isUp?'+':''}${change.toFixed(2)}%`;
+
+  $('#statHigh').textContent = fmt(state.basePrice + rand(200, 900), 2);
+  $('#statLow').textContent = fmt(state.basePrice - rand(200, 1600), 2);
+  $('#statVolBtc').textContent = rand(10, 30).toFixed(2);
+  $('#statVolUsdt').textContent = fmt(rand(1, 2), 2) + 'M';
+
+  state.klineData = generateKline();
+  drawChart();
+  updateIndValues();
+  generateOrderBook();
+  generateTradeHistory();
+}
+
+// ── Init ──
+function init() {
+  state.klineData = generateKline();
+  drawChart();
+  updateIndValues();
+  generateOrderBook();
+  generateTradeHistory();
+}
+
+init();
+window.addEventListener('resize', () => { drawChart(); });
+
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+  if (state.moreOpen && !e.target.closest('.periods-bar')) {
+    $('#moreDropdown').classList.remove('show');
+    state.moreOpen = false;
+    $('#moreBtn').textContent = 'More ▼';
+  }
+});
+</script>
+</body>
+</html>
