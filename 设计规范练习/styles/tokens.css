@@ -1,0 +1,215 @@
+/* =====================================================================
+   Design Tokens — 设计规范 CSS 变量
+   合并自：
+     · font_vars_css_20260320_c65c96.css   (字体系统)
+     · color_css_20260320_a520ed.css        (颜色系统)
+   ===================================================================== */
+
+:root {
+  /* ===================================================================
+     一、字体系统 · Typography
+     =================================================================== */
+
+  /* 字体家族 */
+  --font-family-sans:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family-serif: Georgia, 'Times New Roman', serif;
+  --font-family-mono:  Menlo, Monaco, Consolas, monospace;
+
+  /* 字重 */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold:   700;
+
+  /* 字号（rem，基准 1rem = 16px） */
+  --font-size-xs:   0.75rem;   /* 12px */
+  --font-size-sm:   0.875rem;  /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg:   1.125rem;  /* 18px */
+  --font-size-xl:   1.25rem;   /* 20px */
+  --font-size-2xl:  1.5rem;    /* 24px */
+  --font-size-3xl:  1.875rem;  /* 30px */
+
+  /* 行高 */
+  --line-height-tight: 1.2;
+  --line-height-base:  1.5;
+  --line-height-loose: 1.8;
+
+  /* 字体专属文字色（由字体系统定义） */
+  --text-primary:   #1e293b;
+  --text-secondary: #64748b;
+  --text-tertiary:  #94a3b8;
+
+  /* ===================================================================
+     二、颜色系统 · Color System
+     =================================================================== */
+
+  /* —— Base: Primary Blue —— */
+  --base-primary-blue1:  #f5f8ff;
+  --base-primary-blue2:  #f2f6ff;
+  --base-primary-blue3:  #e5edff;
+  --base-primary-blue4:  #ccdbff;
+  --base-primary-blue5:  #b2caff;
+  --base-primary-blue6:  #99b8ff;
+  --base-primary-blue7:  #80a6ff;
+  --base-primary-blue8:  #6694ff;
+  --base-primary-blue9:  #4d83ff;
+  --base-primary-blue10: #3371ff;
+
+  /* —— Base: Marking Pink —— */
+  --base-marking-pink1:  #fff6f9;
+  --base-marking-pink2:  #fff2f6;
+  --base-marking-pink3:  #ffe5ed;
+  --base-marking-pink4:  #ffccdb;
+  --base-marking-pink5:  #ffb2c9;
+  --base-marking-pink6:  #ff99b7;
+  --base-marking-pink7:  #ff80a6;
+  --base-marking-pink8:  #ff6694;
+  --base-marking-pink9:  #ff4d82;
+  --base-marking-pink10: #ff3371;
+
+  /* —— Base: Error Red —— */
+  --base-error-red1:  #ffeced;
+  --base-error-red2:  #ffd9dc;
+  --base-error-red3:  #ffccd0;
+  --base-error-red4:  #ffb2b9;
+  --base-error-red5:  #ffa6ad;
+  --base-error-red6:  #ff99a2;
+  --base-error-red7:  #f27984;
+  --base-error-red8:  #e55c68;
+  --base-error-red9:  #e53948;
+  --base-error-red10: #d92c3a;
+
+  /* —— Base: Success Green —— */
+  --base-success-green1:  #ddf6e9;
+  --base-success-green2:  #cef2e0;
+  --base-success-green3:  #c2f2d9;
+  --base-success-green4:  #ace5c8;
+  --base-success-green5:  #8dd9b2;
+  --base-success-green6:  #82d9ac;
+  --base-success-green7:  #52cc8d;
+  --base-success-green8:  #3fc27f;
+  --base-success-green9:  #26bf71;
+  --base-success-green10: #0cba60;
+
+  /* —— Base: Warning Orange —— */
+  --base-warning-orange1:  #fff1e3;
+  --base-warning-orange2:  #ffecd9;
+  --base-warning-orange3:  #ffe1bf;
+  --base-warning-orange4:  #ffe1bf;
+  --base-warning-orange5:  #ffc78c;
+  --base-warning-orange6:  #ffc180;
+  --base-warning-orange7:  #ffb566;
+  --base-warning-orange8:  #ffa94d;
+  --base-warning-orange9:  #ff9d33;
+  --base-warning-orange10: #ff8a0e;
+
+  /* —— Base: Neutral Gray —— */
+  --base-neutral-gray1: #f5f7fa;
+  --base-neutral-gray2: #ededee;
+  --base-neutral-gray3: #e6e7e8;
+  --base-neutral-gray4: #d2d3d6;
+  --base-neutral-gray5: #b4b6bc;
+  --base-neutral-gray6: #9c9ea4;
+  --base-neutral-gray7: #81858d;
+  --base-neutral-gray8: #1e2533;
+  --base-neutral-gray9: #050c1c;
+
+  /* —— Base: Neutral White (opacity) —— */
+  --base-neutral-white1: rgba(255,255,255,0.2);
+  --base-neutral-white2: rgba(255,255,255,0.3);
+  --base-neutral-white3: rgba(255,255,255,0.4);
+  --base-neutral-white4: rgba(255,255,255,0.6);
+  --base-neutral-white5: rgba(255,255,255,0.8);
+  --base-neutral-white6: #ffffff;
+
+  /* —— Base: Neutral Black (opacity) —— */
+  --base-neutral-black3:  rgba(0,0,0,0.3);
+  --base-neutral-black4:  rgba(0,0,0,0.4);
+  --base-neutral-black5:  rgba(0,0,0,0.5);
+  --base-neutral-black6:  rgba(0,0,0,0.6);
+  --base-neutral-black7:  rgba(0,0,0,0.7);
+  --base-neutral-black8:  rgba(0,0,0,0.8);
+  --base-neutral-black9:  rgba(0,0,0,0.9);
+  --base-neutral-black10: #000000;
+
+  /* —— Semantic: Primary (Blue) —— */
+  --sys-primary-default:  var(--base-primary-blue9);
+  --sys-primary-hover:    var(--base-primary-blue7);
+  --sys-primary-active:   var(--base-primary-blue10);
+  --sys-primary-disabled: var(--base-neutral-gray3);
+  --sys-primary-inactive: var(--base-neutral-gray4);
+
+  /* —— Semantic: Marking (Pink) —— */
+  --sys-marking-default:  var(--base-marking-pink9);
+  --sys-marking-hover:    var(--base-marking-pink7);
+  --sys-marking-active:   var(--base-marking-pink10);
+  --sys-marking-disabled: var(--base-neutral-gray3);
+  --sys-marking-inactive: var(--base-neutral-gray4);
+
+  /* —— Semantic: Error —— */
+  --sys-error-default:  var(--base-error-red10);
+  --sys-error-hover:    var(--base-error-red9);
+  --sys-error-active:   var(--base-error-red10);
+  --sys-error-disabled: var(--base-neutral-gray3);
+  --sys-error-inactive: var(--base-neutral-gray4);
+
+  /* —— Semantic: Success —— */
+  --sys-success-default:  var(--base-success-green10);
+  --sys-success-hover:    var(--base-success-green9);
+  --sys-success-active:   var(--base-success-green10);
+  --sys-success-disabled: var(--base-neutral-gray3);
+  --sys-success-inactive: var(--base-neutral-gray4);
+
+  /* —— Semantic: Warning —— */
+  --sys-warning-default:  var(--base-warning-orange10);
+  --sys-warning-hover:    var(--base-warning-orange9);
+  --sys-warning-active:   var(--base-warning-orange10);
+  --sys-warning-disabled: var(--base-neutral-gray3);
+  --sys-warning-inactive: var(--base-neutral-gray4);
+
+  /* —— Semantic: Danger —— */
+  --sys-danger-default:  var(--base-error-red10);
+  --sys-danger-hover:    var(--base-error-red9);
+  --sys-danger-active:   var(--base-error-red10);
+  --sys-danger-disabled: var(--base-neutral-gray3);
+  --sys-danger-inactive: var(--base-neutral-gray4);
+
+  /* —— Background —— */
+  --bg-page-primary:   var(--base-neutral-white6);
+  --bg-page-secondary: var(--base-neutral-gray1);
+
+  /* —— Text —— */
+  --text-h1:          var(--base-neutral-gray8);
+  --text-h2:          var(--base-neutral-gray7);
+  --text-h3:          var(--base-neutral-gray6);
+  --text-caption:     var(--base-neutral-gray5);
+  --text-placeholder: var(--base-neutral-gray4);
+  --text-disabled:    var(--base-neutral-gray4);
+  --text-body:        var(--base-neutral-gray8);
+
+  /* —— Border —— */
+  --border-stroke:  var(--base-neutral-gray3);
+  --border-divider: var(--base-neutral-gray2);
+
+  /* —— Functional —— */
+  --functional-raise-amount:    var(--sys-error-default);
+  --functional-overdue:         var(--sys-error-default);
+  --functional-rate-reduction:  var(--sys-success-default);
+  --functional-interest-free:   var(--sys-success-default);
+  --functional-interest-reduction: var(--sys-warning-default);
+}
+
+/* ---- 安卓字重降级 ---- */
+@supports not (-webkit-touch-callout: none) {
+  :root { --font-weight-medium: 700; }
+}
+
+/* ---- 响应式字号（≥768px） ---- */
+@media (min-width: 768px) {
+  :root {
+    --font-size-lg:  1.25rem;
+    --font-size-xl:  1.5rem;
+    --font-size-2xl: 1.75rem;
+    --font-size-3xl: 2rem;
+  }
+}

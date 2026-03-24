@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>BTC/USDT</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-time" id="statusTime">9:41</span>
+    <span class="status-icons">
+      <i class="fas fa-signal"></i>
+      <i class="fas fa-wifi"></i>
+      <i class="fas fa-battery-full"></i>
+    </span>
+  </div>
+
+  <!-- Nav Bar -->
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="showToast('Back')"><i class="fas fa-chevron-left"></i></button>
+    <div class="nav-title">
+      <div class="btc-icon">₿</div>
+      BTC/USDT
+    </div>
+    <button class="nav-btn" onclick="showToast('More options')"><i class="fas fa-ellipsis-vertical"></i></button>
+  </div>
+
+  <!-- Pull Indicator -->
+  <div class="pull-indicator" id="pullIndicator"><i class="fas fa-arrow-down"></i> Pull to refresh</div>
+
+  <!-- Scrollable Content -->
+  <div class="content" id="contentArea">
+
+    <!-- Overview -->
+    <div class="overview">
+      <div class="overview-top">
+        <div class="price-block">
+          <div class="price" id="mainPrice">70,568.25</div>
+          <div class="price-usd" id="priceUsd">≈ $69,813.17</div>
+          <div class="change down" id="priceChange"><i class="fas fa-caret-down"></i> -0.93%</div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item"><div class="stat-label">24h High</div><div class="stat-value" id="statHigh">71,400.24</div></div>
+          <div class="stat-item"><div class="stat-label">24h Low</div><div class="stat-value" id="statLow">68,976.27</div></div>
+          <div class="stat-item"><div class="stat-label">24h Vol(BTC)</div><div class="stat-value" id="statVolBtc">19.94</div></div>
+          <div class="stat-item"><div class="stat-label">24h Vol(USDT)</div><div class="stat-value" id="statVolUsdt">1.39774407M</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="section">
+      <div class="section-header">Chart</div>
+
+      <!-- Indicators -->
+      <div class="indicators-scroll" id="indBar">
+        <button class="ind-btn active" data-ind="MA">MA</button>
+        <button class="ind-btn" data-ind="EMA">EMA</button>
+        <button class="ind-btn" data-ind="BOLL">BOLL</button>
+        <button class="ind-btn" data-ind="VOL">VOL</button>
+        <button class="ind-btn" data-ind="MACD">MACD</button>
+        <button class="ind-btn" data-ind="RSI">RSI</button>
+      </div>
+      <div class="ind-values" id="indValues">
+        <span class="v1">MA(7): 70,412.56</span>
+        <span class="v2">MA(25): 69,856.32</span>
+        <span class="v3">MA(99): 68,234.18</span>
+      </div>
+
+      <!-- Canvas Chart -->
+      <div class="chart-wrap">
+        <canvas id="klineCanvas"></canvas>
+      </div>
+
+      <!-- Time Periods -->
+      <div class="periods-bar">
+        <div class="more-dropdown" id="moreDropdown"></div>
+        <div class="periods-scroll" id="periodsBar">
+          <button class="period-btn" data-period="1m">1m</button>
+          <button class="period-btn" data-period="5m">5m</button>
+          <button class="period-btn" data-period="15m">15m</button>
+          <button class="period-btn active" data-period="1H">1H</button>
+          <button class="period-btn" data-period="4H">4H</button>
+          <button class="period-btn" data-period="1D">1D</button>
+          <button class="period-btn" data-period="1W">1W</button>
+          <button class="period-btn" data-period="More" id="moreBtn">More ▼</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Book / Trades / Info -->
+    <div class="section" id="dataSection">
+      <div class="tabs-bar" id="tabsBar">
+        <button class="tab-btn active" data-tab="orderbook">Order Book</button>
+        <button class="tab-btn" data-tab="trades">Trade History</button>
+        <button class="tab-btn" data-tab="info">Info</button>
+      </div>
+
+      <div class="tab-content active" id="tab-orderbook">
+        <div class="orderbook">
+          <div class="ob-header">
+            <span>Qty(BTC)</span><span>Price(USDT)</span>
+            <span>Price(USDT)</span><span>Qty(BTC)</span>
+          </div>
+          <div class="ob-rows" id="obRows"></div>
+          <div class="ob-spread" id="obSpread"></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-trades">
+        <div class="trade-history" id="tradeHistory">
+          <div class="th-header"><span>Price(USDT)</span><span>Qty(BTC)</span><span>Time</span></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-info">
+        <div class="info-panel">
+          <div class="info-row"><span class="info-label">Trading Pair</span><span class="info-value">BTC/USDT</span></div>
+          <div class="info-row"><span class="info-label">Base Asset</span><span class="info-value">Bitcoin (BTC)</span></div>
+          <div class="info-row"><span class="info-label">Quote Asset</span><span class="info-value">Tether (USDT)</span></div>
+          <div class="info-row"><span class="info-label">Min Order</span><span class="info-value">0.00001 BTC</span></div>
+          <div class="info-row"><span class="info-label">Price Precision</span><span class="info-value">0.01 USDT</span></div>
+          <div class="info-row"><span class="info-label">Qty Precision</span><span class="info-value">0.00001 BTC</span></div>
+          <div class="info-row"><span class="info-label">Maker Fee</span><span class="info-value">0.10%</span></div>
+          <div class="info-row"><span class="info-label">Taker Fee</span><span class="info-value">0.10%</span></div>
+          <div class="info-row"><span class="info-label">Listed</span><span class="info-value">2019-11-28</span></div>
+          <div class="info-row"><span class="info-label">Contract Address</span><span class="info-value" style="font-size:11px">0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:16px"></div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="bottom-bar">
+    <button class="action-btn btn-buy" onclick="showToast('Buy feature coming soon')"><i class="fas fa-arrow-trend-up"></i> Buy</button>
+    <button class="action-btn btn-sell" onclick="showToast('Sell feature coming soon')"><i class="fas fa-arrow-trend-down"></i> Sell</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="./scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+:root{
+  --bg:#0B0E11;
+  --card:#1E2329;
+  --card-hover:#2B3139;
+  --text:#EAECEF;
+  --text-sec:#848E9C;
+  --text-third:#5E6673;
+  --green:#16c784;
+  --red:#ea3943;
+  --orange:#F7931A;
+  --border:#2B3139;
+  --radius:12px;
+}
+
+html,body{
+  height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:14px;
+  overflow:hidden;
+  touch-action:manipulation;
+}
+::-webkit-scrollbar{display:none}
+
+.app{display:flex;flex-direction:column;height:100%;max-width:430px;margin:0 auto;position:relative;overflow:hidden}
+
+/* Status Bar */
+.status-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 0;height:44px;flex-shrink:0;font-size:12px;font-weight:600;color:var(--text)}
+.status-time{font-size:15px;font-weight:700}
+.status-icons{display:flex;gap:6px;align-items:center;font-size:13px}
+
+/* Nav Bar */
+.nav-bar{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 8px;height:44px;flex-shrink:0}
+.nav-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text);background:none;border:none;cursor:pointer;border-radius:50%}
+.nav-btn:active{background:var(--card)}
+.nav-title{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700}
+.nav-title .btc-icon{width:24px;height:24px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
+
+/* Pull to refresh */
+.pull-indicator{text-align:center;color:var(--text-sec);font-size:12px;padding:12px;transition:opacity .2s;opacity:0;height:0;overflow:hidden}
+.pull-indicator.active{opacity:1;height:auto}
+.pull-indicator i{margin-right:4px;transition:transform .3s}
+.pull-indicator.ready i{transform:rotate(180deg)}
+
+/* Content */
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+
+/* Overview Card */
+.overview{padding:0 16px;margin-bottom:12px}
+.overview-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.price-block .price{font-size:28px;font-weight:700;letter-spacing:-.5px}
+.price-block .price-usd{font-size:12px;color:var(--text-sec);margin-top:2px}
+.price-block .change{display:inline-block;font-size:13px;font-weight:600;padding:2px 8px;border-radius:4px;margin-top:4px}
+.price-block .change.down{color:var(--red);background:rgba(234,57,67,.12)}
+.price-block .change.up{color:var(--green);background:rgba(22,199,132,.12)}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;text-align:right}
+.stat-item .stat-label{font-size:10px;color:var(--text-third);text-transform:uppercase}
+.stat-item .stat-value{font-size:12px;color:var(--text-sec);font-weight:500;margin-top:1px}
+
+/* Section Card */
+.section{background:var(--card);border-radius:var(--radius);margin:0 16px 12px;overflow:hidden}
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0;font-size:15px;font-weight:700}
+
+/* Indicators */
+.indicators-scroll{display:flex;gap:8px;padding:10px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ind-btn{flex-shrink:0;padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-sec);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.ind-btn.active{background:var(--orange);border-color:var(--orange);color:#fff;font-weight:600}
+.ind-btn:active{transform:scale(.95)}
+
+.ind-values{display:flex;gap:12px;padding:0 14px 10px;font-size:11px;flex-wrap:wrap}
+.ind-values span{color:var(--text-sec)}
+.ind-values .v1{color:#f5c842}
+.ind-values .v2{color:#7b61ff}
+.ind-values .v3{color:#00d2d3}
+
+/* Chart */
+.chart-wrap{padding:0 4px;position:relative}
+.chart-wrap canvas{width:100%;height:200px;display:block}
+
+/* Time Periods */
+.periods-bar{position:relative}
+.periods-scroll{display:flex;gap:4px;padding:10px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.period-btn{flex-shrink:0;padding:6px 12px;border-radius:6px;border:none;background:transparent;color:var(--text-sec);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s}
+.period-btn.active{background:var(--orange);color:#fff;font-weight:600}
+.period-btn:active{transform:scale(.95)}
+.more-dropdown{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px;display:none;flex-wrap:wrap;gap:4px;z-index:20;box-shadow:0 -4px 20px rgba(0,0,0,.4);min-width:220px;justify-content:center}
+.more-dropdown.show{display:flex}
+
+/* Tabs */
+.tabs-bar{display:flex;border-bottom:1px solid var(--border);padding:0 14px}
+.tab-btn{flex:1;padding:12px 0;text-align:center;font-size:13px;font-weight:500;color:var(--text-sec);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);font-weight:700}
+.tab-btn:active{opacity:.7}
+
+/* Order Book */
+.orderbook{padding:10px 14px}
+.ob-header{display:flex;font-size:10px;color:var(--text-third);text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.ob-header span{flex:1}
+.ob-header span:nth-child(2){text-align:right;padding-right:10px}
+.ob-header span:nth-child(3){text-align:left;padding-left:10px}
+.ob-header span:nth-child(4){text-align:right}
+.ob-rows{display:flex;gap:4px;max-height:320px;overflow-y:auto}
+.ob-col{flex:1}
+.ob-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;font-family:'SF Mono',Menlo,monospace;position:relative}
+.ob-row .ob-bar{position:absolute;top:0;bottom:0;opacity:.1;border-radius:2px}
+.ob-col.sell .ob-row .ob-bar{right:0;background:var(--red)}
+.ob-col.buy .ob-row .ob-bar{left:0;background:var(--green)}
+.ob-col.sell .ob-price{color:var(--red)}
+.ob-col.buy .ob-price{color:var(--green)}
+.ob-qty{color:var(--text-third)}
+.ob-col.sell .ob-row{flex-direction:row}
+.ob-col.sell .ob-qty{order:-1}
+.ob-col.buy .ob-row{flex-direction:row}
+.ob-spread{text-align:center;padding:8px 0;font-size:11px;color:var(--text-sec)}
+.ob-spread .spread-price{font-size:16px;font-weight:700;color:var(--text)}
+
+/* Trade History */
+.trade-history{padding:10px 14px;max-height:320px;overflow-y:auto}
+.th-header{display:flex;font-size:10px;color:var(--text-third);text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.th-header span{flex:1}
+.th-header span:last-child{text-align:right}
+.th-row{display:flex;padding:5px 0;font-size:12px;font-family:'SF Mono',Menlo,monospace}
+.th-row span{flex:1}
+.th-row span:last-child{text-align:right;color:var(--text-third)}
+.th-row.buy-trade .th-price{color:var(--green)}
+.th-row.sell-trade .th-price{color:var(--red)}
+
+/* Info */
+.info-panel{padding:14px}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.info-row:last-child{border:none}
+.info-label{color:var(--text-sec)}
+.info-value{color:var(--text);font-weight:500;text-align:right;max-width:60%;word-break:break-all}
+
+/* Bottom Bar */
+.bottom-bar{flex-shrink:0;display:flex;gap:10px;padding:10px 16px;padding-bottom:max(10px,env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--border)}
+.action-btn{flex:1;height:50px;border:none;border-radius:8px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;transition:all .1s;display:flex;align-items:center;justify-content:center;gap:6px}
+.action-btn:active{transform:scale(.97);opacity:.85}
+.btn-buy{background:var(--green)}
+.btn-sell{background:var(--red)}
+
+/* Toast */
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(30,35,41,.95);color:var(--text);padding:12px 24px;border-radius:10px;font-size:14px;opacity:0;transition:all .3s;pointer-events:none;z-index:100;backdrop-filter:blur(8px);border:1px solid var(--border)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Hide tab content */
+.tab-content{display:none}
+.tab-content.active{display:block}

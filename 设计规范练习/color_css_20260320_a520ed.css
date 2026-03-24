@@ -1,0 +1,158 @@
+:root {
+  /* ===== Base Colors ===== */
+  /* Primary Blue */
+  --base-primary-blue1: #f5f8ff;
+  --base-primary-blue2: #f2f6ff;
+  --base-primary-blue3: #e5edff;
+  --base-primary-blue4: #ccdbff;
+  --base-primary-blue5: #b2caff;
+  --base-primary-blue6: #99b8ff;
+  --base-primary-blue7: #80a6ff;
+  --base-primary-blue8: #6694ff;
+  --base-primary-blue9: #4d83ff;
+  --base-primary-blue10: #3371ff;
+
+  /* Marking Pink */
+  --base-marking-pink1: #fff6f9;
+  --base-marking-pink2: #fff2f6;
+  --base-marking-pink3: #ffe5ed;
+  --base-marking-pink4: #ffccdb;
+  --base-marking-pink5: #ffb2c9;
+  --base-marking-pink6: #ff99b7;
+  --base-marking-pink7: #ff80a6;
+  --base-marking-pink8: #ff6694;
+  --base-marking-pink9: #ff4d82;
+  --base-marking-pink10: #ff3371;
+
+  /* Error Red */
+  --base-error-red1: #ffeced;
+  --base-error-red2: #ffd9dc;
+  --base-error-red3: #ffccd0;
+  --base-error-red4: #ffb2b9;
+  --base-error-red5: #ffa6ad;
+  --base-error-red6: #ff99a2;
+  --base-error-red7: #f27984;
+  --base-error-red8: #e55c68;
+  --base-error-red9: #e53948;
+  --base-error-red10: #d92c3a;
+
+  /* Success Green */
+  --base-success-green1: #ddf6e9;
+  --base-success-green2: #cef2e0;
+  --base-success-green3: #c2f2d9;
+  --base-success-green4: #ace5c8;
+  --base-success-green5: #8dd9b2;
+  --base-success-green6: #82d9ac;
+  --base-success-green7: #52cc8d;
+  --base-success-green8: #3fc27f;
+  --base-success-green9: #26bf71;
+  --base-success-green10: #0cba60;
+
+  /* Warning Orange */
+  --base-warning-orange1: #fff1e3;
+  --base-warning-orange2: #ffecd9;
+  --base-warning-orange3: #ffe1bf;
+  --base-warning-orange4: #ffe1bf;
+  --base-warning-orange5: #ffc78c;
+  --base-warning-orange6: #ffc180;
+  --base-warning-orange7: #ffb566;
+  --base-warning-orange8: #ffa94d;
+  --base-warning-orange9: #ff9d33;
+  --base-warning-orange10: #ff8a0e;
+
+  /* Neutral Gray */
+  --base-neutral-gray1: #f5f7fa;
+  --base-neutral-gray2: #ededee;
+  --base-neutral-gray3: #e6e7e8;
+  --base-neutral-gray4: #d2d3d6;
+  --base-neutral-gray5: #b4b6bc;
+  --base-neutral-gray6: #9c9ea4;
+  --base-neutral-gray7: #81858d;
+  --base-neutral-gray8: #1e2533;
+  --base-neutral-gray9: #050c1c;
+
+  /* Neutral White - opacity */
+  --base-neutral-white1: rgba(255, 255, 255, 0.2); /* 20% */
+  --base-neutral-white2: rgba(255, 255, 255, 0.3); /* 30% */
+  --base-neutral-white3: rgba(255, 255, 255, 0.4); /* 40% */
+  --base-neutral-white4: rgba(255, 255, 255, 0.6); /* 60% */
+  --base-neutral-white5: rgba(255, 255, 255, 0.8); /* 80% */
+  --base-neutral-white6: #ffffff; /* 100% */
+
+  /* Neutral Black - 8 levels from black3 to black10 (30% to 100% opacity) */
+  --base-neutral-black3: rgba(0, 0, 0, 0.3); /* 30% */
+  --base-neutral-black4: rgba(0, 0, 0, 0.4); /* 40% */
+  --base-neutral-black5: rgba(0, 0, 0, 0.5); /* 50% */
+  --base-neutral-black6: rgba(0, 0, 0, 0.6); /* 60% */
+  --base-neutral-black7: rgba(0, 0, 0, 0.7); /* 70% */
+  --base-neutral-black8: rgba(0, 0, 0, 0.8); /* 80% */
+  --base-neutral-black9: rgba(0, 0, 0, 0.9); /* 90% */
+  --base-neutral-black10: #000000; /* 100% */
+
+  /* ===== Semantic Colors ===== */
+  /* Primary (Blue) States */
+  --sys-primary-default: var(--base-primary-blue9);
+  --sys-primary-hover: var(--base-primary-blue7);
+  --sys-primary-active: var(--base-primary-blue10);
+  --sys-primary-disabled: var(--base-neutral-gray3);
+  --sys-primary-inactive: var(--base-neutral-gray4);
+
+  /* Marking (Pink) States */
+  --sys-marking-default: var(--base-marking-pink9);
+  --sys-marking-hover: var(--base-marking-pink7);
+  --sys-marking-active: var(--base-marking-pink10);
+  --sys-marking-disabled: var(--base-neutral-gray3);
+  --sys-marking-inactive: var(--base-neutral-gray4);
+
+  /* Error States */
+  --sys-error-default: var(--base-error-red10);
+  --sys-error-hover: var(--base-error-red9);
+  --sys-error-active: var(--base-error-red10);
+  --sys-error-disabled: var(--base-neutral-gray3);
+  --sys-error-inactive: var(--base-neutral-gray4);
+
+  /* Success States */
+  --sys-success-default: var(--base-success-green10);
+  --sys-success-hover: var(--base-success-green9);
+  --sys-success-active: var(--base-success-green10);
+  --sys-success-disabled: var(--base-neutral-gray3);
+  --sys-success-inactive: var(--base-neutral-gray4);
+
+  /* Warning States */
+  --sys-warning-default: var(--base-warning-orange10);
+  --sys-warning-hover: var(--base-warning-orange9);
+  --sys-warning-active: var(--base-warning-orange10);
+  --sys-warning-disabled: var(--base-neutral-gray3);
+  --sys-warning-inactive: var(--base-neutral-gray4);
+
+  /* Danger States (using Error red but could be more intense) */
+  --sys-danger-default: var(--base-error-red10);
+  --sys-danger-hover: var(--base-error-red9);
+  --sys-danger-active: var(--base-error-red10);
+  --sys-danger-disabled: var(--base-neutral-gray3);
+  --sys-danger-inactive: var(--base-neutral-gray4);
+
+  /* Background Colors */
+  --bg-page-primary: var(--base-neutral-white6);
+  --bg-page-secondary: var(--base-neutral-gray1);
+
+  /* Text Colors */
+  --text-h1: var(--base-neutral-gray8);
+  --text-h2: var(--base-neutral-gray7);
+  --text-h3: var(--base-neutral-gray6);
+  --text-caption: var(--base-neutral-gray5);       /* 说明文字 */
+  --text-placeholder: var(--base-neutral-gray4);   /* 占位符 */
+  --text-disabled: var(--base-neutral-gray4);      /* 禁用文字 */
+  --text-body: var(--base-neutral-gray8);          /* 正文默认（可选） */
+
+  /* Border Colors */
+  --border-stroke: var(--base-neutral-gray3);      /* 描边 */
+  --border-divider: var(--base-neutral-gray2);     /* 分割线 */
+
+  /* ===== Specific Functional Tokens (Optional) ===== */
+  --functional-raise-amount: var(--sys-error-default);
+  --functional-overdue: var(--sys-error-default);
+  --functional-rate-reduction: var(--sys-success-default);
+  --functional-interest-free: var(--sys-success-default);
+  --functional-interest-reduction: var(--sys-warning-default);
+}

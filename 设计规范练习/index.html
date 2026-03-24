@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设计规范 · Design System</title>
+  <link rel="stylesheet" href="./styles/tokens.css">
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ====================================================
+       Sidebar Navigation
+       ==================================================== -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <a class="sidebar-brand__logo" href="#overview">
+        <div class="sidebar-brand__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="7" height="7" rx="1.5" fill="white"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.5" fill="white" opacity=".7"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.5" fill="white" opacity=".7"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5" fill="white" opacity=".5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="sidebar-brand__title">Design System</div>
+          <div class="sidebar-brand__sub">设计规范文档</div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <div class="nav-group__label">概览</div>
+        <a class="nav-link active" href="#overview"><span class="nav-link__dot"></span>介绍</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group__label">颜色系统</div>
+        <a class="nav-link" href="#base-colors"><span class="nav-link__dot"></span>基础色板</a>
+        <a class="nav-link" href="#neutral-colors"><span class="nav-link__dot"></span>中性色</a>
+        <a class="nav-link" href="#semantic-colors"><span class="nav-link__dot"></span>语义色</a>
+        <a class="nav-link" href="#semantic-ui"><span class="nav-link__dot"></span>界面应用色</a>
+        <a class="nav-link" href="#functional-tokens"><span class="nav-link__dot"></span>功能色 Token</a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group__label">字体系统</div>
+        <a class="nav-link" href="#font-family"><span class="nav-link__dot"></span>字体家族</a>
+        <a class="nav-link" href="#font-size"><span class="nav-link__dot"></span>字号体系</a>
+        <a class="nav-link" href="#font-weight"><span class="nav-link__dot"></span>字重</a>
+        <a class="nav-link" href="#line-height"><span class="nav-link__dot"></span>行高</a>
+        <a class="nav-link" href="#type-scale"><span class="nav-link__dot"></span>字阶预览</a>
+        <a class="nav-link" href="#utility-classes"><span class="nav-link__dot"></span>工具类</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ====================================================
+       Main Content
+       ==================================================== -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero" id="overview">
+      <div class="hero__text">
+        <div class="section-eyebrow">Design System · 设计规范</div>
+        <div class="hero__title">统一的设计语言</div>
+        <div class="hero__desc">本规范基于 Figma 设计文件导出，包含完整的颜色系统与字体系统 CSS 变量，供设计师与开发者统一使用。点击任意 Token 可复制变量名。</div>
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <div class="hero__stat-value">70+</div>
+            <div class="hero__stat-label">颜色 Token</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-value">18</div>
+            <div class="hero__stat-label">字体 Token</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-value">5</div>
+            <div class="hero__stat-label">语义色系</div>
+          </div>
+          <div class="hero__stat">
+            <div class="hero__stat-value">2</div>
+            <div class="hero__stat-label">源文件</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================
+         颜色系统
+         ================================================== -->
+
+    <!-- Base Colors -->
+    <section class="section" id="base-colors">
+      <div class="section-header">
+        <div class="section-eyebrow">Color System</div>
+        <h2 class="section-title">基础色板</h2>
+        <p class="section-desc">所有颜色由 <code>color_css_20260320_a520ed.css</code> 定义，每个色系包含 10 个梯度。点击色块可复制 Token 名称。</p>
+      </div>
+
+      <!-- Primary Blue -->
+      <div class="subsection">
+        <h3 class="subsection-title">Primary Blue 主色蓝</h3>
+        <div id="swatch-blue"></div>
+      </div>
+
+      <!-- Marking Pink -->
+      <div class="subsection">
+        <h3 class="subsection-title">Marking Pink 营销粉</h3>
+        <div id="swatch-pink"></div>
+      </div>
+
+      <!-- Error Red -->
+      <div class="subsection">
+        <h3 class="subsection-title">Error Red 错误红</h3>
+        <div id="swatch-red"></div>
+      </div>
+
+      <!-- Success Green -->
+      <div class="subsection">
+        <h3 class="subsection-title">Success Green 成功绿</h3>
+        <div id="swatch-green"></div>
+      </div>
+
+      <!-- Warning Orange -->
+      <div class="subsection">
+        <h3 class="subsection-title">Warning Orange 警告橙</h3>
+        <div id="swatch-orange"></div>
+      </div>
+    </section>
+
+    <!-- Neutral Colors -->
+    <section class="section" id="neutral-colors">
+      <div class="section-header">
+        <div class="section-eyebrow">Neutral</div>
+        <h2 class="section-title">中性色</h2>
+        <p class="section-desc">Gray 色阶用于文字、背景、边框；White / Black 系列包含透明度变体，适合蒙层与叠加场景。</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Neutral Gray 中性灰</h3>
+        <div id="swatch-gray"></div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Neutral White 白色透明度</h3>
+        <div id="swatch-white" style="background:var(--base-neutral-gray7);padding:16px;border-radius:12px;"></div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Neutral Black 黑色透明度</h3>
+        <div id="swatch-black"></div>
+      </div>
+    </section>
+
+    <!-- Semantic Colors -->
+    <section class="section" id="semantic-colors">
+      <div class="section-header">
+        <div class="section-eyebrow">Semantic Colors</div>
+        <h2 class="section-title">语义色</h2>
+        <p class="section-desc">语义色将基础色板映射到组件交互状态（Default / Hover / Active / Disabled / Inactive），确保状态一致性。</p>
+      </div>
+      <div id="swatch-semantic"></div>
+    </section>
+
+    <!-- UI Colors -->
+    <section class="section" id="semantic-ui">
+      <div class="section-header">
+        <div class="section-eyebrow">UI Tokens</div>
+        <h2 class="section-title">界面应用色</h2>
+        <p class="section-desc">背景色、文字色、边框色的语义化 Token，直接在组件样式中引用。</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Background 背景</h3>
+        <div id="table-bg"></div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">Text 文字颜色</h3>
+        <div class="text-color-list" style="margin-bottom:16px">
+          <div class="text-color-row" onclick="copyText('--text-h1')">
+            <span class="text-color-row__token">--text-h1</span>
+            <span class="text-color-row__preview" style="color:var(--text-h1)">主标题文字 Primary Title</span>
+            <span class="text-color-row__hex">#1e2533</span>
+          </div>
+          <div class="text-color-row" onclick="copyText('--text-h2')">
+            <span class="text-color-row__token">--text-h2</span>
+            <span class="text-color-row__preview" style="color:var(--text-h2)">副标题文字 Secondary</span>
+            <span class="text-color-row__hex">#81858d</span>
+          </div>
+          <div class="text-color-row" onclick="copyText('--text-h3')">
+            <span class="text-color-row__token">--text-h3</span>
+            <span class="text-color-row__preview" style="color:var(--text-h3)">三级文字 Tertiary</span>
+            <span class="text-color-row__hex">#9c9ea4</span>
+          </div>
+          <div class="text-color-row" onclick="copyText('--text-caption')">
+            <span class="text-color-row__token">--text-caption</span>
+            <span class="text-color-row__preview" style="color:var(--text-caption)">说明文字 Caption</span>
+            <span class="text-color-row__hex">#b4b6bc</span>
+          </div>
+          <div class="text-color-row" onclick="copyText('--text-placeholder')">
+            <span class="text-color-row__token">--text-placeholder</span>
+            <span class="text-color-row__preview" style="color:var(--text-placeholder)">占位符 Placeholder</span>
+            <span class="text-color-row__hex">#d2d3d6</span>
+          </div>
+          <div class="text-color-row" onclick="copyText('--text-disabled')">
+            <span class="text-color-row__token">--text-disabled</span>
+            <span class="text-color-row__preview" style="color:var(--text-disabled)">禁用文字 Disabled</span>
+            <span class="text-color-row__hex">#d2d3d6</span>
+          </div>
+        </div>
+
+        <h3 class="subsection-title">Border 边框</h3>
+        <div id="table-border"></div>
+      </div>
+    </section>
+
+    <!-- Functional Tokens -->
+    <section class="section" id="functional-tokens">
+      <div class="section-header">
+        <div class="section-eyebrow">Functional</div>
+        <h2 class="section-title">功能色 Token</h2>
+        <p class="section-desc">针对金融业务场景定义的语义化颜色，引用语义色，避免硬编码色值。</p>
+      </div>
+
+      <div class="functional-grid">
+        <div class="functional-card" onclick="copyText('--functional-raise-amount')">
+          <div class="functional-card__dot" style="background:var(--base-error-red1)">🔴</div>
+          <div class="functional-card__body">
+            <div class="functional-card__name">--functional-raise-amount</div>
+            <div class="functional-card__desc">提额金额 · error red</div>
+          </div>
+        </div>
+        <div class="functional-card" onclick="copyText('--functional-overdue')">
+          <div class="functional-card__dot" style="background:var(--base-error-red1)">⚠️</div>
+          <div class="functional-card__body">
+            <div class="functional-card__name">--functional-overdue</div>
+            <div class="functional-card__desc">逾期 · error red</div>
+          </div>
+        </div>
+        <div class="functional-card" onclick="copyText('--functional-rate-reduction')">
+          <div class="functional-card__dot" style="background:var(--base-success-green1)">✅</div>
+          <div class="functional-card__body">
+            <div class="functional-card__name">--functional-rate-reduction</div>
+            <div class="functional-card__desc">降费率 · success green</div>
+          </div>
+        </div>
+        <div class="functional-card" onclick="copyText('--functional-interest-free')">
+          <div class="functional-card__dot" style="background:var(--base-success-green1)">🎁</div>
+          <div class="functional-card__body">
+            <div class="functional-card__name">--functional-interest-free</div>
+            <div class="functional-card__desc">免息 · success green</div>
+          </div>
+        </div>
+        <div class="functional-card" onclick="copyText('--functional-interest-reduction')">
+          <div class="functional-card__dot" style="background:var(--base-warning-orange1)">💰</div>
+          <div class="functional-card__body">
+            <div class="functional-card__name">--functional-interest-reduction</div>
+            <div class="functional-card__desc">减息 · warning orange</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px">
+        <div id="table-functional"></div>
+      </div>
+    </section>
+
+    <!-- ==================================================
+         字体系统
+         ================================================== -->
+
+    <!-- Font Family -->
+    <section class="section" id="font-family">
+      <div class="section-header">
+        <div class="section-eyebrow">Typography System</div>
+        <h2 class="section-title">字体家族</h2>
+        <p class="section-desc">来源：<code>font_vars_css_20260320_c65c96.css</code>。包含 Sans / Serif / Mono 三种字体栈，优先系统字体以保障性能。</p>
+      </div>
+
+      <div class="font-family-cards">
+        <div class="font-card">
+          <div class="font-card__label">Sans-Serif</div>
+          <div class="font-card__token" onclick="copyText('--font-family-sans')">--font-family-sans</div>
+          <div class="font-card__sample" style="font-family:var(--font-family-sans)">
+            Aa Bb Cc<br>你好世界
+          </div>
+          <div class="font-card__sub" style="font-family:var(--font-family-sans)">
+            -apple-system, BlinkMacSystemFont, Segoe UI…
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__label">Serif</div>
+          <div class="font-card__token" onclick="copyText('--font-family-serif')">--font-family-serif</div>
+          <div class="font-card__sample" style="font-family:var(--font-family-serif)">
+            Aa Bb Cc<br>你好世界
+          </div>
+          <div class="font-card__sub" style="font-family:var(--font-family-serif)">
+            Georgia, Times New Roman…
+          </div>
+        </div>
+        <div class="font-card">
+          <div class="font-card__label">Monospace</div>
+          <div class="font-card__token" onclick="copyText('--font-family-mono')">--font-family-mono</div>
+          <div class="font-card__sample" style="font-family:var(--font-family-mono)">
+            01234567<br>--var-name
+          </div>
+          <div class="font-card__sub" style="font-family:var(--font-family-mono)">
+            Menlo, Monaco, Consolas…
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Font Size -->
+    <section class="section" id="font-size">
+      <div class="section-header">
+        <div class="section-eyebrow">Font Size</div>
+        <h2 class="section-title">字号体系</h2>
+        <p class="section-desc">基准 <strong>1rem = 16px</strong>，在 ≥768px 断点下部分字号会自动放大。</p>
+      </div>
+
+      <table class="type-scale-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>移动端值</th>
+            <th>平板端值 (≥768px)</th>
+            <th>预览</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-token" onclick="copyText('--font-size-xs')">--font-size-xs</td>
+            <td class="td-value">0.75rem / 12px</td>
+            <td class="td-value">0.75rem / 12px</td>
+            <td class="td-preview" style="font-size:var(--font-size-xs)">The quick brown fox</td>
+          </tr>
+          <tr>
+            <td class="td-token" onclick="copyText('--font-size-sm')">--font-size-sm</td>
+            <td class="td-value">0.875rem / 14px</td>
+            <td class="td-value">0.875rem / 14px</td>
+            <td class="td-preview" style="font-size:var(--font-size-sm)">The quick brown fox</td>
+          </tr>
+          <tr>
+            <td class="td-token" onclick="copyText('--font-size-base')">--font-size-base</td>
+            <td class="td-value">1rem / 16px</td>
+            <td class="td-value">1rem / 16px</td>
+            <td class="td-preview" style="font-size:var(--font-size-base)">The quick brown fox</td>
+          </tr>
+          <tr>
+            <td class="td-token" onclick="copyText('--font-size-lg')">--font-size-lg</td>
+            <td class="td-value">1.125rem / 18px</td>
+            <td class="td-value">1.25rem / 20px</td>
+            <td class="td-preview" style="font-size:var(--font-size-lg)">The quick brown fox</td>
+          </tr>
+          <tr>
+            <td class="td-token" onclick="copyText('--font-size-xl')">--font-size-xl</td>
+            <td class="td-value">1.25rem / 20px</td>
+            <td class="td-value">1.5rem / 24px</td>
+            <td class="td-preview" style="font-size:var(--font-size-xl)">The quick brown fox</td>
+          </tr>
+          <tr>
+            <td class="td-token" onclick="copyText('--font-size-2xl')">--font-size-2xl</td>
+            <td class="td-value">1.5rem / 24px</td>
+            <td class="td-value">1.75rem / 28px</td>
+            <td class="td-preview" style="font-size:var(--font-size-2xl)">The quick brown fox</td>
+          </tr>
+          <tr>
+            <td class="td-token" onclick="copyText('--font-size-3xl')">--font-size-3xl</td>
+            <td class="td-value">1.875rem / 30px</td>
+            <td class="td-value">2rem / 32px</td>
+            <td class="td-preview" style="font-size:var(--font-size-3xl)">The quick brown fox</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Font Weight -->
+    <section class="section" id="font-weight">
+      <div class="section-header">
+        <div class="section-eyebrow">Font Weight</div>
+        <h2 class="section-title">字重</h2>
+        <p class="section-desc">iOS 使用 <code>medium=500</code>；安卓通过 <code>@supports</code> 降级为 <code>700</code>（粗体）以保证可见性。</p>
+      </div>
+
+      <div class="weight-list">
+        <div class="weight-row" onclick="copyText('--font-weight-normal')">
+          <span class="weight-row__token">--font-weight-normal</span>
+          <span class="weight-row__value">400</span>
+          <span class="weight-row__preview" style="font-weight:400">Regular 常规体 · 用于正文内容</span>
+        </div>
+        <div class="weight-row" onclick="copyText('--font-weight-medium')">
+          <span class="weight-row__token">--font-weight-medium</span>
+          <span class="weight-row__value">500*</span>
+          <span class="weight-row__preview" style="font-weight:500">Medium 中等体 · 用于标签、按钮</span>
+        </div>
+        <div class="weight-row" onclick="copyText('--font-weight-bold')">
+          <span class="weight-row__token">--font-weight-bold</span>
+          <span class="weight-row__value">700</span>
+          <span class="weight-row__preview" style="font-weight:700">Bold 粗体 · 用于标题、强调</span>
+        </div>
+      </div>
+
+      <p style="margin-top:12px;font-size:12px;color:var(--text-caption)">
+        * <code>--font-weight-medium</code> 在非 iOS 设备（安卓）上通过 <code>@supports not (-webkit-touch-callout: none)</code> 自动降级为 700。
+      </p>
+    </section>
+
+    <!-- Line Height -->
+    <section class="section" id="line-height">
+      <div class="section-header">
+        <div class="section-eyebrow">Line Height</div>
+        <h2 class="section-title">行高</h2>
+        <p class="section-desc">三档行高适配不同内容密度场景：标题使用 tight，正文使用 base，长文本使用 loose。</p>
+      </div>
+
+      <div class="lh-list">
+        <div class="lh-card" onclick="copyText('--line-height-tight')">
+          <div class="lh-card__token">--line-height-tight</div>
+          <div class="lh-card__value">1.2</div>
+          <div class="lh-card__preview" style="line-height:1.2">
+            标题行高示例<br>适合大字号标题<br>紧凑排版场景
+          </div>
+        </div>
+        <div class="lh-card" onclick="copyText('--line-height-base')">
+          <div class="lh-card__token">--line-height-base</div>
+          <div class="lh-card__value">1.5</div>
+          <div class="lh-card__preview" style="line-height:1.5">
+            正文行高示例<br>适合段落正文<br>标准阅读行距
+          </div>
+        </div>
+        <div class="lh-card" onclick="copyText('--line-height-loose')">
+          <div class="lh-card__token">--line-height-loose</div>
+          <div class="lh-card__value">1.8</div>
+          <div class="lh-card__preview" style="line-height:1.8">
+            宽松行高示例<br>适合说明文字<br>阅读舒适度高
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Type Scale -->
+    <section class="section" id="type-scale">
+      <div class="section-header">
+        <div class="section-eyebrow">Type Scale</div>
+        <h2 class="section-title">字阶预览</h2>
+        <p class="section-desc">CSS 预设组合类，直接在 HTML 元素或类名中使用，无需手动设置字号 + 字重 + 行高。</p>
+      </div>
+
+      <div style="background:var(--bg-page-primary);border:1px solid var(--border-divider);border-radius:12px;padding:32px;display:flex;flex-direction:column;gap:20px;">
+        <div>
+          <span class="badge badge--blue" style="margin-bottom:8px;display:inline-block">h1 / .h1</span>
+          <h1 style="font-size:var(--font-size-3xl);font-weight:var(--font-weight-bold);line-height:var(--line-height-tight);color:var(--text-h1)">
+            标题一 · H1 Heading</h1>
+        </div>
+        <div>
+          <span class="badge badge--blue" style="margin-bottom:8px;display:inline-block">h2 / .h2</span>
+          <h2 style="font-size:var(--font-size-2xl);font-weight:var(--font-weight-bold);line-height:var(--line-height-tight)">
+            标题二 · H2 Heading</h2>
+        </div>
+        <div>
+          <span class="badge badge--blue" style="margin-bottom:8px;display:inline-block">h3 / .h3</span>
+          <h3 style="font-size:var(--font-size-xl);font-weight:var(--font-weight-bold);line-height:var(--line-height-tight)">
+            标题三 · H3 Heading</h3>
+        </div>
+        <div>
+          <span class="badge badge--blue" style="margin-bottom:8px;display:inline-block">h4 / .h4</span>
+          <h4 style="font-size:var(--font-size-lg);font-weight:var(--font-weight-medium);line-height:var(--line-height-base)">
+            标题四 · H4 Heading</h4>
+        </div>
+        <div>
+          <span class="badge badge--gray" style="margin-bottom:8px;display:inline-block">p / .body-text</span>
+          <p style="max-width:560px">
+            正文段落 Body Text · 这是一段示例正文，展示默认字号（16px）、普通字重（400）与标准行高（1.5）的排版效果。适合用于卡片描述、详情页内容等场景。
+          </p>
+        </div>
+        <div>
+          <span class="badge badge--gray" style="margin-bottom:8px;display:inline-block">.caption</span>
+          <p class="caption">辅助说明文字 Caption · 12px 灰色，用于图片注释、表单提示等次要信息。</p>
+        </div>
+        <div>
+          <span class="badge badge--gray" style="margin-bottom:8px;display:inline-block">.overline</span>
+          <p class="overline">OVERLINE LABEL · 上标签样式，全大写 + 字间距</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Utility Classes -->
+    <section class="section" id="utility-classes">
+      <div class="section-header">
+        <div class="section-eyebrow">Utility Classes</div>
+        <h2 class="section-title">工具类</h2>
+        <p class="section-desc">所有工具类均直接使用 CSS 变量，响应式断点下自动跟随 Token 调整。</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">字体家族</h3>
+        <div class="util-grid">
+          <div class="util-chip" data-copy=".font-sans"><span class="util-chip__name">.font-sans</span><span class="util-chip__copy">点击复制</span></div>
+          <div class="util-chip" data-copy=".font-serif"><span class="util-chip__name">.font-serif</span><span class="util-chip__copy">点击复制</span></div>
+          <div class="util-chip" data-copy=".font-mono"><span class="util-chip__name">.font-mono</span><span class="util-chip__copy">点击复制</span></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">字重</h3>
+        <div class="util-grid">
+          <div class="util-chip" data-copy=".font-normal"><span class="util-chip__name">.font-normal</span><span class="util-chip__copy">400</span></div>
+          <div class="util-chip" data-copy=".font-medium"><span class="util-chip__name">.font-medium</span><span class="util-chip__copy">500</span></div>
+          <div class="util-chip" data-copy=".font-bold"><span class="util-chip__name">.font-bold</span><span class="util-chip__copy">700</span></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">字号</h3>
+        <div class="util-grid">
+          <div class="util-chip" data-copy=".text-xs"><span class="util-chip__name">.text-xs</span><span class="util-chip__copy">12px</span></div>
+          <div class="util-chip" data-copy=".text-sm"><span class="util-chip__name">.text-sm</span><span class="util-chip__copy">14px</span></div>
+          <div class="util-chip" data-copy=".text-base"><span class="util-chip__name">.text-base</span><span class="util-chip__copy">16px</span></div>
+          <div class="util-chip" data-copy=".text-lg"><span class="util-chip__name">.text-lg</span><span class="util-chip__copy">18px</span></div>
+          <div class="util-chip" data-copy=".text-xl"><span class="util-chip__name">.text-xl</span><span class="util-chip__copy">20px</span></div>
+          <div class="util-chip" data-copy=".text-2xl"><span class="util-chip__name">.text-2xl</span><span class="util-chip__copy">24px</span></div>
+          <div class="util-chip" data-copy=".text-3xl"><span class="util-chip__name">.text-3xl</span><span class="util-chip__copy">30px</span></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">行高</h3>
+        <div class="util-grid">
+          <div class="util-chip" data-copy=".leading-tight"><span class="util-chip__name">.leading-tight</span><span class="util-chip__copy">1.2</span></div>
+          <div class="util-chip" data-copy=".leading-base"><span class="util-chip__name">.leading-base</span><span class="util-chip__copy">1.5</span></div>
+          <div class="util-chip" data-copy=".leading-loose"><span class="util-chip__name">.leading-loose</span><span class="util-chip__copy">1.8</span></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">文字颜色</h3>
+        <div class="util-grid">
+          <div class="util-chip" data-copy=".text-primary"><span class="util-chip__name" style="color:var(--text-primary)">.text-primary</span><span class="util-chip__copy">#1e293b</span></div>
+          <div class="util-chip" data-copy=".text-secondary"><span class="util-chip__name" style="color:var(--text-secondary)">.text-secondary</span><span class="util-chip__copy">#64748b</span></div>
+          <div class="util-chip" data-copy=".text-tertiary"><span class="util-chip__name" style="color:var(--text-tertiary)">.text-tertiary</span><span class="util-chip__copy">#94a3b8</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding:32px 0 16px;border-top:1px solid var(--border-divider);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <span style="font-size:var(--font-size-sm);color:var(--text-caption)">
+        Design System · 设计规范文档
+      </span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge badge--blue">font_vars_css_20260320</span>
+        <span class="badge badge--green">color_css_20260320</span>
+        <span class="badge badge--gray">v1.0.0</span>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="./scripts/main.js"></script>
+</body>
+</html>
