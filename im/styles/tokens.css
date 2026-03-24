@@ -1,0 +1,150 @@
+/* ========== vars.css Tokens ========== */
+:root {
+  /* Radius */
+  --radius-xlarge: 12px;
+  --radius-large: 8px;
+  --radius-default: 4px;
+  --radius-small: 2px;
+
+  /* Typography */
+  --typography-head-18-head-font-family: PingFangSc-Medium, sans-serif;
+  --typography-head-18-head-font-size: 18px;
+  --typography-head-18-head-line-height: 20px;
+  --typography-head-18-head-font-weight: 500;
+  --typography-head-16-sub-font-family: PingFangSc-Medium, sans-serif;
+  --typography-head-16-sub-font-size: 16px;
+  --typography-head-16-sub-line-height: 18px;
+  --typography-head-16-sub-font-weight: 500;
+  --typography-body-10-min-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-10-min-font-size: 10px;
+  --typography-body-10-min-line-height: 11px;
+  --typography-body-10-min-font-weight: 400;
+  --typography-body-10-strong-font-family: PingFangSc-Medium, sans-serif;
+  --typography-body-10-strong-font-size: 10px;
+  --typography-body-10-strong-line-height: 11px;
+  --typography-body-10-strong-font-weight: 500;
+  --typography-body-12-base-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-12-base-font-size: 12px;
+  --typography-body-12-base-line-height: 14px;
+  --typography-body-12-base-font-weight: 400;
+  --typography-body-12-strong-font-family: PingFangSc-Medium, sans-serif;
+  --typography-body-12-strong-font-size: 12px;
+  --typography-body-12-strong-line-height: 14px;
+  --typography-body-12-strong-font-weight: 500;
+  --typography-body-14-further-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-14-further-font-size: 14px;
+  --typography-body-14-further-line-height: 16px;
+  --typography-body-14-further-font-weight: 400;
+  --typography-body-16-increase-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-16-increase-font-size: 16px;
+  --typography-body-16-increase-line-height: 18px;
+  --typography-body-16-increase-font-weight: 400;
+  --typography-link-12-base-font-size: 12px;
+  --typography-link-14-further-font-size: 14px;
+  --typography-link-16-increase-font-size: 16px;
+  --typography-display-number-22-normal-font-family: Roboto-Medium, sans-serif;
+  --typography-display-number-22-normal-font-size: 22px;
+  --typography-display-number-22-normal-line-height: 24px;
+  --typography-display-number-22-normal-font-weight: 500;
+
+  /* Reference Colors */
+  --ref-brand-blue1: #f2f6ff;
+  --ref-brand-blue2: #e5edff;
+  --ref-brand-blue3: #ccdbff;
+  --ref-brand-blue4: #b2caff;
+  --ref-brand-blue7: #6694ff;
+  --ref-brand-blue8-base: #4d83ff;
+  --ref-brand-blue9: #3371ff;
+  --ref-functional-red8-base: #e53948;
+  --ref-functional-orange8-base: #ff9d33;
+  --ref-functional-orange1: #ffecd9;
+  --ref-functional-orange1-a70: #fff1e3;
+  --ref-functional-green8-base: #26bf71;
+  --ref-functional-green1: #cef2e0;
+  --ref-neutral-gray1: #050c1c;
+  --ref-neutral-gray2: #1e2533;
+  --ref-neutral-gray3: #81858d;
+  --ref-neutral-gray4: #9c9ea4;
+  --ref-neutral-gray5: #b4b6bc;
+  --ref-neutral-gray6: #f3f4f5;
+  --ref-neutral-gray2-a60: #787c85;
+  --ref-neutral-gray2-a40: #a4a8ac;
+  --ref-neutral-gray2-a20: #d2d3d6;
+  --ref-neutral-white1: #ffffff;
+  --ref-neutral-white2: rgba(255,255,255,0.8);
+  --ref-neutral-white3: rgba(255,255,255,0.6);
+  --ref-neutral-white4: rgba(255,255,255,0.4);
+
+  /* System Colors */
+  --sys-primary-default: var(--ref-brand-blue8-base);
+  --sys-primary-active:  var(--ref-brand-blue9);
+  --sys-success-default: var(--ref-functional-green8-base);
+  --sys-caution-default: var(--ref-functional-orange8-base);
+  --sys-error-default:   var(--ref-functional-red8-base);
+  --sys-text-black-h1:   var(--ref-neutral-gray2);
+  --sys-text-black-h2:   var(--ref-neutral-gray2-a60);
+  --sys-text-black-h3:   var(--ref-neutral-gray2-a40);
+  --sys-text-black-h4:   var(--ref-neutral-gray2-a20);
+  --sys-white:           var(--ref-neutral-white1);
+  --sys-page-background-fill: #f5f7fa;
+  --sys-wire-divider-dark: #ededee;
+}
+
+/* ========== 兼容映射：--td-* → vars.css tokens ========== */
+:root {
+  --td-font-family:        var(--typography-body-14-further-font-family);
+  --td-font-family-medium: var(--typography-head-16-sub-font-family);
+
+  --td-font-size-link-small:   var(--typography-link-12-base-font-size);
+  --td-font-size-body-small:   var(--typography-body-12-base-font-size);
+  --td-font-size-body-medium:  var(--typography-body-14-further-font-size);
+  --td-font-size-body-large:   var(--typography-body-16-increase-font-size);
+  --td-font-size-title-small:  var(--typography-body-14-further-font-size);
+  --td-font-size-title-medium: var(--typography-head-16-sub-font-size);
+  --td-font-size-title-large:  var(--typography-head-18-head-font-size);
+
+  --td-line-height-body-small:   20px;
+  --td-line-height-body-medium:  22px;
+  --td-line-height-body-large:   24px;
+  --td-line-height-title-medium: 24px;
+
+  --td-brand-color-1: var(--ref-brand-blue1);
+  --td-brand-color-2: var(--ref-brand-blue2);
+  --td-brand-color-5: var(--ref-brand-blue7);
+  --td-brand-color-6: var(--ref-brand-blue8-base);
+  --td-brand-color-7: var(--sys-primary-default);
+  --td-brand-color-8: var(--sys-primary-active);
+
+  --td-success-color-5: var(--sys-success-default);
+  --td-warning-color-4: var(--sys-caution-default);
+  --td-error-color-6:   var(--sys-error-default);
+
+  --td-gray-color-1: var(--ref-neutral-gray6);
+  --td-gray-color-2: #eeeeee;
+  --td-gray-color-3: #e8e8e8;
+  --td-gray-color-4: var(--ref-neutral-gray2-a20);
+
+  --td-font-gray-1: var(--sys-text-black-h1);
+  --td-font-gray-2: var(--sys-text-black-h2);
+  --td-font-gray-3: var(--sys-text-black-h3);
+  --td-text-color-primary:     var(--td-font-gray-1);
+  --td-text-color-secondary:   var(--td-font-gray-2);
+  --td-text-color-placeholder: var(--td-font-gray-3);
+  --td-text-color-link:        var(--td-brand-color-8);
+
+  --td-bg-color-container:          var(--sys-white);
+  --td-bg-color-secondarycontainer: var(--ref-neutral-gray6);
+
+  --td-size-1: 2px;  --td-size-2: 4px;   --td-size-3: 6px;
+  --td-size-4: 8px;  --td-size-5: 12px;  --td-size-6: 16px;
+  --td-size-7: 20px; --td-size-8: 24px;  --td-size-10: 32px;
+  --td-comp-paddingLR-l: var(--td-size-6);
+
+  --td-radius-small:      var(--radius-small);
+  --td-radius-default:    var(--radius-default);
+  --td-radius-medium:     var(--radius-default);
+  --td-radius-large:      var(--radius-large);
+  --td-radius-extraLarge: var(--radius-xlarge);
+  --td-radius-round:      999px;
+  --td-radius-circle:     50%;
+}
