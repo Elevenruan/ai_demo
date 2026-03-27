@@ -1,0 +1,316 @@
+/* Figma Styles of your File */
+/* rem 基准：html { font-size: 10px }，即 1rem = 10px，设计值 ÷ 10 = rem */
+:root {
+  /* Radius */
+  --radius-xlarge: 1.2rem;   /* 12px */
+  --radius-large:  0.8rem;   /* 8px  */
+  --radius-default: 0.4rem;  /* 4px  */
+  --radius-small:  0.2rem;   /* 2px  */
+
+  /* 订单区与 Tab 栏底间距：1 倍图 10px → 1rem（随 html 字号缩放，不写死 px） */
+  --orders-list-tab-gap: 1rem;
+
+  /* Fonts */
+  --typography-head-18-head-font-family: PingFangSc-Medium, sans-serif;
+  --typography-head-18-head-font-size: 1.8rem;
+  --typography-head-18-head-line-height: 2rem;
+  --typography-head-18-head-font-weight: 500;
+  --typography-head-18-head-font-style: normal;
+  --typography-head-16-sub-font-family: PingFangSc-Medium, sans-serif;
+  --typography-head-16-sub-font-size: 1.6rem;
+  --typography-head-16-sub-line-height: 1.8rem;
+  --typography-head-16-sub-font-weight: 500;
+  --typography-head-16-sub-font-style: normal;
+  --typography-body-10-min-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-10-min-font-size: 1rem;
+  --typography-body-10-min-line-height: 1.1rem;
+  --typography-body-10-min-font-weight: 400;
+  --typography-body-10-min-font-style: normal;
+  --typography-body-10-strong-font-family: PingFangSc-Medium, sans-serif;
+  --typography-body-10-strong-font-size: 1rem;
+  --typography-body-10-strong-line-height: 1.1rem;
+  --typography-body-10-strong-font-weight: 500;
+  --typography-body-10-strong-font-style: normal;
+  --typography-body-12-base-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-12-base-font-size: 1.2rem;
+  --typography-body-12-base-line-height: 1.4rem;
+  --typography-body-12-base-font-weight: 400;
+  --typography-body-12-base-font-style: normal;
+  --typography-body-12-strong-font-family: PingFangSc-Medium, sans-serif;
+  --typography-body-12-strong-font-size: 1.2rem;
+  --typography-body-12-strong-line-height: 1.4rem;
+  --typography-body-12-strong-font-weight: 500;
+  --typography-body-12-strong-font-style: normal;
+  --typography-body-14-further-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-14-further-font-size: 1.4rem;
+  --typography-body-14-further-line-height: 1.6rem;
+  --typography-body-14-further-font-weight: 400;
+  --typography-body-14-further-font-style: normal;
+  --typography-body-16-increase-font-family: PingFangSc-Regular, sans-serif;
+  --typography-body-16-increase-font-size: 1.6rem;
+  --typography-body-16-increase-line-height: 1.8rem;
+  --typography-body-16-increase-font-weight: 400;
+  --typography-body-16-increase-font-style: normal;
+  --typography-link-12-base-font-family: PingFangSc-Regular, sans-serif;
+  --typography-link-12-base-font-size: 1.2rem;
+  --typography-link-12-base-line-height: 1.4rem;
+  --typography-link-12-base-font-weight: 400;
+  --typography-link-12-base-font-style: normal;
+  --typography-link-14-further-font-family: PingFangSc-Regular, sans-serif;
+  --typography-link-14-further-font-size: 1.4rem;
+  --typography-link-14-further-line-height: 1.6rem;
+  --typography-link-14-further-font-weight: 400;
+  --typography-link-14-further-font-style: normal;
+  --typography-link-16-increase-font-family: PingFangSc-Regular, sans-serif;
+  --typography-link-16-increase-font-size: 1.6rem;
+  --typography-link-16-increase-line-height: 1.8rem;
+  --typography-link-16-increase-font-weight: 400;
+  --typography-link-16-increase-font-style: normal;
+  --typography-display-number-44-xxlarge-font-family: Roboto-Medium, sans-serif;
+  --typography-display-number-44-xxlarge-font-size: 4.4rem;
+  --typography-display-number-44-xxlarge-line-height: 4.6rem;
+  --typography-display-number-44-xxlarge-font-weight: 500;
+  --typography-display-number-44-xxlarge-font-style: normal;
+  --typography-display-number-36-xlarge-font-family: Roboto-Medium, sans-serif;
+  --typography-display-number-36-xlarge-font-size: 3.6rem;
+  --typography-display-number-36-xlarge-line-height: 3.8rem;
+  --typography-display-number-36-xlarge-font-weight: 500;
+  --typography-display-number-36-xlarge-font-style: normal;
+  --typography-display-number-26-large-font-family: Roboto-Medium, sans-serif;
+  --typography-display-number-26-large-font-size: 2.6rem;
+  --typography-display-number-26-large-line-height: 2.8rem;
+  --typography-display-number-26-large-font-weight: 500;
+  --typography-display-number-26-large-font-style: normal;
+  --typography-display-number-22-normal-font-family: Roboto-Medium, sans-serif;
+  --typography-display-number-22-normal-font-size: 2.2rem;
+  --typography-display-number-22-normal-line-height: 2.4rem;
+  --typography-display-number-22-normal-font-weight: 500;
+  --typography-display-number-22-normal-font-style: normal;
+  --typography-display-chinese-26-large-font-family: PingFangSc-Medium, sans-serif;
+  --typography-display-chinese-26-large-font-size: 2.6rem;
+  --typography-display-chinese-26-large-line-height: 2.8rem;
+  --typography-display-chinese-26-large-font-weight: 500;
+  --typography-display-chinese-26-large-font-style: normal;
+
+  /* Effects — box-shadow 偏移/半径保留 px（sub-pixel 渲染必须 px）*/
+  --shadow-down-high-box-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.04),
+    0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 14px 24px 2px rgba(0, 0, 0, 0.1);
+  --shadow-down-normal-box-shadow: 0px 2px 24px -4px rgba(0, 0, 0, 0.02),
+    0px 4px 26px 0px rgba(0, 0, 0, 0.04), 0px 8px 30px 2px rgba(0, 0, 0, 0.08);
+  --shadow-down-low-box-shadow: 0px 1px 26px 0px rgba(0, 0, 0, 0.01),
+    0px 2px 30px 2px rgba(0, 0, 0, 0.02), 0px 4px 34px 2px rgba(0, 0, 0, 0.04);
+  --shadow-up-high-box-shadow: 0px -4px 10px -2px rgba(0, 0, 0, 0.04),
+    0px -8px 16px 0px rgba(0, 0, 0, 0.08), 0px -14px 24px 2px rgba(0, 0, 0, 0.1);
+  --shadow-up-normal-box-shadow: 0px -2px 24px -4px rgba(0, 0, 0, 0.02),
+    0px -4px 26px 0px rgba(0, 0, 0, 0.04), 0px -8px 30px 2px rgba(0, 0, 0, 0.08);
+  --shadow-up-low-box-shadow: 0px -1px 26px 0px rgba(0, 0, 0, 0.01),
+    0px -2px 30px 2px rgba(0, 0, 0, 0.02), 0px -4px 34px 2px rgba(0, 0, 0, 0.04);
+  --shadow-left-high-box-shadow: -4px 0px 10px -2px rgba(0, 0, 0, 0.04),
+    -8px 0px 16px 0px rgba(0, 0, 0, 0.08), -14px 0px 24px 2px rgba(0, 0, 0, 0.1);
+  --shadow-left-normal-box-shadow: -2px 0px 24px -4px rgba(0, 0, 0, 0.02),
+    -4px 0px 26px 0px rgba(0, 0, 0, 0.04), -8px 0px 30px 2px rgba(0, 0, 0, 0.08);
+  --shadow-left-low-box-shadow: -1px 0px 26px 0px rgba(0, 0, 0, 0.01),
+    -2px 0px 30px 2px rgba(0, 0, 0, 0.02), -4px 0px 34px 2px rgba(0, 0, 0, 0.04);
+  --shadow-right-high-box-shadow: 4px 0px 10px -2px rgba(0, 0, 0, 0.04),
+    8px 0px 16px 0px rgba(0, 0, 0, 0.08), 14px 0px 24px 2px rgba(0, 0, 0, 0.1);
+  --shadow-right-normal-box-shadow: 2px 0px 24px -4px rgba(0, 0, 0, 0.02),
+    4px 0px 26px 0px rgba(0, 0, 0, 0.04), 8px 0px 30px 2px rgba(0, 0, 0, 0.08);
+  --shadow-right-low-box-shadow: 1px 0px 26px 0px rgba(0, 0, 0, 0.01),
+    2px 0px 30px 2px rgba(0, 0, 0, 0.02), 4px 0px 34px 2px rgba(0, 0, 0, 0.04);
+  --divider-box-shadow: inset 0px 0.5px 0px 0px rgba(237, 237, 238, 1),
+    inset 0px -0.5px 0px 0px rgba(237, 237, 238, 1);
+}
+
+/* Figma Color Variables of your File */
+:root,
+[data-color-mode="default"] {
+  /* ========================================
+     系统级颜色变量（System Level Colors）
+     ======================================== */
+
+  /* 主色系 Primary */
+  --sys-primary-default: var(--ref-brand-blue8-base);
+  --sys-primary-hover: var(--ref-brand-blue7);
+  --sys-primary-active: var(--ref-brand-blue9);
+  --sys-primary-inactive: var(--ref-brand-blue4);
+  --sys-primary-disable: var(--ref-neutral-gray6);
+
+  /* 营销色系 Marketing */
+  /* 购物 Tab 场景：顶栏 + Tab 条背景 */
+  --shopping-scene-surface: #fff2f6;
+
+  /* 购物 Tab 内容区（Tab 栏下方） */
+  --shopping-content-bg: #f5f7fa;
+  /* 购物空状态：Tab 栏底到内容起点，1倍 156px → 15.6rem（根字号 10px@375） */
+  --shopping-empty-tab-gap: 15.6rem;
+  /* 购物空状态文案 */
+  --shopping-empty-title: #7e8594;
+  --shopping-empty-sub: #9da3ae;
+
+  --sys-marketing-default: var(--ref-brand-pink8-base);
+  --sys-marketing-hover: var(--ref-brand-pink7);
+  --sys-marketing-active: var(--ref-brand-pink9);
+  --sys-marketing-inactive: var(--ref-brand-pink4);
+  --sys-marketing-disable: var(--sys-primary-disable);
+
+  /* 错误色系 Error */
+  --sys-error-default: var(--ref-functional-red8-base);
+  --sys-error-hover: var(--ref-functional-red7);
+  --sys-error-active: var(--ref-functional-red9);
+  --sys-error-inactive: var(--ref-functional-red4);
+  --sys-error-disable: var(--sys-primary-disable);
+
+  /* 警告色系 Caution */
+  --sys-caution-default: var(--ref-functional-orange8-base);
+  --sys-caution-hover: var(--ref-functional-orange7);
+  --sys-caution-active: var(--ref-functional-orange9);
+  --sys-caution-inactive: var(--ref-functional-orange4);
+  --sys-caution-disable: var(--sys-primary-disable);
+
+  /* 成功色系 Success */
+  --sys-success-default: var(--ref-functional-green8-base);
+  --sys-success-hover: var(--ref-functional-green7);
+  --sys-success-active: var(--ref-functional-green9);
+  --sys-success-inactive: var(--ref-functional-green4);
+  --sys-success-disable: var(--sys-primary-disable);
+
+  /* 危险色系 Dangerous */
+  --sys-dangerous-default: var(--ref-functional-red8-base);
+  --sys-dangerous-hover: var(--ref-functional-red7);
+  --sys-dangerous-active: var(--ref-functional-red9);
+  --sys-dangerous-inactive: var(--ref-functional-red4);
+  --sys-dangerous-disable: var(--sys-primary-disable);
+
+  /* 文本颜色 Text Colors */
+  --sys-text-black-h1: var(--ref-neutral-gray2);
+  --sys-text-black-h2: var(--ref-neutral-gray2-a60);
+  --sys-text-black-h3: var(--ref-neutral-gray2-a40);
+  --sys-text-black-h4: var(--ref-neutral-gray2-a20);
+  --sys-text-white-h1: var(--ref-neutral-white1);
+  --sys-text-white-h2: var(--ref-neutral-white3);
+  --sys-text-white-h3: var(--ref-neutral-white4);
+
+  /* 页面背景 Page Background */
+  --sys-page-background-fill: #f5f7fa;
+  --sys-page-background-mask80: rgba(0, 0, 0, 0.8);
+  --sys-page-background-mask70: rgba(0, 0, 0, 0.7);
+  --sys-page-background-footer: #cbd2e1;
+
+  /* 分割线 Divider */
+  --sys-wire-divider-dark: #ededee;
+  --sys-wire-divider-light: var(--ref-neutral-white1);
+
+  /* 图标颜色 Icon Colors */
+  --sys-iconfont-white: var(--ref-neutral-white1);
+  --sys-iconfont-black: var(--ref-neutral-gray2);
+
+  /* 第三方颜色 External Colors */
+  --sys-external-alipay: #049fff;
+  --sys-external-wechat: #51d768;
+
+  /* 数据可视化 Data Visualization */
+  --sys-data-up: var(--ref-functional-red8-base);
+  --sys-data-down: var(--ref-functional-green8);
+
+  /* 基础色 Base Colors */
+  --sys-black: var(--ref-neutral-gray1);
+  --sys-white: var(--ref-neutral-white1);
+
+  /* ========================================
+     参考级颜色变量（Reference Level Colors）
+     ======================================== */
+
+  /* 品牌蓝色 Brand Blue */
+  --ref-brand-blue1: #f2f6ff;
+  --ref-brand-blue2: #e5edff;
+  --ref-brand-blue3: #ccdbff;
+  --ref-brand-blue4: #b2caff;
+  --ref-brand-blue5: #99b8ff;
+  --ref-brand-blue6: #80a6ff;
+  --ref-brand-blue7: #6694ff;
+  --ref-brand-blue8-base: #4d83ff;
+  --ref-brand-blue9: #3371ff;
+  --ref-brand-blue1-a10: #fefeff;
+  --ref-brand-blue1-a30: #fbfcff;
+  --ref-brand-blue1-a50: #f8faff;
+  --ref-brand-blue1-a70: #f5f8ff;
+
+  /* 品牌粉色 Brand Pink */
+  --ref-brand-pink1: #fff2f6;
+  --ref-brand-pink2: #ffe5ed;
+  --ref-brand-pink3: #ffccdb;
+  --ref-brand-pink4: #ffb2c9;
+  --ref-brand-pink5: #ff99b7;
+  --ref-brand-pink6: #ff80a6;
+  --ref-brand-pink7: #ff6694;
+  --ref-brand-pink8-base: #ff4d82;
+  --ref-brand-pink9: #ff3371;
+  --ref-brand-pink1-a10: #fffefe;
+  --ref-brand-pink1-a30: #fffbfc;
+  --ref-brand-pink1-a50: #fff8fa;
+  --ref-brand-pink1-a70: #fff6f9;
+
+  /* 功能红色 Functional Red */
+  --ref-functional-red1: #ffd9dc;
+  --ref-functional-red2: #ffccd0;
+  --ref-functional-red3: #ffb2b9;
+  --ref-functional-red4: #ffa6ad;
+  --ref-functional-red5: #ff99a2;
+  --ref-functional-red6: #f27984;
+  --ref-functional-red7: #e55c68;
+  --ref-functional-red8-base: #e53948;
+  --ref-functional-red9: #d92c3a;
+  --ref-functional-red1-a10: #fffbfb;
+  --ref-functional-red1-a30: #fff4f5;
+  --ref-functional-red1-a50: #ffeced;
+  --ref-functional-red1-a70: #fee4e6;
+
+  /* 功能橙色 Functional Orange */
+  --ref-functional-orange1: #ffecd9;
+  --ref-functional-orange2: #ffe1bf;
+  --ref-functional-orange3: #fed4a5;
+  --ref-functional-orange4: #ffc78c;
+  --ref-functional-orange5: #ffc180;
+  --ref-functional-orange6: #ffb566;
+  --ref-functional-orange7: #ffa94d;
+  --ref-functional-orange8-base: #ff9d33;
+  --ref-functional-orange9: #ff8a0e;
+  --ref-functional-orange1-a10: #fffdfb;
+  --ref-functional-orange1-a30: #fff9f4;
+  --ref-functional-orange1-a50: #fff5ec;
+  --ref-functional-orange1-a70: #fff1e3;
+
+  /* 功能绿色 Functional Green */
+  --ref-functional-green1: #cef2e0;
+  --ref-functional-green2: #c2f2d9;
+  --ref-functional-green3: #ace5c8;
+  --ref-functional-green4: #8dd9b2;
+  --ref-functional-green5: #82d9ac;
+  --ref-functional-green6: #52cc8d;
+  --ref-functional-green7: #3fc27f;
+  --ref-functional-green8-base: #26bf71;
+  --ref-functional-green9: #0cba60;
+  --ref-functional-green1-a10: #fafefc;
+  --ref-functional-green1-a30: #f0fbf6;
+  --ref-functional-green1-a50: #e6f8ee;
+  --ref-functional-green1-a70: #ddf6e9;
+
+  /* 中性灰色 Neutral Gray */
+  --ref-neutral-gray1: #050c1c;
+  --ref-neutral-gray2: #1e2533;
+  --ref-neutral-gray3: #81858d;
+  --ref-neutral-gray4: #9c9ea4;
+  --ref-neutral-gray5: #b4b6bc;
+  --ref-neutral-gray6: #f3f4f5;
+  --ref-neutral-gray2-a60: #787c85;
+  --ref-neutral-gray2-a40: #a4a8ac;
+  --ref-neutral-gray2-a20: #d2d3d6;
+
+  /* 中性白色 Neutral White */
+  --ref-neutral-white1: #ffffff;
+  --ref-neutral-white2: rgba(255, 255, 255, 0.8);
+  --ref-neutral-white3: rgba(255, 255, 255, 0.6);
+  --ref-neutral-white4: rgba(255, 255, 255, 0.4);
+  --ref-neutral-white5: rgba(255, 255, 255, 0.3);
+  --ref-neutral-white6: rgba(255, 255, 255, 0.2);
+}

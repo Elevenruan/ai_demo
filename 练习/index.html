@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <!--
+    设计基准：375px 宽（1倍图）
+    rem：根字号随视口流体缩放 clamp(9px, 100vw*10/375, 12px)，375 宽时约 10px → 设计值÷10≈rem
+    布局：.app-shell 宽度 100%，不写死固定 px 宽；弹窗区用 overlay 百分比 padding + max-width(rem)
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的订单 · 借钱</title>
+  <link rel="stylesheet" href="./styles/vars.css" />
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ══════════════════════════════════════════
+       PAGE HEADER（fixed 置顶：导航 + Tab）
+       ══════════════════════════════════════════ -->
+  <header class="page-header" data-active-index="0">
+
+    <!-- 导航栏 -->
+    <nav class="nav-bar">
+      <div class="nav-bar__left">
+        <button class="nav-back" data-action="back" aria-label="返回上一页">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 18L9 12L15 6" stroke="#1E2533" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <span class="nav-title">我的订单</span>
+      </div>
+
+      <div class="nav-bar__right">
+        <!-- 气泡提示 -->
+        <div class="nav-bubble" aria-label="咨询入口">
+          <span class="nav-bubble__text">有疑问？咨询专属顾问</span>
+        </div>
+        <!-- 客服头像（24×24，1倍图） -->
+        <div class="nav-avatar" id="nav-avatar" aria-label="联系专属顾问">
+          <img src="./assets/images/avatar-cs.png" alt="专属顾问" />
+        </div>
+        <!-- 更多按钮（点击展开"乐花卡订单"菜单） -->
+        <div class="nav-more" id="nav-more"
+             role="button" tabindex="0"
+             aria-haspopup="true" aria-expanded="false" aria-label="更多操作">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="5"  cy="12" r="1.5" fill="#1E2533"/>
+            <circle cx="12" cy="12" r="1.5" fill="#1E2533"/>
+            <circle cx="19" cy="12" r="1.5" fill="#1E2533"/>
+          </svg>
+          <span class="nav-more__label">更多</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Tab：蓝色下划线为独立滑块，随选中项平移（有过渡动画） -->
+    <div class="tabs-container">
+      <div class="tabs" role="tablist" aria-label="订单分类">
+        <button type="button" class="tab-item tab-item--active"
+                role="tab" aria-selected="true" aria-controls="panel-jieqian">
+          <span class="tab-item__label">借钱</span>
+        </button>
+        <button type="button" class="tab-item"
+                role="tab" aria-selected="false" aria-controls="panel-shopping">
+          <span class="tab-item__label">购物</span>
+        </button>
+      </div>
+      <div class="tabs__line-track" aria-hidden="true">
+        <div class="tabs__line" id="tabs-line"></div>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- "更多"下拉菜单（点击"更多"按钮展开）
+       按 Figma node 173:924 还原：白色卡片 + 圆角4px + 多层投影 + 纯SVG三角，无图片无图标 -->
+  <div class="more-popup" id="more-popup"
+       role="menu" aria-hidden="true" aria-label="更多菜单">
+    <!-- 上方指向三角，纯 SVG 代码实现 -->
+    <svg class="more-popup__arrow" width="16" height="8" viewBox="0 0 16 8"
+         fill="none" aria-hidden="true">
+      <path d="M8 0L16 8H0L8 0Z" fill="white"/>
+    </svg>
+    <button type="button" class="more-popup__item" role="menuitem" data-action="lehuaka">
+      <span class="more-popup__item-label">乐花卡订单</span>
+    </button>
+  </div>
+
+  <!--
+    Tab 内容区：纯代码布局，横向双屏 + 滑动切换（无图片）
+    订单列表仅在「借钱」页；「购物」为空状态（顶栏 Figma 178:931）
+  -->
+  <div class="tab-viewport" id="tab-viewport">
+    <div class="tab-viewport__track" id="tab-viewport-track">
+      <main class="tab-viewport__page page-content"
+            id="panel-jieqian"
+            role="tabpanel"
+            aria-hidden="false">
+        <div class="orders-ptr" id="orders-ptr" aria-hidden="true">
+          <span class="orders-ptr__spinner" aria-hidden="true"></span>
+          <span class="orders-ptr__text">下拉刷新</span>
+        </div>
+        <div id="orders-list"></div>
+        <div class="view-all">
+          <button type="button" class="btn btn--outline" data-action="view-all">查看全部结清订单</button>
+        </div>
+        <div class="orders-infinite" id="orders-infinite-footer" aria-live="polite">
+          <div class="orders-infinite__loading" id="orders-infinite-loading" hidden>
+            <span class="orders-infinite__spinner" aria-hidden="true"></span>
+            <span class="orders-infinite__text">加载中…</span>
+          </div>
+        </div>
+      </main>
+      <main class="tab-viewport__page page-content page-content--shopping"
+            id="panel-shopping"
+            role="tabpanel"
+            aria-hidden="true">
+        <div class="shopping-empty" role="status">
+          <div class="shopping-empty__icon-wrap">
+            <img class="shopping-empty__illus"
+                 src="./assets/images/shopping-empty-icon.png"
+                 alt=""
+                 width="140" height="140" decoding="async" />
+          </div>
+          <div class="shopping-empty__copy">
+            <p class="shopping-empty__title">暂无相关订单</p>
+            <p class="shopping-empty__sub">空空如也</p>
+          </div>
+          <button type="button" class="shopping-empty__cta" data-action="go-borrow">
+            去借一笔
+          </button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+</div><!-- /.app-shell -->
+
+
+<!-- ══════════════════════════════════════════
+     取消订单 / 取消服务确认弹窗（Figma 165:1076）
+     纯 HTML/CSS 绘制，无背景图与图片资源
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay"
+     role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal__body">
+      <h2 class="modal__title" id="modal-title">您确定要取消还款减压服务吗？</h2>
+      <p class="modal__desc">取消后，本次获得的还款减压服务将立即失效，后续如需可重新购买参与</p>
+    </div>
+    <!-- Figma 165:1076 — 左「确认取消」H1 字色；右「我再想想」品牌蓝 -->
+    <div class="modal__footer modal__footer--dual">
+      <button type="button" class="modal__btn modal__btn--affirm" id="modal-confirm-btn">确认取消</button>
+      <button type="button" class="modal__btn modal__btn--later" id="modal-cancel-btn">我再想想</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     取消成功（Figma 171:895）— 确认取消服务后出现
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="cancel-success-overlay"
+     role="dialog" aria-modal="true" aria-labelledby="cancel-success-title">
+  <div class="modal cancel-success-modal">
+    <div class="modal__body cancel-success-modal__body">
+      <h2 class="cancel-success-modal__title" id="cancel-success-title">取消成功</h2>
+      <p class="cancel-success-modal__desc">您的还款减压服务已成功取消，后续如需该服务，可通过活动入口再次购买参与</p>
+    </div>
+    <div class="modal__footer cancel-success-modal__footer">
+      <button type="button" class="cancel-success-modal__confirm" id="cancel-success-confirm">我知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     减压还款服务说明弹窗（纯代码 UI，无图片）
+     点击订单标题右侧问号图标触发
+     ══════════════════════════════════════════ -->
+<div class="modal-overlay" id="service-info-overlay"
+     role="dialog" aria-modal="true" aria-labelledby="service-info-title">
+  <div class="modal service-info-modal">
+    <div class="modal__body service-info-modal__body">
+      <!-- [接口字段] 弹窗标题，由接口返回 -->
+      <h2 class="modal__title service-info-modal__title" id="service-info-title">减压还款服务</h2>
+      <!-- [接口字段] 服务说明正文，由接口返回 -->
+      <p class="service-info-modal__desc">当前还款减压主要作为买吖超市卡的赠品获得。您通过购买买吖超市卡，可获得对应的还款减压服务，并可在固定日期生效（生效日期&amp;生效结果以页面展示为准）</p>
+    </div>
+    <div class="modal__footer service-info-modal__footer">
+      <button class="service-info-modal__confirm" id="service-info-confirm">我知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast 全局提示 -->
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script src="./scripts/main.js"></script>
+</body>
+</html>

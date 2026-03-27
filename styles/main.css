@@ -1,0 +1,682 @@
+/* ============================================================
+   Base Reset & Global
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: 'PingFang SC', 'PingFangSC-Regular', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  background-color: var(--sys-page-background-fill);
+  color: var(--sys-text-black-h1);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Mobile Shell — centered 375px phone frame
+   ============================================================ */
+.app-shell {
+  width: 375px;
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background-color: var(--sys-page-background-fill);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background: #e5e9f0;
+    padding: 24px 0;
+  }
+  .app-shell {
+    border-radius: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    min-height: auto;
+    overflow: hidden;
+  }
+}
+
+/* ============================================================
+   Status Bar
+   ============================================================ */
+.status-bar {
+  height: 44px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.status-bar__time {
+  font-family: 'PingFang SC', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sys-text-black-h1);
+  letter-spacing: -0.28px;
+}
+
+.status-bar__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-bar__icons svg {
+  display: block;
+}
+
+/* ============================================================
+   Navigation Bar
+   ============================================================ */
+.nav-bar {
+  height: 44px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.nav-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-bar__back {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--sys-text-black-h1);
+}
+
+.nav-bar__back svg {
+  display: block;
+}
+
+.nav-bar__title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--sys-text-black-h1);
+  white-space: nowrap;
+}
+
+.nav-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+/* Tooltip bubble */
+.nav-bubble {
+  background: rgba(155, 210, 247, 0.6);
+  border-radius: 4px;
+  padding: 7px 8px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.nav-bubble::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid rgba(155, 210, 247, 0.6);
+}
+
+.nav-bubble__text {
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--ref-neutral-gray1);
+  white-space: nowrap;
+}
+
+.nav-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--ref-brand-blue3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--sys-white);
+}
+
+.nav-more {
+  width: 40px;
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-more__icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sys-text-black-h1);
+}
+
+.nav-more__label {
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--sys-text-black-h1);
+}
+
+.nav-more__badge {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  width: 6px;
+  height: 6px;
+  background: var(--sys-error-default);
+  border-radius: 50%;
+}
+
+/* ============================================================
+   Header (gradient background wrapping status+nav+tabs)
+   ============================================================ */
+.page-header {
+  background: linear-gradient(90deg, #e7f6ff 0%, #e4f5ff 100%);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Tabs
+   ============================================================ */
+.tabs {
+  height: 38px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.tabs__track {
+  display: flex;
+  align-items: center;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  gap: 7px;
+  position: relative;
+  cursor: pointer;
+}
+
+.tab-item__label {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--sys-text-black-h1);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.tab-item--active .tab-item__label {
+  color: var(--sys-primary-default);
+}
+
+.tab-item--inactive .tab-item__label {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.tab-item__indicator {
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--sys-primary-default);
+  border-radius: 1px;
+}
+
+/* ============================================================
+   Page Content (scroll area)
+   ============================================================ */
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.page-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   Order Card
+   ============================================================ */
+.order-card {
+  background: var(--sys-white);
+  border-radius: var(--radius-default);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Card Header Row */
+.order-card__header {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+}
+
+.order-product-icon {
+  width: 16px;
+  height: 16px;
+  background: var(--sys-primary-default);
+  border-radius: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.order-product-icon svg {
+  width: 12px;
+  height: 12px;
+  fill: white;
+}
+
+.order-card__title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--sys-text-black-h1);
+  white-space: nowrap;
+  margin-left: 2px;
+}
+
+.order-card__title-flex {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Badge tag */
+.badge-tag {
+  height: 16px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  border: 0.5px solid var(--ref-brand-blue3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-tag__text {
+  font-size: 10px;
+  line-height: 9px;
+  color: var(--sys-primary-default);
+  white-space: nowrap;
+}
+
+/* Card Body (info area) */
+.order-card__body {
+  background: var(--sys-page-background-fill);
+  border-radius: var(--radius-default);
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--sys-text-black-h2);
+}
+
+.info-row__label {
+  flex: 1;
+  min-width: 0;
+}
+
+.info-row__value {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.info-row__bank {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.bank-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  background: var(--ref-functional-red8-base);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bank-icon svg {
+  width: 10px;
+  height: 10px;
+  fill: white;
+}
+
+/* Status badges */
+.status-text {
+  font-size: 14px;
+  line-height: 16px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.status-text--error {
+  color: var(--sys-error-default);
+}
+
+.status-text--success {
+  color: var(--sys-success-default);
+}
+
+.status-text--primary {
+  color: var(--sys-primary-default);
+}
+
+.status-text--muted {
+  color: var(--sys-text-black-h2);
+}
+
+.status-separator {
+  width: 1px;
+  height: 12px;
+  background: var(--ref-neutral-gray5);
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+.info-row__value-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Card Action Row (buttons) */
+.order-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  height: 28px;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-default);
+  font-family: 'PingFang SC', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+  border: none;
+  outline: none;
+  line-height: 1;
+}
+
+.btn:active {
+  opacity: 0.8;
+}
+
+/* Small ghost button */
+.btn--sm-ghost {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--sys-text-black-h1);
+  background: white;
+  border: 0.5px solid var(--sys-wire-divider-dark);
+}
+
+/* Small primary button */
+.btn--sm-primary {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 12px;
+  line-height: 14px;
+  color: white;
+  background: var(--sys-primary-default);
+}
+
+/* Full width primary button */
+.btn--full-primary {
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  color: white;
+  background: var(--sys-primary-default);
+  border-radius: var(--radius-large);
+}
+
+/* Full width ghost button */
+.btn--full-ghost {
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  color: var(--sys-text-black-h1);
+  background: white;
+  border: 0.5px solid var(--sys-wire-divider-dark);
+  border-radius: var(--radius-large);
+}
+
+/* Outline small button (view all) */
+.btn--outline-sm {
+  height: 24px;
+  padding: 0 10px;
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--sys-text-black-h2);
+  background: transparent;
+  border: 0.5px solid var(--ref-neutral-gray2-a20);
+  border-radius: var(--radius-default);
+}
+
+/* ============================================================
+   "View All" footer button
+   ============================================================ */
+.view-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   Home Indicator (iPhone)
+   ============================================================ */
+.home-indicator {
+  height: 34px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 9px;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.home-indicator__bar {
+  width: 134px;
+  height: 5px;
+  background: black;
+  border-radius: 2.5px;
+  opacity: 0.18;
+}
+
+/* ============================================================
+   Modal Overlay
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  width: 295px;
+  background: white;
+  border-radius: var(--radius-xlarge);
+  overflow: hidden;
+  transform: scale(0.92);
+  transition: transform 0.25s;
+}
+
+.modal-overlay.is-open .modal {
+  transform: scale(1);
+}
+
+.modal__content {
+  padding: 24px;
+}
+
+.modal__title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: var(--sys-text-black-h1);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.modal__desc {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--sys-text-black-h2);
+  text-align: center;
+}
+
+.modal__actions {
+  display: flex;
+  border-top: 0.5px solid var(--sys-wire-divider-dark);
+}
+
+.modal__btn {
+  flex: 1;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: 'PingFang SC', sans-serif;
+  transition: background 0.15s;
+}
+
+.modal__btn:active {
+  background: var(--sys-page-background-fill);
+}
+
+.modal__btn--cancel {
+  color: var(--sys-text-black-h2);
+  border-right: 0.5px solid var(--sys-wire-divider-dark);
+}
+
+.modal__btn--confirm {
+  color: var(--sys-primary-default);
+}
+
+/* ============================================================
+   Toast
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0,0,0,0.75);
+  color: white;
+  padding: 8px 16px;
+  border-radius: var(--radius-large);
+  font-size: 13px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 200;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

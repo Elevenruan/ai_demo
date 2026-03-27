@@ -1,0 +1,1186 @@
+/* ============================================================
+   rem 基准（流体根字号，适配不同手机屏幕）
+   以 375px 宽为设计基准：该宽度下 1rem ≈ 10px（设计值 ÷ 10 = rem）
+   clamp 避免过小/过大屏字号失控
+   ============================================================ */
+html {
+  font-size: clamp(9px, calc(100vw * 10 / 375), 12px);
+  /* 去掉系统默认点击高亮；实心蓝按钮另用 :active 反馈 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================================
+   Base Reset & Global
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 全局隐藏滚动条（可滚动区域仍保留 overflow:auto/scroll） */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* 除 .btn--sm-primary 外不在 CSS 中定义 :active；统一关闭触控灰色闪动 */
+button,
+[role="button"],
+.tab-item,
+.modal__btn,
+.service-info-modal__confirm,
+.cancel-success-modal__confirm,
+.more-popup__item,
+.order-info-btn,
+.nav-back {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+body {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  font-size: 1.4rem;   /* 随根字号缩放，375 基准下约 14px */
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  background-color: var(--sys-page-background-fill);
+  color: var(--sys-text-black-h1);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   App Shell — 全宽百分比，不写死视口绝对宽度
+   ============================================================ */
+.app-shell {
+  --header-sticky-height: calc(4.4rem + 3.8rem); /* 导航 + Tab */
+
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding-top: var(--header-sticky-height);
+  background: var(--sys-page-background-fill);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.app-shell > .page-header {
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Status Bar（保留样式，HTML 已移除）
+   ============================================================ */
+.status-bar {
+  height: 4.4rem;      /* 44px */
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.status-bar__time {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.028rem;
+  color: var(--sys-text-black-h1);
+}
+
+.status-bar__icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;         /* 5px */
+}
+
+/* ============================================================
+   Page Header（渐变背景包裹导航+Tab）
+   ============================================================ */
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #e7f6ff 0%, #e4f5ff 100%);
+  border-bottom: 0.5px solid rgba(255,255,255,0.5);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  transition: background 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+              border-bottom-color 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* 购物 Tab：导航栏 + Tab 条统一浅粉底（Figma 178:931） */
+.page-header[data-active-index="1"] {
+  background: var(--shopping-scene-surface);
+  border-bottom-color: rgba(255, 182, 209, 0.55);
+}
+
+/* 购物 Tab：隐藏专属顾问气泡与头像 */
+.page-header[data-active-index="1"] .nav-bubble,
+.page-header[data-active-index="1"] .nav-avatar {
+  display: none;
+}
+
+/* ============================================================
+   Nav Bar
+   ============================================================ */
+.nav-bar {
+  height: 4.4rem;      /* 44px */
+  padding: 0 0.8rem;   /* 8px */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;         /* 4px */
+}
+
+.nav-back {
+  width: 2.4rem;       /* 24px */
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--sys-text-black-h1);
+  flex-shrink: 0;
+}
+
+.nav-title {
+  font-size: 1.8rem;   /* 18px */
+  font-weight: 500;
+  line-height: 2rem;
+  color: var(--sys-text-black-h1);
+  white-space: nowrap;
+}
+
+.nav-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;         /* 8px */
+}
+
+.nav-bubble {
+  background: rgba(155, 210, 247, 0.6);
+  border-radius: 0.4rem;  /* 4px */
+  height: 3rem;           /* 30px */
+  padding: 0 0.8rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.nav-bubble::after {
+  content: '';
+  position: absolute;
+  right: -0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border-top: 0.4rem solid transparent;
+  border-bottom: 0.4rem solid transparent;
+  border-left: 0.4rem solid rgba(155, 210, 247, 0.6);
+}
+
+.nav-bubble__text {
+  font-size: 1.2rem;   /* 12px */
+  line-height: 1.4rem;
+  color: var(--ref-neutral-gray1);
+  white-space: nowrap;
+}
+
+.nav-avatar {
+  width: 2.4rem;       /* 24px */
+  height: 2.4rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.8);
+  cursor: pointer;
+}
+
+.nav-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nav-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;         /* 1px */
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-more__label {
+  font-size: 1rem;     /* 10px */
+  line-height: 1.2rem;
+  color: var(--sys-text-black-h1);
+}
+
+/* ============================================================
+   "更多"下拉菜单 popup — Figma node 173:924
+   白色圆角卡片(4px) + 三层投影 + 无图标纯文字
+   ============================================================ */
+.more-popup {
+  position: absolute;
+  background: #fff;
+  border-radius: 0.4rem;   /* 4px */
+  padding: 0 1rem;         /* 10px */
+  box-shadow:
+    0px 1px 26px 0px rgba(0, 0, 0, 0.01),
+    0px 2px 30px 2px rgba(0, 0, 0, 0.02),
+    0px 4px 34px 2px rgba(0, 0, 0, 0.04);
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px) scale(0.96);
+  transform-origin: top right;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.more-popup.is-open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0) scale(1);
+}
+
+/* 三角箭头：纯 SVG 元素 */
+.more-popup__arrow {
+  position: absolute;
+  top: -0.8rem;        /* 8px */
+  right: 1rem;         /* 10px */
+  display: block;
+  overflow: visible;
+}
+
+.more-popup__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;     /* 10px */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'PingFang SC', sans-serif;
+  text-align: left;
+}
+
+.more-popup__item-label {
+  font-size: 1.2rem;   /* 12px */
+  font-weight: 600;
+  line-height: 1.4rem;
+  color: var(--sys-text-black-h1);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Tabs（与导航同在 .page-header 内置顶固定）
+   蓝色线为 #tabs-line 滑块，随选中 Tab 平移 + 宽度变化
+   ============================================================ */
+.tabs-container {
+  position: relative;
+  width: 100%;
+}
+
+.tabs {
+  height: 3.8rem;      /* 38px */
+  padding: 0 1rem;
+  display: flex;
+  align-items: stretch;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.2rem;   /* 12px */
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+  flex-shrink: 0;
+  gap: 0;
+}
+
+.tab-item__label {
+  font-size: 1.4rem;   /* 14px */
+  font-weight: 500;
+  line-height: 1.6rem;
+  color: var(--sys-text-black-h1);
+  white-space: nowrap;
+  transition: color 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              font-size 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.tab-item--active .tab-item__label {
+  font-size: 1.6rem;   /* 16px */
+  line-height: 1.8rem;
+  color: var(--sys-primary-default);
+}
+
+/* 购物 Tab 选中时：文案与下划线为营销粉 */
+.page-header[data-active-index="1"] .tab-item--active .tab-item__label {
+  color: var(--sys-marketing-default);
+}
+
+.tabs__line-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0.2rem;
+  pointer-events: none;
+}
+
+.tabs__line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 0.2rem;
+  width: 2rem;
+  border-radius: 0.1rem;
+  background: var(--sys-primary-default);
+  transform: translateX(0);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+              width 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+              background-color 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform, width;
+}
+
+.page-header[data-active-index="1"] .tabs__line {
+  background: var(--sys-marketing-default);
+}
+
+/* ============================================================
+   Tab 横向滑动视口（双页，纯代码无图）
+   ============================================================ */
+.tab-viewport {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-viewport__track {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+}
+
+.tab-viewport__track.is-dragging {
+  transition: none;
+}
+
+.tab-viewport__page {
+  flex: 0 0 50%;
+  width: 50%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 未选中的页不响应指针，避免切换/滑动时点到下层订单列表（穿透） */
+.tab-viewport__page[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+.tab-viewport__page[aria-hidden="false"] {
+  pointer-events: auto;
+}
+
+/* 购物空状态：距 Tab 栏底 156px(1倍)→rem；水平居中 */
+.shopping-empty {
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 1.6rem 1.6rem;
+  gap: 2rem;
+  text-align: center;
+}
+
+.shopping-empty__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shopping-empty__illus {
+  display: block;
+  width: 14rem;
+  height: auto;
+  max-width: min(14rem, 42vw);
+  object-fit: contain;
+}
+
+.shopping-empty__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.shopping-empty__title,
+.shopping-empty__sub {
+  margin: 0;
+  line-height: 1.6rem;
+}
+
+.shopping-empty__title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--shopping-empty-title);
+}
+
+.shopping-empty__sub {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--shopping-empty-sub);
+}
+
+.shopping-empty__cta {
+  display: flex;
+  width: 6.8rem;
+  height: 2.4rem;
+  padding: 0 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  box-sizing: border-box;
+  border: none;
+  border-radius: var(--radius-default, 0.4rem);
+  background: #ff4d82;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.shopping-empty__cta:active {
+  opacity: 0.92;
+}
+
+/* ============================================================
+   页面主内容区（Tab 内每页占轨道 50%）
+   仅当内容高于可视区域时才允许纵向滚动
+   ============================================================ */
+.page-content {
+  overflow-y: hidden;
+  padding: 0.8rem 1rem;   /* 8px 10px */
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;            /* 8px */
+  scrollbar-width: none;
+  min-height: 0;
+}
+
+.page-content.page-content--overflow {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.page-content::-webkit-scrollbar { display: none; }
+
+/* 购物页：锁屏宽、禁横向滑动；Tab 栏下方内容区背景 */
+.page-content--shopping {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  touch-action: pan-y;
+  background: var(--shopping-content-bg);
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: var(--shopping-empty-tab-gap);
+  min-height: 0;
+}
+
+#panel-shopping .shopping-empty {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.tab-viewport__page.page-content {
+  flex: 0 0 50%;
+  width: 50%;
+}
+
+/* 借钱主内容区：与 Tab 底间距用 var(--orders-list-tab-gap)；子项 flex gap 为 0，块间距用子级 margin */
+#panel-jieqian.page-content {
+  padding-top: var(--orders-list-tab-gap);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0.8rem;
+  gap: 0;
+}
+
+/* 借钱 Tab：下拉刷新指示（高度由 JS 控制） */
+.orders-ptr {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.6rem;
+  height: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  color: var(--sys-text-black-h3);
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  transition: height 0.2s ease;
+}
+
+.orders-ptr__spinner {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-bottom: 0.1rem;
+  border: 0.2rem solid rgba(0, 0, 0, 0.08);
+  border-top-color: var(--sys-primary-default);
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0;
+}
+
+.orders-ptr.is-loading .orders-ptr__spinner {
+  opacity: 1;
+  animation: orders-ptr-spin 0.7s linear infinite;
+}
+
+.orders-ptr.is-ready .orders-ptr__text {
+  color: var(--sys-primary-default);
+}
+
+@keyframes orders-ptr-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 滑动加载更多：底部动画 + 无更多 */
+.orders-infinite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  flex-shrink: 0;
+  min-height: 3.2rem;
+  justify-content: center;
+}
+
+.orders-infinite__loading {
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  color: var(--sys-text-black-h3);
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+
+.orders-infinite__loading:not([hidden]) {
+  display: flex;
+}
+
+.orders-infinite__spinner {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 0.2rem solid rgba(0, 0, 0, 0.08);
+  border-top-color: var(--sys-primary-default);
+  border-radius: 50%;
+  animation: orders-infinite-spin 0.75s linear infinite;
+}
+
+@keyframes orders-infinite-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 「查看全部结清订单」在最后一单下方（与列表同属滚动区） */
+#panel-jieqian .view-all {
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.8rem;
+  margin-bottom: 0;
+}
+
+#panel-jieqian .orders-infinite {
+  margin-top: 0.8rem;
+}
+
+/* 订单列表容器：卡片间距 8px */
+#orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;            /* 8px */
+}
+
+/* ============================================================
+   Order Card
+   ============================================================ */
+.order-card {
+  margin: 0;
+  background: #fff;
+  border-radius: var(--radius-default);
+  padding: 1rem;          /* 10px */
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;            /* 8px */
+}
+
+/* ── Card header row ── */
+.order-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;            /* 8px */
+  width: 100%;
+}
+
+/* 产品模块：图标 + 标题 */
+.order-product-module {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;            /* 2px */
+  flex: 1;
+  min-width: 0;
+}
+
+/* Product icon: 16×16 */
+.product-icon {
+  width: 1.6rem;          /* 16px */
+  height: 1.6rem;
+  border-radius: 4.8rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 标题文字区：各 span 间距 2px */
+.order-title-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.2rem;            /* 2px */
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.order-title-piece {
+  font-size: 1.6rem;      /* 16px */
+  font-weight: 500;
+  line-height: 1.8rem;
+  color: var(--sys-text-black-h1);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Badge tag */
+.badge-tag {
+  height: 1.6rem;         /* 16px */
+  padding: 0.2rem 0.4rem; /* 2px 4px */
+  border-radius: 0.2rem;
+  border: 0.5px solid var(--ref-brand-blue3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.badge-tag__text {
+  font-size: 1rem;        /* 10px */
+  line-height: 0.9rem;
+  color: var(--sys-primary-default);
+  white-space: nowrap;
+}
+
+/* ── Card info panel ── */
+.order-card__body {
+  background: var(--sys-page-background-fill);
+  border-radius: var(--radius-default);
+  padding: 1rem 0.8rem;   /* 10px 8px */
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;            /* 12px */
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;            /* 6px */
+  font-size: 1.4rem;      /* 14px */
+  line-height: 1.6rem;
+  color: var(--sys-text-black-h2);
+}
+
+.info-row__label { flex: 1; min-width: 0; }
+
+.info-row__value {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Bank row: icon → text 2px */
+.info-row__bank {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;            /* 2px */
+  flex-shrink: 0;
+}
+
+.bank-icon {
+  width: 1.6rem;          /* 16px */
+  height: 1.6rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.bank-icon img {
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: cover;
+  display: block;
+}
+
+/* Status text colours */
+.text-error   { color: var(--sys-error-default); }
+.text-success { color: var(--sys-success-default); }
+.text-primary { color: var(--sys-primary-default); }
+.text-muted   { color: var(--sys-text-black-h2); }
+
+/* 复合进度行（期数 + 分隔 + 状态），避免 JS 内联 px */
+.order-card__compound-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;            /* 6px @375 基准 */
+  flex-shrink: 0;
+}
+
+.order-card__compound-progress .order-card__compound-text {
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  white-space: nowrap;
+}
+
+.status-separator {
+  width: 0.1rem;          /* 1px */
+  height: 1.2rem;         /* 12px */
+  background: var(--ref-neutral-gray5);
+  flex-shrink: 0;
+}
+
+/* ── 底部提示文案 ── */
+.order-card__note {
+  font-size: 1.2rem;      /* 12px */
+  line-height: 1.6rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* ── footerNote + action 并排行 ── */
+.order-card__footer-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.order-card__footer-row .order-card__note {
+  flex: 1;
+  min-width: 0;
+}
+
+.order-card__footer-row .order-card__actions {
+  flex-shrink: 0;
+}
+
+/* ── Card action row ── */
+.order-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: 'PingFang SC', sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: var(--radius-default);
+  transition: opacity 0.15s;
+}
+
+/* 点击态仅保留：实心品牌蓝主按钮 */
+.btn--sm-primary:active { opacity: 0.85; }
+
+.btn--sm-ghost {
+  height: 2.8rem;         /* 28px */
+  padding: 0 1.2rem;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  color: var(--sys-text-black-h1);
+  background: #fff;
+  border: 0.5px solid var(--sys-wire-divider-dark);
+}
+
+.btn--sm-primary {
+  height: 2.8rem;
+  padding: 0 1.2rem;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  color: #fff;
+  background: var(--sys-primary-default);
+}
+
+.btn--outline {
+  height: 2.4rem;         /* 24px */
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  color: var(--sys-text-black-h2);
+  background: transparent;
+  border: 0.5px solid var(--ref-neutral-gray2-a20);
+  border-radius: var(--radius-default);
+}
+
+/* ============================================================
+   View-all footer
+   ============================================================ */
+.view-all {
+  display: flex;
+  justify-content: center;
+  margin: 0.2rem 0 0.4rem;
+}
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  padding: 0 6%;            /* 小屏左右留白，百分比随屏宽 */
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out;
+  box-shadow: none;
+  filter: none;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  width: 100%;
+  max-width: 29.5rem;        /* 设计稿宽度上限，其余由父级 padding 百分比控制 */
+  margin: 0 auto;
+  background: #fff;
+  border-radius: var(--radius-xlarge);
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: none;           /* 弹窗无投影；关闭时也无缩放残影 */
+  filter: none;
+}
+
+/* 取消确认弹窗 Figma 165:1076 — 圆角 8px */
+#modal-overlay .modal {
+  border-radius: var(--radius-large);
+}
+
+.modal__body {
+  padding: 2.4rem 2.4rem 1.6rem;  /* 24px 24px 16px */
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Figma 165:1076 标题 16 Medium / 18 */
+#modal-overlay .modal__body {
+  padding: 2.4rem;
+  gap: 1.2rem;
+}
+
+#modal-overlay .modal__title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.8rem;
+  color: var(--sys-text-black-h1);
+  text-align: center;
+}
+
+#modal-overlay .modal__desc {
+  font-size: 1.4rem;
+  line-height: 2.6rem;
+  color: var(--sys-text-black-h2);
+  text-align: center;
+}
+
+.modal__title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 2.2rem;
+  color: var(--sys-text-black-h1);
+  text-align: center;
+}
+
+.modal__desc {
+  font-size: 1.4rem;
+  line-height: 2rem;
+  color: var(--sys-text-black-h2);
+  text-align: center;
+}
+
+.modal__footer {
+  display: flex;
+  border-top: 0.5px solid var(--sys-wire-divider-dark);
+}
+
+/* Figma 165:1076 底部双按钮 + 内阴影分割线 */
+.modal__footer--dual {
+  flex-shrink: 0;
+}
+
+.modal__btn {
+  flex: 1;
+  height: 4.8rem;         /* 48px */
+  font-family: 'PingFang SC', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.8rem;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* 左：确认取消 — H1 字色；内阴影模拟上+右分割线 */
+.modal__btn--affirm {
+  color: var(--sys-text-black-h1);
+  border-radius: 0 0 0 var(--radius-large);
+  box-shadow: inset -0.5px 0.5px 0 0 var(--sys-wire-divider-dark);
+}
+
+/* 右：我再想想 — 品牌蓝；内阴影上分割线 */
+.modal__btn--later {
+  color: var(--sys-primary-default);
+  border-radius: 0 0 var(--radius-large) 0;
+  box-shadow: inset 0 0.5px 0 0 var(--sys-wire-divider-dark);
+}
+
+/* ── 订单标题右侧说明图标按钮 ── */
+.order-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;          /* 14px */
+  height: 1.4rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.order-info-btn img {
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+/* ── 减压还款服务说明弹窗 ── */
+.service-info-modal {
+  width: 100%;
+  max-width: 29.5rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.service-info-modal__body {
+  padding: 2.4rem 2.4rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.service-info-modal__title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.8rem;
+  color: var(--sys-text-black-h1);
+  text-align: center;
+}
+
+.service-info-modal__desc {
+  font-size: 1.4rem;
+  line-height: 2.6rem;
+  color: var(--sys-text-black-h2);
+  text-align: center;
+}
+
+.service-info-modal__footer {
+  border-top: 0.5px solid var(--sys-wire-divider-dark);
+  margin-top: 1.2rem;
+}
+
+.service-info-modal__confirm {
+  display: block;
+  width: 100%;
+  height: 4.8rem;
+  font-family: 'PingFang SC', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--sys-primary-default);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 0 0 var(--radius-xlarge) var(--radius-xlarge);
+  transition: background 0.15s;
+}
+
+/* ── 取消成功弹窗 Figma 171:895 ── */
+#cancel-success-overlay .modal {
+  border-radius: var(--radius-large);
+}
+
+.cancel-success-modal {
+  width: 100%;
+  max-width: 29.5rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.cancel-success-modal__body {
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.cancel-success-modal__title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.8rem;
+  color: var(--sys-text-black-h1);
+  text-align: center;
+}
+
+.cancel-success-modal__desc {
+  font-size: 1.4rem;
+  line-height: 2.6rem;
+  color: var(--sys-text-black-h2);
+  text-align: center;
+}
+
+.cancel-success-modal__footer {
+  border-top: 0.5px solid var(--sys-wire-divider-dark);
+}
+
+.cancel-success-modal__confirm {
+  display: block;
+  width: 100%;
+  height: 4.8rem;
+  font-family: 'PingFang SC', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.8rem;
+  color: var(--sys-primary-default);
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 0 0 var(--radius-large) var(--radius-large);
+  box-shadow: inset 0 0.5px 0 0 var(--sys-wire-divider-dark);
+}
+
+/* ============================================================
+   Toast
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 8rem;           /* 80px */
+  left: 50%;
+  transform: translateX(-50%) translateY(1.2rem);
+  background: rgba(0,0,0,0.72);
+  color: #fff;
+  padding: 0.8rem 1.6rem;
+  border-radius: var(--radius-large);
+  font-size: 1.3rem;      /* 13px */
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 200;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
