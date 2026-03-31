@@ -141,8 +141,8 @@
 
   /* 购物 Tab 内容区（Tab 栏下方） */
   --shopping-content-bg: #f5f7fa;
-  /* 购物空状态：Tab 栏底到内容起点，1倍 156px → 15.6rem（根字号 10px@375） */
-  --shopping-empty-tab-gap: 15.6rem;
+  /* 购物空状态：Tab 栏底到空状态内容起点，1倍 100px → 10rem（根字号 10px@375） */
+  --shopping-empty-tab-gap: 10rem;
   /* 购物空状态文案 */
   --shopping-empty-title: #7e8594;
   --shopping-empty-sub: #9da3ae;

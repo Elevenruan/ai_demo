@@ -14,12 +14,43 @@
 const PRODUCT_ICON_MAP = {
   'jieqian':  './assets/icons/product-icon-jieqian.png',  /* 借钱-灵活借 */
   'jianya':   './assets/icons/product-icon-jianya.png',   /* 还款减压服务 */
+  /* 乐车借（productType 仍为 chedidai，与接口对齐时可改为 lechejie） */
+  'chedidai': './assets/icons/product-icon-lechejie.png',
   'default':  './assets/icons/product-icon-jieqian.png',  /* 默认兜底 */
 };
 
-/* 需要显示说明弹窗的产品类型：点击标题右侧问号图标触发
-   TODO: 若后续有更多产品说明，在此数组中追加对应 progressType */
-const SERVICE_INFO_TYPES = ['service_failed', 'service_processing', 'service_effective'];
+/**
+ * 订单卡片按 productType 的展示策略（扩展点：新车抵贷等在此加一行即可）
+ * - showBankRow：是否渲染收款银行卡行（无数据时 renderBankRow 仍为空）
+ * - defaultTimeLabel：未传 order.timeLabel 时的左侧时间列标题
+ * - serviceInfoProgressTypes：这些 progressType 在标题旁显示「?」打开服务说明
+ */
+const ORDER_CARD_REGISTRY = {
+  default: {
+    showBankRow: true,
+    defaultTimeLabel: '下单时间',
+    serviceInfoProgressTypes: [],
+  },
+  jieqian: {
+    showBankRow: true,
+    defaultTimeLabel: '下单时间',
+    serviceInfoProgressTypes: [],
+  },
+  jianya: {
+    showBankRow: false,
+    defaultTimeLabel: '办理时间',
+    serviceInfoProgressTypes: ['service_failed', 'service_processing', 'service_effective'],
+  },
+  chedidai: {
+    showBankRow: true,
+    defaultTimeLabel: '申请时间',
+    serviceInfoProgressTypes: [],
+  },
+};
+
+function getOrderCardMeta(productType) {
+  return ORDER_CARD_REGISTRY[productType] || ORDER_CARD_REGISTRY.default;
+}
 
 /**
  * 银行 Logo 配置表（1倍 16×16）
@@ -35,7 +66,7 @@ const BANK_ICON_MAP = {
 };
 
 /**
- * 订单模拟数据（首屏分页见 ALL_ORDERS + PAGE_SIZE）
+ * 订单模拟数据（首屏分页见 JIEQIAN_DISPLAY_ORDERS + PAGE_SIZE）
  * TODO: 替换为真实接口，例：
  *   const res = await fetch('/api/orders?tab=jieqian&page=1&pageSize=10');
  *   const ORDERS_DATA = await res.json();
@@ -79,6 +110,21 @@ const ORDERS_DATA = [
     progressValue: '已还清',
     bank: { name: '招商银行(4523)', icon: 'cmb' },
     orderTime: '2025-12-18 20:20:10',
+    settleTime: '2026-03-25 18:00:00', /* 结清时间：用于「近一月」列表筛选 */
+  },
+  {
+    id: 'order_settled_archive_001',
+    productType: 'jieqian',
+    productName: '借款',
+    amount: 3200,
+    totalPeriods: 12,
+    tag: '随借随还',
+    progressType: 'paid_off',
+    progressLabel: '还款进度',
+    progressValue: '已还清',
+    bank: { name: '工商银行(6214)', icon: 'icbc' },
+    orderTime: '2024-06-10 12:00:00',
+    settleTime: '2025-01-15 18:00:00', /* 超 30 天：仅出现在「全部结清」页 */
   },
   {
     id: 'order_004',
@@ -217,6 +263,68 @@ const ORDERS_DATA = [
       color: 'muted',                 /* [接口字段] 文案颜色 */
     },
   },
+
+  /* ────────────────────────────────────────────────────────────
+     乐车借（mock）：productType=chedidai，进度枚举与借钱共用一套渲染
+     ──────────────────────────────────────────────────────────── */
+  {
+    id: 'order_cdd_001',
+    productType: 'chedidai',
+    productName: '乐车借',
+    amount: 80000,
+    totalPeriods: 36,
+    tag: '乐车借',
+    progressType: 'reviewing',
+    progressLabel: '借款进度',
+    progressValue: '审核中',
+    bank: { name: '工商银行(6214)', icon: 'icbc' },
+    orderTime: '2026-03-15 14:22:00',
+    timeLabel: '申请时间',
+  },
+  {
+    id: 'order_cdd_002',
+    productType: 'chedidai',
+    productName: '乐车借',
+    amount: 120000,
+    totalPeriods: 24,
+    tag: '乐车借',
+    progressType: 'reviewing',
+    progressLabel: '借款进度',
+    progressValue: '抵押办理中',
+    bank: { name: '建设银行(8899)', icon: 'ccb' },
+    orderTime: '2026-03-10 09:15:30',
+    timeLabel: '申请时间',
+  },
+  {
+    id: 'order_cdd_003',
+    productType: 'chedidai',
+    productName: '乐车借',
+    amount: 50000,
+    totalPeriods: 12,
+    tag: '乐车借',
+    progressType: 'repaying',
+    progressLabel: '还款进度',
+    progressValue: '6/12期',
+    bank: { name: '招商银行(4523)', icon: 'cmb' },
+    orderTime: '2026-01-08 11:00:00',
+    timeLabel: '放款时间',
+  },
+  {
+    id: 'order_cdd_004',
+    productType: 'chedidai',
+    productName: '乐车借',
+    amount: 30000,
+    totalPeriods: 12,
+    tag: '乐车借',
+    progressType: 'overdue',
+    progressLabel: '还款进度',
+    progressPeriod: '8/12期',
+    progressStatus: '已逾期',
+    progressStatusColor: 'error',
+    bank: { name: '农业银行(6677)', icon: 'abc' },
+    orderTime: '2025-11-20 16:40:00',
+    timeLabel: '放款时间',
+  },
 ];
 
 /** 每页条数；接接口时与后端 pageSize 对齐 */
@@ -228,11 +336,80 @@ let ordersAppendInFlight = false;
 /** 由 initOrdersInfiniteScroll 赋值：用于刷新后触发「不足一屏则补页」 */
 let checkJieqianInfiniteScroll = () => {};
 
+/** 借钱 Tab 主列表（逾期置顶 + 时间倒序 + 仅近 30 日结清） */
+let JIEQIAN_DISPLAY_ORDERS = [];
+/** 结清超过 30 天的订单，供「查看全部结清订单」页 */
+let JIEQIAN_OLDER_SETTLED = [];
+/** 首次/列表请求失败（非下拉刷新） */
+let jieqianFetchFailed = false;
+/** 首屏/重试的 mockFetch 是否已结束；结束前不展示空状态，避免刷新先闪空态 */
+let jieqianBootstrapResolved = false;
+
+const STORAGE_JIEQIAN_STATE = 'orders_jieqian_state_v1';
+const STORAGE_SETTLED_LIST = 'jieqian_settled_orders_v1';
+
 /**
- * 全量订单（mock：原表 + 追加数据便于分页演示）
- * TODO: 接接口后改为接口分页返回，刷新时重新请求第一页
+ * 借钱列表空状态开关（行为说明）：
+ *
+ * 【固定规则】有订单（#orders-list 已有节点或 JIEQIAN_DISPLAY_ORDERS.length > 0）时：
+ * - 永远不展示空状态，且不进入异常/普通空态分支（updateJieqianChrome 内优先判断）。
+ *
+ * SHOW_JIEQIAN_LIST_EMPTY_STATE === true 时（无订单前提下）：
+ * - 失败 → 异常空态；否则 → 普通空态。
+ *
+ * SHOW_JIEQIAN_LIST_EMPTY_STATE === false 时：
+ * - 空状态整块不展示。
+ *
+ * 需要打开空态时，将下方改为 true 即可。
  */
-const ALL_ORDERS = (() => {
+const SHOW_JIEQIAN_LIST_EMPTY_STATE = false;
+
+const MS_PER_DAY = 86400000;
+
+function parseOrderTimeMs(isoLike) {
+  const t = Date.parse(String(isoLike).replace(/-/g, '/'));
+  return Number.isNaN(t) ? 0 : t;
+}
+
+function overdueSeverity(order) {
+  if (order.progressType !== 'overdue') return 0;
+  const m = String(order.progressStatus || '').match(/(\d+)/);
+  return m ? parseInt(m[1], 10) : 1;
+}
+
+/**
+ * 主列表：逾期置顶（严重度降序 → 下单时间降序），其余按下单时间降序
+ * 结清单仅保留 settleTime（无则用 orderTime）在近 30 天内的；更早的进入 olderSettled
+ */
+function buildJieqianSlicesFromRaw(rawList, nowMs = Date.now()) {
+  const cutoff = nowMs - 30 * MS_PER_DAY;
+  const mainPool = [];
+  const olderSettled = [];
+  for (const o of rawList) {
+    if (o.progressType === 'paid_off') {
+      const st = parseOrderTimeMs(o.settleTime || o.orderTime);
+      if (st >= cutoff) mainPool.push(o);
+      else olderSettled.push(o);
+    } else {
+      mainPool.push(o);
+    }
+  }
+  const over = mainPool.filter(o => o.progressType === 'overdue');
+  const rest = mainPool.filter(o => o.progressType !== 'overdue');
+  over.sort((a, b) => {
+    const d = overdueSeverity(b) - overdueSeverity(a);
+    if (d !== 0) return d;
+    return parseOrderTimeMs(b.orderTime) - parseOrderTimeMs(a.orderTime);
+  });
+  rest.sort((a, b) => parseOrderTimeMs(b.orderTime) - parseOrderTimeMs(a.orderTime));
+  olderSettled.sort(
+    (a, b) =>
+      parseOrderTimeMs(b.settleTime || b.orderTime) - parseOrderTimeMs(a.settleTime || a.orderTime)
+  );
+  return { main: [...over, ...rest], older: olderSettled };
+}
+
+function getRawOrdersForJieqian() {
   const list = [...ORDERS_DATA];
   for (let i = 0; i < 17; i++) {
     const tpl = ORDERS_DATA[i % ORDERS_DATA.length];
@@ -243,7 +420,175 @@ const ALL_ORDERS = (() => {
     });
   }
   return list;
-})();
+}
+
+/**
+ * Mock 拉取：?jieqianFail=1 首次失败；?jieqianPtrFail=1 下拉刷新失败
+ * TODO: 替换为真实 API；pullRefresh 传 true 时走后端刷新接口
+ */
+async function mockFetchJieqianOrders({ pullRefresh = false } = {}) {
+  await new Promise(r => setTimeout(r, 380));
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('jieqianFail') === '1') throw new Error('jieqian_fail');
+  if (pullRefresh && params.get('jieqianPtrFail') === '1') throw new Error('jieqian_ptr_fail');
+  const raw = getRawOrdersForJieqian();
+  return buildJieqianSlicesFromRaw(raw);
+}
+
+function readJieqianSession() {
+  try {
+    const s = sessionStorage.getItem(STORAGE_JIEQIAN_STATE);
+    if (!s) return null;
+    return JSON.parse(s);
+  } catch {
+    return null;
+  }
+}
+
+function writeJieqianSession(scrollTop, loadedCount) {
+  sessionStorage.setItem(
+    STORAGE_JIEQIAN_STATE,
+    JSON.stringify({ scrollTop, loadedCount })
+  );
+}
+
+function setOrdersEmptyMode(mode) {
+  const title = document.getElementById('orders-empty-title');
+  const sub = document.getElementById('orders-empty-sub');
+  const cta = document.getElementById('orders-empty-cta');
+  if (!title || !sub || !cta) return;
+  if (mode === 'error') {
+    title.textContent = '数据异常，请检查网络设置或刷新重试';
+    sub.textContent = '';
+    sub.hidden = true;
+    cta.textContent = '刷新重试';
+    cta.dataset.action = 'orders-retry';
+  } else {
+    title.textContent = '暂无相关订单';
+    sub.textContent = '空空如也';
+    sub.hidden = false;
+    cta.textContent = '去借一笔';
+    cta.dataset.action = 'go-borrow';
+  }
+}
+
+/** 借钱 Tab：空状态 / #orders-main /「查看全部」显隐。规则见 SHOW_JIEQIAN_LIST_EMPTY_STATE 注释。 */
+function updateJieqianChrome() {
+  const emptyEl = document.getElementById('orders-empty');
+  const mainEl = document.getElementById('orders-main');
+  const list = document.getElementById('orders-list');
+  const viewWrap = document.getElementById('orders-view-all-wrap');
+  if (!list) return;
+
+  const hasCards = list.children.length > 0;
+  const hasOrderList = hasCards || JIEQIAN_DISPLAY_ORDERS.length > 0;
+
+  /* 有订单：绝不展示空状态（优先于 SHOW 开关与异常态） */
+  if (hasOrderList) {
+    if (emptyEl) emptyEl.hidden = true;
+    if (mainEl) mainEl.hidden = false;
+    if (viewWrap) viewWrap.hidden = JIEQIAN_OLDER_SETTLED.length === 0;
+    syncJieqianPanelScroll();
+    return;
+  }
+
+  /* 首屏拉单未结束：不展示空状态块（「查看全部」等数据就绪后再显隐） */
+  if (!jieqianBootstrapResolved) {
+    if (emptyEl) emptyEl.hidden = true;
+    if (mainEl) mainEl.hidden = false;
+    if (viewWrap) viewWrap.hidden = true;
+    syncJieqianPanelScroll();
+    return;
+  }
+
+  /* false：空状态整块不展示 */
+  if (!SHOW_JIEQIAN_LIST_EMPTY_STATE) {
+    if (emptyEl) emptyEl.hidden = true;
+    if (mainEl) mainEl.hidden = false;
+    if (viewWrap) viewWrap.hidden = JIEQIAN_OLDER_SETTLED.length === 0;
+    syncJieqianPanelScroll();
+    return;
+  }
+
+  if (!emptyEl || !mainEl) {
+    if (viewWrap) viewWrap.hidden = JIEQIAN_OLDER_SETTLED.length === 0;
+    syncJieqianPanelScroll();
+    return;
+  }
+
+  /* 无订单：失败 → 异常空态 */
+  if (jieqianFetchFailed) {
+    emptyEl.hidden = false;
+    setOrdersEmptyMode('error');
+    mainEl.hidden = true;
+    syncJieqianPanelScroll();
+    return;
+  }
+
+  /* 否则 → 普通空态 */
+  mainEl.hidden = false;
+  if (viewWrap) viewWrap.hidden = JIEQIAN_OLDER_SETTLED.length === 0;
+
+  emptyEl.hidden = false;
+  setOrdersEmptyMode('normal');
+  syncJieqianPanelScroll();
+}
+
+async function bootstrapJieqian() {
+  jieqianBootstrapResolved = false;
+  jieqianFetchFailed = false;
+  updateJieqianChrome();
+
+  try {
+    const { main, older } = await mockFetchJieqianOrders({ pullRefresh: false });
+    JIEQIAN_DISPLAY_ORDERS = main;
+    JIEQIAN_OLDER_SETTLED = older;
+  } catch {
+    jieqianFetchFailed = true;
+    JIEQIAN_DISPLAY_ORDERS = [];
+    JIEQIAN_OLDER_SETTLED = [];
+  } finally {
+    jieqianBootstrapResolved = true;
+  }
+
+  if (jieqianFetchFailed) {
+    updateJieqianChrome();
+    return;
+  }
+
+  const saved = readJieqianSession();
+  const maxCount = JIEQIAN_DISPLAY_ORDERS.length;
+  const defaultFirst = Math.min(PAGE_SIZE, maxCount);
+  let want = defaultFirst;
+  if (saved && typeof saved.loadedCount === 'number') {
+    want = Math.min(Math.max(saved.loadedCount, PAGE_SIZE), maxCount);
+  }
+  renderOrdersList({ reset: true, initialCount: want });
+  updateJieqianChrome();
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const panel = document.getElementById('panel-jieqian');
+      if (panel && saved && typeof saved.scrollTop === 'number') {
+        panel.scrollTop = saved.scrollTop;
+      }
+      syncJieqianPanelScroll();
+      checkJieqianInfiniteScroll();
+    });
+  });
+}
+
+function recomputeJieqianSlicesAndRefreshUi() {
+  const { main, older } = buildJieqianSlicesFromRaw(getRawOrdersForJieqian());
+  JIEQIAN_DISPLAY_ORDERS = main;
+  JIEQIAN_OLDER_SETTLED = older;
+  remountVisibleOrders();
+  updateJieqianChrome();
+  requestAnimationFrame(() => {
+    syncJieqianPanelScroll();
+    checkJieqianInfiniteScroll();
+  });
+}
 
 /* ============================================================
    Helpers
@@ -364,6 +709,7 @@ function renderActionButtons(actions, orderId) {
 }
 
 function renderCard(order) {
+  const meta = getOrderCardMeta(order.productType);
   const iconSrc = getProductIcon(order.productType);
 
   const card = document.createElement('article');
@@ -388,7 +734,7 @@ function renderCard(order) {
           <span class="order-title-piece">期</span>
           <!-- [接口字段] 仅还款减压服务类型显示说明图标，点击弹出服务说明弹窗 -->
           <!-- [接口字段] 仅还款减压服务类型显示说明图标，点击弹出服务说明弹窗；纯SVG代码，无图片依赖 -->
-          ${SERVICE_INFO_TYPES.includes(order.progressType)
+          ${meta.serviceInfoProgressTypes.includes(order.progressType)
             ? `<button class="order-info-btn" data-action="open-service-info" aria-label="查看服务说明">
                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                    <circle cx="7" cy="7" r="6.5" stroke="#A4A8AC" stroke-width="1"/>
@@ -410,12 +756,12 @@ function renderCard(order) {
         ${renderProgressValue(order)}
       </div>
 
-      <!-- [API] bank (optional, 还款减压服务类无此字段) -->
-      ${renderBankRow(order.bank)}
+      <!-- [API] bank：是否展示由 ORDER_CARD_REGISTRY[productType].showBankRow 控制 -->
+      ${meta.showBankRow ? renderBankRow(order.bank) : ''}
 
-      <!-- [API] orderTime；timeLabel 字段控制标签名："下单时间" 或 "办理时间" -->
+      <!-- [API] orderTime；timeLabel 优先接口，否则用注册表 defaultTimeLabel -->
       <div class="info-row">
-        <span class="info-row__label">${order.timeLabel || '下单时间'}</span>
+        <span class="info-row__label">${order.timeLabel || meta.defaultTimeLabel}</span>
         <span class="info-row__value text-muted">${order.orderTime}</span>
       </div>
     </div>
@@ -469,25 +815,33 @@ function startCountdownsIn(root) {
 }
 
 /**
- * @param {{ reset?: boolean, append?: boolean }} options
- *   reset — 下拉刷新 / 首屏：只保留第一页
+ * @param {{ reset?: boolean, append?: boolean, initialCount?: number }} options
+ *   reset — 下拉刷新 / 首屏：从第一页起绘；initialCount 恢复 Tab 时已加载条数
  *   append — 加载更多：追加下一页（每页 PAGE_SIZE 条）
  */
 function renderOrdersList(options = {}) {
-  const { reset, append } = options;
+  const { reset, append, initialCount } = options;
   const container = document.getElementById('orders-list');
   if (!container) return;
 
   if (reset) {
     clearCountdownTimersIn(container);
     container.replaceChildren();
-    ALL_ORDERS.slice(0, PAGE_SIZE).forEach(order => {
+    const cap = JIEQIAN_DISPLAY_ORDERS.length;
+    const count = Math.min(
+      initialCount != null ? initialCount : PAGE_SIZE,
+      cap
+    );
+    JIEQIAN_DISPLAY_ORDERS.slice(0, count).forEach(order => {
       container.appendChild(renderCard(order));
     });
   } else if (append) {
     const n = container.children.length;
-    if (n >= ALL_ORDERS.length) return;
-    const slice = ALL_ORDERS.slice(n, Math.min(n + PAGE_SIZE, ALL_ORDERS.length));
+    if (n >= JIEQIAN_DISPLAY_ORDERS.length) return;
+    const slice = JIEQIAN_DISPLAY_ORDERS.slice(
+      n,
+      Math.min(n + PAGE_SIZE, JIEQIAN_DISPLAY_ORDERS.length)
+    );
     slice.forEach(order => container.appendChild(renderCard(order)));
   }
 
@@ -505,7 +859,7 @@ function remountVisibleOrders() {
   const n = container.children.length;
   clearCountdownTimersIn(container);
   container.replaceChildren();
-  ALL_ORDERS.slice(0, n).forEach(order => {
+  JIEQIAN_DISPLAY_ORDERS.slice(0, n).forEach(order => {
     container.appendChild(renderCard(order));
   });
   requestAnimationFrame(() => {
@@ -515,9 +869,6 @@ function remountVisibleOrders() {
   startCountdownsIn(container);
 }
 
-function mountOrders() {
-  renderOrdersList({ reset: true });
-}
 
 /* 借钱 Tab：仅当内容超出可视高度时才允许纵向滚动 */
 function syncJieqianPanelScroll() {
@@ -562,7 +913,7 @@ function initOrdersInfiniteScroll() {
   async function tryLoadMore() {
     if (ordersAppendInFlight) return;
     const container = document.getElementById('orders-list');
-    if (!container || container.children.length >= ALL_ORDERS.length) return;
+    if (!container || container.children.length >= JIEQIAN_DISPLAY_ORDERS.length) return;
 
     ordersAppendInFlight = true;
     loadingEl.hidden = false;
@@ -572,7 +923,7 @@ function initOrdersInfiniteScroll() {
     await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
     await new Promise(r => setTimeout(r, 400));
 
-    if (container.children.length >= ALL_ORDERS.length) {
+    if (container.children.length >= JIEQIAN_DISPLAY_ORDERS.length) {
       loadingEl.hidden = true;
       loadingEl.removeAttribute('aria-busy');
       ordersAppendInFlight = false;
@@ -606,7 +957,7 @@ function initOrdersInfiniteScroll() {
   function onScrollFallback() {
     if (ordersAppendInFlight) return;
     const container = document.getElementById('orders-list');
-    if (!container || container.children.length >= ALL_ORDERS.length) return;
+    if (!container || container.children.length >= JIEQIAN_DISPLAY_ORDERS.length) return;
     const { scrollTop, scrollHeight, clientHeight } = panel;
     if (scrollHeight - scrollTop - clientHeight > 100) return;
     void tryLoadMore();
@@ -650,20 +1001,31 @@ function initPullToRefresh() {
     ptr.classList.remove('is-pulling', 'is-ready');
     ptrText.textContent = '刷新中…';
     ptr.style.height = `${4 * remToPx()}px`;
+    let ptrRefreshOk = false;
     try {
       await new Promise(r => setTimeout(r, 480));
+      const { main, older } = await mockFetchJieqianOrders({ pullRefresh: true });
+      JIEQIAN_DISPLAY_ORDERS = main;
+      JIEQIAN_OLDER_SETTLED = older;
+      jieqianFetchFailed = false;
       renderOrdersList({ reset: true });
+      updateJieqianChrome();
+      const n = document.getElementById('orders-list')?.children.length ?? 0;
+      writeJieqianSession(0, n);
+      ptrRefreshOk = true;
+    } catch {
+      showToast('刷新失败');
     } finally {
       ptr.style.height = '0';
       ptr.classList.remove('is-loading');
       ptrText.textContent = '下拉刷新';
       refreshing = false;
     }
-    /* 列表回到顶部默认位置（双 rAF 等待布局后再滚） */
+    /* 仅成功刷新后回顶；失败保留原滚动与列表 */
     requestAnimationFrame(() => {
-      panel.scrollTop = 0;
+      if (ptrRefreshOk) panel.scrollTop = 0;
       requestAnimationFrame(() => {
-        panel.scrollTop = 0;
+        if (ptrRefreshOk) panel.scrollTop = 0;
         syncJieqianPanelScroll();
         checkJieqianInfiniteScroll();
       });
@@ -764,11 +1126,14 @@ function initTabView() {
     const prev = currentTab;
     currentTab = next;
 
-    /* 切换 Tab 后列表从顶部开始，避免穿透到已滚动位置 */
+    /* 离开借钱 Tab 时保存滚动与已加载条数；进入购物 Tab 时购物区回顶 */
     if (prev !== next) {
       const jie = document.getElementById('panel-jieqian');
+      const list = document.getElementById('orders-list');
       const shop = document.getElementById('panel-shopping');
-      if (next === 0 && jie) jie.scrollTop = 0;
+      if (prev === 0 && next !== 0 && jie && list && !jieqianFetchFailed) {
+        writeJieqianSession(jie.scrollTop, list.children.length);
+      }
       if (next === 1 && shop) shop.scrollTop = 0;
     }
 
@@ -794,6 +1159,18 @@ function initTabView() {
       updateTabsLine();
       syncJieqianPanelScroll();
     });
+
+    /* 回到借钱 Tab：恢复上次滚动位置（数据已在内存，不重置页码） */
+    if (prev !== next && next === 0) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const jie = document.getElementById('panel-jieqian');
+          const s = readJieqianSession();
+          if (jie && s && typeof s.scrollTop === 'number') jie.scrollTop = s.scrollTop;
+          syncJieqianPanelScroll();
+        });
+      });
+    }
   }
 
   document.addEventListener('app-switch-tab', e => {
@@ -963,7 +1340,7 @@ function applyServiceCancelledToClosed(orderId) {
   order.progressValueColor = 'muted';
   delete order.footerNote;
   delete order.actions;
-  remountVisibleOrders();
+  recomputeJieqianSlicesAndRefreshUi();
 }
 
 function initModal() {
@@ -1112,8 +1489,11 @@ function initMorePopup() {
    ============================================================ */
 function initOtherActions() {
   document.querySelector('[data-action="view-all"]')?.addEventListener('click', () => {
-    showToast('查看全部结清订单');
-    /* TODO: navigate or load settled orders */
+    try {
+      sessionStorage.setItem(STORAGE_SETTLED_LIST, JSON.stringify(JIEQIAN_OLDER_SETTLED));
+    } catch (_) {}
+    /* 先刷脸，成功后再进结清列表页 */
+    window.location.href = './face-verify.html?next=settled';
   });
 
   document.querySelector('[data-action="back"]')?.addEventListener('click', () => {
@@ -1121,6 +1501,11 @@ function initOtherActions() {
   });
 
   document.addEventListener('click', e => {
+    if (e.target.closest('[data-action="orders-retry"]')) {
+      e.preventDefault();
+      void bootstrapJieqian();
+      return;
+    }
     if (!e.target.closest('[data-action="go-borrow"]')) return;
     e.preventDefault();
     document.dispatchEvent(new CustomEvent('app-switch-tab', { detail: { index: 0 } }));
@@ -1178,16 +1563,49 @@ function initServiceInfoModal() {
 /* ============================================================
    Init
    ============================================================ */
+function initSettledOrdersPage() {
+  const container = document.getElementById('settled-orders-list');
+  if (!container) return;
+  let list = [];
+  try {
+    const raw = sessionStorage.getItem(STORAGE_SETTLED_LIST);
+    list = raw ? JSON.parse(raw) : [];
+  } catch (_) {
+    list = [];
+  }
+  container.replaceChildren();
+  list.forEach(o => container.appendChild(renderCard(o)));
+  startCountdownsIn(container);
+  document.querySelector('[data-action="back"]')?.addEventListener('click', () => {
+    history.back();
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  mountOrders();
+  if (document.body.dataset.page === 'settled-orders') {
+    initSettledOrdersPage();
+    return;
+  }
+
   initTabView();
   initScrollSync();
-  initOrdersInfiniteScroll();
-  initPullToRefresh();
+  void bootstrapJieqian().then(() => {
+    initOrdersInfiniteScroll();
+    initPullToRefresh();
+  });
+
   initModal();
   initConfirmAction();
   initMorePopup();
   initOtherActions();
   initServiceInfoModal();
   initCancelSuccessModal();
+
+  window.addEventListener('pageshow', e => {
+    if (e.persisted && document.body.dataset.page !== 'settled-orders') {
+      const jie = document.getElementById('panel-jieqian');
+      const s = readJieqianSession();
+      if (jie && s && typeof s.scrollTop === 'number') jie.scrollTop = s.scrollTop;
+    }
+  });
 });

@@ -247,6 +247,8 @@ body {
    ============================================================ */
 .more-popup {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border-radius: 0.4rem;   /* 4px */
   padding: 0 1rem;         /* 10px */
@@ -423,7 +425,7 @@ body {
   pointer-events: auto;
 }
 
-/* 购物空状态：距 Tab 栏底 156px(1倍)→rem；水平居中 */
+/* 购物空状态：距 Tab 栏底 100px(1倍)→var(--shopping-empty-tab-gap)；水平居中 */
 .shopping-empty {
   flex: 0 1 auto;
   width: 100%;
@@ -502,6 +504,16 @@ body {
   opacity: 0.92;
 }
 
+/* 借钱列表空状态 / 异常态 CTA：品牌主色（购物 Tab 仍用粉色 .shopping-empty__cta） */
+.shopping-empty__cta--brand {
+  background: var(--sys-primary-default);
+  color: #fff;
+}
+
+.shopping-empty__cta--brand:active {
+  opacity: 0.92;
+}
+
 /* ============================================================
    页面主内容区（Tab 内每页占轨道 50%）
    仅当内容高于可视区域时才允许纵向滚动
@@ -568,6 +580,7 @@ body {
   height: 0;
   overflow: hidden;
   flex-shrink: 0;
+  margin-bottom: 0.8rem; /* 1 倍图 8px → rem，下拉区与列表间距 */
   color: var(--sys-text-black-h3);
   font-size: 1.2rem;
   line-height: 1.4rem;
@@ -635,6 +648,16 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* 有订单时绝不露出空状态（与 JS 双保险；列表在 #orders-main 内） */
+#panel-jieqian:has(#orders-list > *) #orders-empty {
+  display: none !important;
+}
+
+/* 借钱空状态与下方「查看全部」区块间距 */
+#panel-jieqian .orders-empty-slot:not([hidden]) {
+  margin-bottom: 0.8rem;
+}
+
 /* 「查看全部结清订单」在最后一单下方（与列表同属滚动区） */
 #panel-jieqian .view-all {
   flex-shrink: 0;
@@ -646,6 +669,93 @@ body {
 
 #panel-jieqian .orders-infinite {
   margin-top: 0.8rem;
+}
+
+/* ============================================================
+   结清订单独立页（Figma：订单改版 file 08VRbsz31JpfwwdW5ANvj8，node 919-11534）
+   缺失信息：当前环境无法拉取该节点标注；以下为与主站订单列表对齐的推断实现。
+   推断：白底顶栏 + 底部分割线（顶栏非 fixed，随页滚动）；标题居中；内容区灰底、左右 10px 与借钱列表一致。
+   若与设计稿字号/间距不一致，以 Figma 标注为准覆盖本节。
+   ============================================================ */
+.settled-page {
+  background: var(--sys-page-background-fill);
+}
+
+/* 顶栏非固定：随页面滚动，不占 app-shell 的 padding-top 占位 */
+.settled-page .app-shell {
+  padding-top: 0;
+  display: block;
+  background: var(--sys-page-background-fill);
+}
+
+.settled-page .app-shell > main {
+  flex: none;
+  min-height: 0;
+}
+
+.settled-page .page-header--settled {
+  position: static;
+  top: auto;
+  left: auto;
+  right: auto;
+  z-index: auto;
+  width: 100%;
+  max-width: 100%;
+  background: #fff;
+  border-bottom: 0.5px solid rgba(30, 37, 51, 0.08);
+}
+
+/* 二级页导航：左返回 + 居中标题 + 右侧占位（平衡布局，推断自常见规范） */
+.settled-page .nav-bar--settled-sub {
+  display: grid;
+  grid-template-columns: minmax(3.2rem, auto) 1fr minmax(3.2rem, auto);
+  align-items: center;
+  justify-items: stretch;
+  padding: 0 0.4rem 0 0.8rem;
+  min-height: 4.4rem;
+}
+
+.settled-page .nav-bar__leading {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+}
+
+.settled-page .nav-bar__trailing {
+  justify-self: end;
+  width: 2.4rem;
+  height: 2.4rem;
+  flex-shrink: 0;
+}
+
+.settled-page .nav-title--settled-sub {
+  grid-column: 2;
+  justify-self: center;
+  text-align: center;
+  margin: 0;
+  max-width: 100%;
+  padding: 0 0.4rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 2rem;
+  color: var(--sys-text-black-h1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.settled-page .page-content--settled {
+  /* 与 #panel-jieqian 左右 10px、卡片区间距 8px 对齐；整页滚动，不用内部滚动 */
+  padding: 0.8rem 1rem 1.6rem;
+  background: var(--sys-page-background-fill);
+  overflow: visible;
+  min-height: 0;
+}
+
+#settled-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 /* 订单列表容器：卡片间距 8px */

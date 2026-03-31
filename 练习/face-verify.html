@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <title>人脸识别</title>
+  <!-- Figma 订单改版 刷脸：https://www.figma.com/design/08VRbsz31JpfwwdW5ANvj8/订单改版?node-id=1325-7442 -->
+  <link rel="stylesheet" href="./styles/vars.css" />
+  <link rel="stylesheet" href="./styles/face-verify.css" />
+</head>
+<body class="fv-page" data-page="face-verify">
+  <div class="fv-app">
+    <fv-nav-bar title="人脸识别"></fv-nav-bar>
+    <main class="fv-main">
+      <fv-face-panel></fv-face-panel>
+      <fv-action-bar></fv-action-bar>
+    </main>
+  </div>
+  <div id="fv-toast" class="fv-toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./scripts/face-verify-app.js"></script>
+</body>
+</html>

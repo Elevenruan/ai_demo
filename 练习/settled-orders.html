@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>结清订单</title>
+  <link rel="stylesheet" href="./styles/vars.css" />
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
+<body class="settled-page" data-page="settled-orders">
+
+<div class="app-shell">
+  <!-- 布局对齐 Figma：订单改版 · 结清订单（node 919-11534）；MCP 不可用时为推断实现 -->
+  <header class="page-header page-header--settled" data-active-index="0">
+    <nav class="nav-bar nav-bar--settled-sub" aria-label="结清订单">
+      <div class="nav-bar__leading">
+        <button type="button" class="nav-back" data-action="back" aria-label="返回上一页">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 18L9 12L15 6" stroke="#1E2533" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <h1 class="nav-title nav-title--settled-sub">结清订单</h1>
+      <div class="nav-bar__trailing" aria-hidden="true"></div>
+    </nav>
+  </header>
+
+  <main class="page-content page-content--settled" id="panel-settled">
+    <div id="settled-orders-list"></div>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+<script src="./scripts/main.js"></script>
+</body>
+</html>
